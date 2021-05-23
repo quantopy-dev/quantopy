@@ -1,0 +1,27 @@
+
+# To use:
+#
+#   $ conda env create -f environment.yml
+#   $ conda activate quantopy-dev
+#
+name: quantopy-dev
+channels:
+  - conda-forge
+dependencies:
+  # required
+  - python=3
+  - numpy
+  - pandas
+
+  # code checks
+  - black
+  - flake8
+  - flake8-bugbear  # used by flake8, find likely bugs
+  - flake8-comprehensions  # used by flake8, linting of unnecessary comprehensions
+  - isort  # check that imports are in the right order
+  - mypy
+  - pandas-stubs  # used by mypy
+  - pycodestyle  # used by flake8
+
+  # testing
+  - pytest
