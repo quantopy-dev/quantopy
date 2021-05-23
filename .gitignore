@@ -1,5 +1,9 @@
+# IDE
+.vscode/
+
 # coverage
 .mypy_cache
 *.pytest_cache
+
 # hypothesis test database
 __pycache__
