@@ -11,6 +11,9 @@ def returns(prices: NDFrame, drop_first: bool = True) -> NDFrame:
         Prices of assets in wide-format, with assets as columns,
         and indexed by datetimes.
 
+    drop_first: bool, default True
+        How to handle the initial obvservation.
+
     Returns
     -------
         returns : Series or DataFrame

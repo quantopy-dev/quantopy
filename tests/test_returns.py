@@ -61,3 +61,27 @@ class TestReturns:
 
         # Coherence check
         tm.assert_frame_equal(rs, prices / prices.shift(1) - 1)
+
+    def test_frame_returns_with_drop(self):
+        # Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        prices = pd.DataFrame(
+            {
+                "stock_1": [8.7, 8.91, 8.71, 8.43, 8.73],
+                "stock_2": [10.66, 11.08, 10.71, 11.59, 12.11],
+            }
+        )
+        rs = returns.returns(prices)
+
+        expected = pd.DataFrame(
+            {
+                "stock_1": [0.0241379, -0.0224466, -0.032147, 0.035587],
+                "stock_2": [0.0393996, -0.0333935, 0.0821661, 0.0448662],
+            }
+        )
+
+        tm.assert_series_equal(
+            rs["stock_1"].reset_index(drop=True), expected["stock_1"]
+        )
+        tm.assert_series_equal(
+            rs["stock_2"].reset_index(drop=True), expected["stock_2"]
+        )
