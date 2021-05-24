@@ -1,8 +1,7 @@
-import pandas._testing as tm
 import numpy as np
+import pandas._testing as tm
 
-from quantopy import simulate
-from quantopy import returns
+from quantopy import returns, simulate
 
 
 class TestSimulate:

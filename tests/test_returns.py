@@ -85,3 +85,13 @@ class TestReturns:
         tm.assert_series_equal(
             rs["stock_2"].reset_index(drop=True), expected["stock_2"]
         )
+
+
+class TestCumReturns:
+    def test_series_cum_returns_final(self):
+        prices_1 = pd.Series([8.7, 8.91, 8.71, 8.43, 8.73])
+        rs_1 = returns.returns(prices_1)
+
+        hpr = (prices_1.iloc[-1]-prices_1.iloc[0])/prices_1.iloc[0]
+
+        tm.assert_almost_equal(returns.cum_returns_final(rs_1), hpr)
