@@ -105,6 +105,9 @@ class TestCumReturns:
         )
         rs = returns.returns(prices)
 
-        expected = pd.Series([0.003448, 0.136023], index=["stock_1", "stock_2"])
+        hpr_1 = (prices['stock_1'].iloc[-1] - prices['stock_1'].iloc[0]) / prices['stock_1'].iloc[0]
+        hpr_2 = (prices['stock_2'].iloc[-1] - prices['stock_2'].iloc[0]) / prices['stock_2'].iloc[0]
+
+        expected = pd.Series([hpr_1, hpr_2], index=["stock_1", "stock_2"])
 
         tm.assert_almost_equal(returns.cum_returns_final(rs), expected, rtol=1e-4)
