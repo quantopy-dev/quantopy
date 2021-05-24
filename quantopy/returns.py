@@ -82,10 +82,10 @@ def ear(returns, period=periods.DAILY):
 
     Parameters
     ----------
-    returns : pd.Series or np.ndarray
+    returns : pd.Series or float
         Periodic returns of the strategy, noncumulative.
-        - See full explanation in :func:`~empyrical.stats.cum_returns`.
-    period : str, optional
+
+    period : str, deafult periods.DAILY
         Defines the periodicity of the 'returns' data for purposes of
         annualizing. Value ignored if `annualization` parameter is specified.
         Defaults are::
@@ -95,10 +95,8 @@ def ear(returns, period=periods.DAILY):
 
     Returns
     -------
-    effective_annual_return : float
-        Annual Return as CAGR (Compounded Annual Growth Rate).
+        effective_annual_return : pd.Series or float
     """
-
     ann_factor = annualization_factor(period)
 
     return (1 + returns) ** ann_factor - 1

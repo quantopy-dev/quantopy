@@ -120,6 +120,7 @@ class TestCumReturns:
 class TestEar:
     def test_series_ear(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         tm.assert_almost_equal(
             returns.ear(pd.Series([0.03]), periods.QUARTERLY),
             pd.Series([0.1255]),
@@ -139,13 +140,70 @@ class TestEar:
         )
 
         tm.assert_almost_equal(
+            returns.ear(pd.Series([0.04]), periods.QUARTERLY),
+            pd.Series([0.169859]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
             returns.ear(pd.Series([0.005]), periods.MONTHLY),
             pd.Series([0.06168]),
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(pd.Series([0.000238095238]), periods.DAILY),
-            pd.Series([0.061828]),
+            returns.ear(pd.Series([0.01]), periods.MONTHLY),
+            pd.Series([0.126825]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(pd.Series([0.0001]), periods.DAILY),
+            pd.Series([0.025519]),
+            rtol=1e-4,
+        )
+
+
+    def test_float_ear(self):
+        # From CFA 2019 Schweser - Level 1. LOS 6.c
+        tm.assert_almost_equal(
+            returns.ear(0.03, periods.QUARTERLY),
+            0.1255,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(0.03, periods.SEMIANNUAL),
+            0.0609,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(0.015, periods.QUARTERLY),
+            0.06136,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(0.04, periods.QUARTERLY),
+            0.169859,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(0.005, periods.MONTHLY),
+            0.06168,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(0.01, periods.MONTHLY),
+            0.126825,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(0.0001, periods.DAILY),
+            0.025519,
             rtol=1e-4,
         )
