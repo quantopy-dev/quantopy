@@ -2,12 +2,12 @@ import pandas as pd
 import pandas._testing as tm
 from numpy import NaN
 
-from quantopy import returns
+from quantopy import returns, periods
 
 
 class TestReturns:
     def test_series_returns(self):
-        # Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         prices_1 = pd.Series([8.7, 8.91, 8.71, 8.43, 8.73])
         rs_1 = returns.returns(prices_1, drop_first=False)
         tm.assert_series_equal(
@@ -25,7 +25,7 @@ class TestReturns:
         tm.assert_series_equal(rs_2, prices_2 / prices_2.shift(1) - 1)
 
     def test_series_returns_with_drop(self):
-        # Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         prices_1 = pd.Series([8.7, 8.91, 8.71, 8.43, 8.73])
         rs_1 = returns.returns(prices_1)
         tm.assert_series_equal(
@@ -41,7 +41,7 @@ class TestReturns:
         )
 
     def test_frame_returns(self):
-        # Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         prices = pd.DataFrame(
             {
                 "stock_1": [8.7, 8.91, 8.71, 8.43, 8.73],
@@ -63,7 +63,7 @@ class TestReturns:
         tm.assert_frame_equal(rs, prices / prices.shift(1) - 1)
 
     def test_frame_returns_with_drop(self):
-        # Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         prices = pd.DataFrame(
             {
                 "stock_1": [8.7, 8.91, 8.71, 8.43, 8.73],
@@ -105,9 +105,47 @@ class TestCumReturns:
         )
         rs = returns.returns(prices)
 
-        hpr_1 = (prices['stock_1'].iloc[-1] - prices['stock_1'].iloc[0]) / prices['stock_1'].iloc[0]
-        hpr_2 = (prices['stock_2'].iloc[-1] - prices['stock_2'].iloc[0]) / prices['stock_2'].iloc[0]
+        hpr_1 = (prices["stock_1"].iloc[-1] - prices["stock_1"].iloc[0]) / prices[
+            "stock_1"
+        ].iloc[0]
+        hpr_2 = (prices["stock_2"].iloc[-1] - prices["stock_2"].iloc[0]) / prices[
+            "stock_2"
+        ].iloc[0]
 
         expected = pd.Series([hpr_1, hpr_2], index=["stock_1", "stock_2"])
 
         tm.assert_almost_equal(returns.cum_returns_final(rs), expected, rtol=1e-4)
+
+
+class TestEar:
+    def test_series_ear(self):
+        # From CFA 2019 Schweser - Level 1. LOS 6.c
+        tm.assert_almost_equal(
+            returns.ear(pd.Series([0.03]), periods.QUARTERLY),
+            pd.Series([0.1255]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(pd.Series([0.03]), periods.SEMIANNUAL),
+            pd.Series([0.0609]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(pd.Series([0.015]), periods.QUARTERLY),
+            pd.Series([0.06136]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(pd.Series([0.005]), periods.MONTHLY),
+            pd.Series([0.06168]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.ear(pd.Series([0.000238095238]), periods.DAILY),
+            pd.Series([0.061828]),
+            rtol=1e-4,
+        )

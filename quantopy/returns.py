@@ -2,8 +2,10 @@ from typing import Union
 
 import pandas as pd
 from pandas.core.generic import NDFrame
+import quantopy
 
 from quantopy._typing import FrameOrSeries, PythonScalar
+from quantopy import periods
 
 
 def returns(prices: FrameOrSeries, drop_first: bool = True) -> FrameOrSeries:
@@ -49,3 +51,54 @@ def cum_returns_final(returns: FrameOrSeries) -> Union[pd.Series, PythonScalar]:
         containing cumulative returns for each column of input.
     """
     return (returns + 1).prod() - 1
+
+
+def annualization_factor(period: str) -> int:
+    """
+    Return annualization factor from period entered.
+
+    Parameters
+    ----------
+    period : str
+        Defines the periodicity of the 'returns' data for purposes of
+        annualizing.
+
+        Defaults are::
+            'monthly':12
+            'weekly': 52
+            'daily': 252
+
+    Returns
+    -------
+        annualization_factor : int
+    """
+    return periods.ANNUALIZATION_FACTORS[period]
+
+
+def ear(returns, period=periods.DAILY):
+    """
+    Determines the mean annual growth rate of returns. This is equivilent
+    to the compound annual growth rate.
+
+    Parameters
+    ----------
+    returns : pd.Series or np.ndarray
+        Periodic returns of the strategy, noncumulative.
+        - See full explanation in :func:`~empyrical.stats.cum_returns`.
+    period : str, optional
+        Defines the periodicity of the 'returns' data for purposes of
+        annualizing. Value ignored if `annualization` parameter is specified.
+        Defaults are::
+            'monthly':12
+            'weekly': 52
+            'daily': 252
+
+    Returns
+    -------
+    effective_annual_return : float
+        Annual Return as CAGR (Compounded Annual Growth Rate).
+    """
+
+    ann_factor = annualization_factor(period)
+
+    return (1 + returns) ** ann_factor - 1
