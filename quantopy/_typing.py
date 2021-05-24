@@ -5,7 +5,7 @@ from pandas.core.series import Series
 
 # scalars
 
-PythonScalar = Union[str, int, float, bool]
+PythonScalar = Union[int, float]
 
 # FrameOrSeriesUnion  means either a DataFrame or a Series. E.g.
 # `def func(a: FrameOrSeriesUnion) -> FrameOrSeriesUnion: ...` means that if a Series

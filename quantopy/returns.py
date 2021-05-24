@@ -1,6 +1,7 @@
-from typing import Union
+from typing import Union, overload
 
 import pandas as pd
+import numpy as np
 from pandas.core.generic import NDFrame
 import quantopy
 
@@ -53,50 +54,42 @@ def cum_returns_final(returns: FrameOrSeries) -> Union[pd.Series, PythonScalar]:
     return (returns + 1).prod() - 1
 
 
-def annualization_factor(period: str) -> int:
+@overload
+def effect(nominal_rate: pd.Series, period: periods.Period = ...) -> pd.Series:
+    ...
+
+
+@overload
+def effect(nominal_rate: np.ndarray, period: periods.Period = ...) -> np.ndarray:
+    ...
+
+
+@overload
+def effect(nominal_rate: PythonScalar, period: periods.Period = ...) -> PythonScalar:
+    ...
+
+
+def effect(
+    nominal_rate,
+    period=periods.Period.DAILY,
+):
     """
-    Return annualization factor from period entered.
+    Determines the annual effective annual interest rate given the nominal rate and
+    the compounding period.
 
     Parameters
     ----------
-    period : str
+    nominal_rate : pd.Series, np.ndarray or PythonScalar
+        The nominal interest rate.
+
+    period : periods.Period, deafult periods.Period.DAILY
         Defines the periodicity of the 'returns' data for purposes of
         annualizing.
 
-        Defaults are::
-            'monthly':12
-            'weekly': 52
-            'daily': 252
-
     Returns
     -------
-        annualization_factor : int
+        effective_annual_rate : pd.Series, np.ndarray or PythonScalar
     """
-    return periods.ANNUALIZATION_FACTORS[period]
+    ann_factor = periods.annualization_factor[period]
 
-
-def ear(returns, period=periods.DAILY):
-    """
-    Determines the mean annual growth rate of returns. This is equivilent
-    to the compound annual growth rate.
-
-    Parameters
-    ----------
-    returns : pd.Series or float
-        Periodic returns of the strategy, noncumulative.
-
-    period : str, deafult periods.DAILY
-        Defines the periodicity of the 'returns' data for purposes of
-        annualizing. Value ignored if `annualization` parameter is specified.
-        Defaults are::
-            'monthly':12
-            'weekly': 52
-            'daily': 252
-
-    Returns
-    -------
-        effective_annual_return : pd.Series or float
-    """
-    ann_factor = annualization_factor(period)
-
-    return (1 + returns) ** ann_factor - 1
+    return (nominal_rate + 1) ** ann_factor - 1

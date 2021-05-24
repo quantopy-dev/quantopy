@@ -1,6 +1,7 @@
 import pandas as pd
 import pandas._testing as tm
 from numpy import NaN
+import numpy as np
 
 from quantopy import returns, periods
 
@@ -122,88 +123,96 @@ class TestEar:
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         tm.assert_almost_equal(
-            returns.ear(pd.Series([0.03]), periods.QUARTERLY),
-            pd.Series([0.1255]),
+            returns.effect(pd.Series([0.03, 0.015, 0.04]), periods.Period.QUARTERLY),
+            pd.Series([0.1255, 0.06136, 0.169859]),
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(pd.Series([0.03]), periods.SEMIANNUAL),
+            returns.effect(pd.Series([0.03]), periods.Period.SEMIANNUAL),
             pd.Series([0.0609]),
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(pd.Series([0.015]), periods.QUARTERLY),
-            pd.Series([0.06136]),
+            returns.effect(pd.Series([0.005, 0.01]), periods.Period.MONTHLY),
+            pd.Series([0.06168, 0.126825]),
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(pd.Series([0.04]), periods.QUARTERLY),
-            pd.Series([0.169859]),
-            rtol=1e-4,
-        )
-
-        tm.assert_almost_equal(
-            returns.ear(pd.Series([0.005]), periods.MONTHLY),
-            pd.Series([0.06168]),
-            rtol=1e-4,
-        )
-
-        tm.assert_almost_equal(
-            returns.ear(pd.Series([0.01]), periods.MONTHLY),
-            pd.Series([0.126825]),
-            rtol=1e-4,
-        )
-
-        tm.assert_almost_equal(
-            returns.ear(pd.Series([0.0001]), periods.DAILY),
+            returns.effect(pd.Series([0.0001]), periods.Period.DAILY),
             pd.Series([0.025519]),
             rtol=1e-4,
         )
 
+    def test_array_ear(self):
+        # From CFA 2019 Schweser - Level 1. LOS 6.c
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        tm.assert_almost_equal(
+            returns.effect(np.array([0.03, 0.015, 0.04]), periods.Period.QUARTERLY),
+            np.array([0.1255, 0.06136, 0.169859]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.effect(np.array([0.03]), periods.Period.SEMIANNUAL),
+            np.array([0.0609]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.effect(np.array([0.005, 0.01]), periods.Period.MONTHLY),
+            np.array([0.06168, 0.126825]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.effect(np.array([0.0001]), periods.Period.DAILY),
+            np.array([0.025519]),
+            rtol=1e-4,
+        )
 
     def test_float_ear(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         tm.assert_almost_equal(
-            returns.ear(0.03, periods.QUARTERLY),
+            returns.effect(0.03, periods.Period.QUARTERLY),
             0.1255,
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(0.03, periods.SEMIANNUAL),
+            returns.effect(0.03, periods.Period.SEMIANNUAL),
             0.0609,
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(0.015, periods.QUARTERLY),
+            returns.effect(0.015, periods.Period.QUARTERLY),
             0.06136,
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(0.04, periods.QUARTERLY),
+            returns.effect(0.04, periods.Period.QUARTERLY),
             0.169859,
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(0.005, periods.MONTHLY),
+            returns.effect(0.005, periods.Period.MONTHLY),
             0.06168,
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(0.01, periods.MONTHLY),
+            returns.effect(0.01, periods.Period.MONTHLY),
             0.126825,
             rtol=1e-4,
         )
 
         tm.assert_almost_equal(
-            returns.ear(0.0001, periods.DAILY),
+            returns.effect(0.0001, periods.Period.DAILY),
             0.025519,
             rtol=1e-4,
         )

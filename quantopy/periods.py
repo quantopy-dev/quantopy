@@ -1,22 +1,20 @@
-APPROX_BDAYS_PER_MONTH = 21
-APPROX_BDAYS_PER_YEAR = 252
+from enum import Enum, auto
 
-MONTHS_PER_YEAR = 12
-WEEKS_PER_YEAR = 52
-QTRS_PER_YEAR = 4
 
-DAILY = "daily"
-WEEKLY = "weekly"
-MONTHLY = "monthly"
-QUARTERLY = "quarterly"
-SEMIANNUAL = "semiannual"
-YEARLY = "yearly"
+class Period(Enum):
+    DAILY = auto()
+    WEEKLY = auto()
+    MONTHLY = auto()
+    QUARTERLY = auto()
+    SEMIANNUAL = auto()
+    YEARLY = auto()
 
-ANNUALIZATION_FACTORS = {
-    DAILY: APPROX_BDAYS_PER_YEAR,
-    WEEKLY: WEEKS_PER_YEAR,
-    MONTHLY: MONTHS_PER_YEAR,
-    QUARTERLY: QTRS_PER_YEAR,
-    SEMIANNUAL: 2,
-    YEARLY: 1,
+
+annualization_factor = {
+    Period.DAILY: 252,
+    Period.WEEKLY: 52,
+    Period.MONTHLY: 12,
+    Period.QUARTERLY: 4,
+    Period.SEMIANNUAL: 2,
+    Period.YEARLY: 1,
 }
