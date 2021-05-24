@@ -12,5 +12,5 @@ class TestSimulate:
         returns_1 = returns.returns(prices_1)
 
         tm.assert_almost_equal(np.mean(returns_1), 0.1, rtol=1e-01)
-
-        tm.assert_almost_equal(np.std(returns_1), 0.05, rtol=1e-02)
+        tm.assert_almost_equal(np.std(returns_1), 0.05, rtol=1e-01)
+        assert len(prices_1) == 1000
