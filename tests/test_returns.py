@@ -87,17 +87,50 @@ class TestReturns:
             rs["stock_2"].reset_index(drop=True), expected["stock_2"]
         )
 
+    def test_array_returns(self):
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        prices_1 = np.array([8.7, 8.91, 8.71, 8.43, 8.73])
+        rs_1 = returns.returns(prices_1, drop_first=False)
+        np.testing.assert_array_almost_equal(
+            rs_1, np.array([NaN, 0.02413793, -0.02244669, -0.03214696, 0.03558719])
+        )
+
+        prices_2 = np.array([10.66, 11.08, 10.71, 11.59, 12.11])
+        rs_2 = returns.returns(prices_2, drop_first=False)
+        np.testing.assert_array_almost_equal(
+            rs_2, np.array([NaN, 0.0393996, -0.0333935, 0.0821661, 0.0448662])
+        )
+
+    def test_array_returns_with_drop(self):
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        prices_1 = np.array([8.7, 8.91, 8.71, 8.43, 8.73])
+        rs_1 = returns.returns(prices_1)
+        np.testing.assert_array_almost_equal(
+            rs_1,
+            np.array([0.0241379, -0.0224466, -0.032147, 0.035587]),
+        )
+
+        prices_2 = np.array([10.66, 11.08, 10.71, 11.59, 12.11])
+        rs_2 = returns.returns(prices_2)
+        np.testing.assert_array_almost_equal(
+            rs_2,
+            np.array([0.0393996, -0.0333935, 0.0821661, 0.0448662]),
+        )
+
 
 class TestCumReturns:
-    def test_series_cum_returns_final(self):
+    def test_series_total_return(self):
         prices_1 = pd.Series([8.7, 8.91, 8.71, 8.43, 8.73])
         rs_1 = returns.returns(prices_1)
 
         hpr = (prices_1.iloc[-1] - prices_1.iloc[0]) / prices_1.iloc[0]
 
-        tm.assert_almost_equal(returns.cum_returns_final(rs_1), hpr)
+        print(rs_1)
+        print(hpr)
 
-    def test_frame_cum_returns_final(self):
+        tm.assert_almost_equal(returns.total_return(rs_1), hpr)
+
+    def test_frame_total_return(self):
         prices = pd.DataFrame(
             {
                 "stock_1": [8.7, 8.91, 8.71, 8.43, 8.73],
@@ -115,7 +148,15 @@ class TestCumReturns:
 
         expected = pd.Series([hpr_1, hpr_2], index=["stock_1", "stock_2"])
 
-        tm.assert_almost_equal(returns.cum_returns_final(rs), expected, rtol=1e-4)
+        tm.assert_almost_equal(returns.total_return(rs), expected, rtol=1e-4)
+
+    def test_array_total_return(self):
+        prices_1 = np.array([8.7, 8.91, 8.71, 8.43, 8.73])
+        rs_1 = returns.returns(prices_1)
+
+        hpr = (prices_1[-1] - prices_1[0]) / prices_1[0]
+
+        tm.assert_almost_equal(returns.total_return(rs_1), hpr)
 
 
 class TestEar:
@@ -149,28 +190,24 @@ class TestEar:
     def test_array_ear(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
-        tm.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             returns.effect(np.array([0.03, 0.015, 0.04]), periods.Period.QUARTERLY),
-            np.array([0.1255, 0.06136, 0.169859]),
-            rtol=1e-4,
+            np.array([0.125509, 0.061364, 0.169859]),
         )
 
-        tm.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             returns.effect(np.array([0.03]), periods.Period.SEMIANNUAL),
             np.array([0.0609]),
-            rtol=1e-4,
         )
 
-        tm.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             returns.effect(np.array([0.005, 0.01]), periods.Period.MONTHLY),
-            np.array([0.06168, 0.126825]),
-            rtol=1e-4,
+            np.array([0.061678, 0.126825]),
         )
 
-        tm.assert_almost_equal(
+        np.testing.assert_array_almost_equal(
             returns.effect(np.array([0.0001]), periods.Period.DAILY),
             np.array([0.025519]),
-            rtol=1e-4,
         )
 
     def test_float_ear(self):

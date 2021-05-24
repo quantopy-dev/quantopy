@@ -1,21 +1,34 @@
-from typing import Union, overload
+from typing import overload
 
 import pandas as pd
 import numpy as np
-from pandas.core.generic import NDFrame
-import quantopy
 
 from quantopy._typing import FrameOrSeries, PythonScalar
 from quantopy import periods
 
 
-def returns(prices: FrameOrSeries, drop_first: bool = True) -> FrameOrSeries:
+@overload
+def returns(prices: pd.DataFrame, drop_first: bool = ...) -> pd.DataFrame:
+    ...
+
+
+@overload
+def returns(prices: pd.Series, drop_first: bool = ...) -> pd.Series:
+    ...
+
+
+@overload
+def returns(prices: np.ndarray, drop_first: bool = ...) -> np.ndarray:
+    ...
+
+
+def returns(prices, drop_first=True):
     """
     Compute simple returns from a timeseries of prices.
 
     Parameters
     ----------
-    prices : pd.Series or pd.DataFrame
+    prices : pd.Series, pd.DataFrame or np.ndarray
         Prices of assets in wide-format, with assets as columns,
         and indexed by datetimes.
 
@@ -24,34 +37,53 @@ def returns(prices: FrameOrSeries, drop_first: bool = True) -> FrameOrSeries:
 
     Returns
     -------
-        returns : pd.Series or pd.DataFrame
-            The same type as the calling object.
-
+    returns : pd.Series, pd.DataFrame or np.ndarray
     """
-    out = prices.pct_change()
+    if isinstance(prices, (pd.DataFrame, pd.Series)):
+        out = prices.pct_change()
 
-    if drop_first:
-        out = out.iloc[1:]
+        if drop_first:
+            out = out.iloc[1:]
+    else:
+        # Assume np.ndarray
+        out = np.diff(prices, axis=0)
+        np.divide(out, prices[:-1], out=out)
+
+        if not drop_first:
+            out = np.insert(out, 0, np.NaN, axis=0)
 
     return out
 
 
-def cum_returns_final(returns: FrameOrSeries) -> Union[pd.Series, PythonScalar]:
+@overload
+def total_return(simple_returns: pd.DataFrame) -> pd.Series:
+    ...
+
+
+@overload
+def total_return(simple_returns: pd.Series) -> PythonScalar:
+    ...
+
+
+@overload
+def total_return(simple_returns: np.ndarray) -> PythonScalar:
+    ...
+
+
+def total_return(simple_returns):
     """
     Compute total returns from simple returns.
+
     Parameters
     ----------
-    returns : pd.DataFrame, pd.Series
+    returns : pd.DataFrame or pd.Series
        Noncumulative simple returns of one or more timeseries.
 
     Returns
     -------
-    total_returns : pd.Series or scalar
-        If input is 1-dimensional (a Series), the result is a scalar.
-        If input is 2-dimensional (a DataFrame), the result is a 1D array
-        containing cumulative returns for each column of input.
+    total_returns : pd.Series or PythonScalar
     """
-    return (returns + 1).prod() - 1
+    return (simple_returns + 1).prod() - 1
 
 
 @overload
@@ -82,13 +114,13 @@ def effect(
     nominal_rate : pd.Series, np.ndarray or PythonScalar
         The nominal interest rate.
 
-    period : periods.Period, deafult periods.Period.DAILY
+    period : periods.Period, default periods.Period.DAILY
         Defines the periodicity of the 'returns' data for purposes of
         annualizing.
 
     Returns
     -------
-        effective_annual_rate : pd.Series, np.ndarray or PythonScalar
+    effective_annual_rate : pd.Series, np.ndarray or PythonScalar
     """
     ann_factor = periods.annualization_factor[period]
 
