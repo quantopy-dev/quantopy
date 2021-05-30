@@ -125,3 +125,41 @@ def effect(
     ann_factor = periods.annualization_factor[period]
 
     return (nominal_rate + 1) ** ann_factor - 1
+
+
+@overload
+def effect_vol(nominal_vol: pd.Series, period: periods.Period = ...) -> pd.Series:
+    ...
+
+
+@overload
+def effect_vol(nominal_vol: np.ndarray, period: periods.Period = ...) -> np.ndarray:
+    ...
+
+
+@overload
+def effect_vol(nominal_vol: PythonScalar, period: periods.Period = ...) -> PythonScalar:
+    ...
+
+
+def effect_vol(nominal_vol, period=periods.Period.DAILY):
+    """
+    Determines the annual effective annual volatility given the nominal volatility and
+    the compounding period.
+
+    Parameters
+    ----------
+    nominal_vol : pd.Series, np.ndarray or PythonScalar
+        The nominal volatility.
+
+    period : periods.Period, default periods.Period.DAILY
+        Defines the periodicity of the 'returns' data for purposes of
+        annualizing.
+
+    Returns
+    -------
+    effective_annual_volatility : pd.Series, np.ndarray or PythonScalar
+    """
+    ann_factor = periods.annualization_factor[period]
+
+    return nominal_vol * np.sqrt(ann_factor)

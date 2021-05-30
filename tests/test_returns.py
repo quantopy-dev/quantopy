@@ -159,8 +159,8 @@ class TestCumReturns:
         tm.assert_almost_equal(returns.total_return(rs_1), hpr)
 
 
-class TestEar:
-    def test_series_ear(self):
+class TestEffect:
+    def test_series_effect(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         tm.assert_almost_equal(
@@ -187,7 +187,7 @@ class TestEar:
             rtol=1e-4,
         )
 
-    def test_array_ear(self):
+    def test_array_effect(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
         np.testing.assert_array_almost_equal(
@@ -210,7 +210,7 @@ class TestEar:
             np.array([0.025519]),
         )
 
-    def test_float_ear(self):
+    def test_float_effect(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         tm.assert_almost_equal(
             returns.effect(0.03, periods.Period.QUARTERLY),
@@ -251,5 +251,57 @@ class TestEar:
         tm.assert_almost_equal(
             returns.effect(0.0001, periods.Period.DAILY),
             0.025519,
+            rtol=1e-4,
+        )
+
+
+class TestEffectVol:
+    def test_series_effect_vol(self):
+        # From Wikipedia - https://en.wikipedia.org/wiki/Volatility_(finance)
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        tm.assert_almost_equal(
+            returns.effect_vol(pd.Series([0.01]), periods.Period.DAILY),
+            pd.Series([0.15874]),
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.effect_vol(pd.Series([0.02397, 0.079601]), periods.Period.MONTHLY),
+            pd.Series([0.0830345, 0.275747]),
+            rtol=1e-4,
+        )
+
+    def test_array_effect_vol(self):
+        # From Wikipedia - https://en.wikipedia.org/wiki/Volatility_(finance)
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        np.testing.assert_array_almost_equal(
+            returns.effect_vol(np.array([0.01]), periods.Period.DAILY),
+            np.array([0.158745]),
+        )
+
+        tm.assert_almost_equal(
+            returns.effect_vol(np.array([0.02397, 0.079601]), periods.Period.MONTHLY),
+            np.array([0.0830345, 0.275747]),
+            rtol=1e-4,
+        )
+
+    def test_float_effect_vol(self):
+        # From Wikipedia - https://en.wikipedia.org/wiki/Volatility_(finance)
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+        tm.assert_almost_equal(
+            returns.effect_vol(0.01, periods.Period.DAILY),
+            0.15874,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.effect_vol(0.02397, periods.Period.MONTHLY),
+            0.0830345,
+            rtol=1e-4,
+        )
+
+        tm.assert_almost_equal(
+            returns.effect_vol(0.079601, periods.Period.MONTHLY),
+            0.275747,
             rtol=1e-4,
         )
