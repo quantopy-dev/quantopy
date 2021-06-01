@@ -4,10 +4,11 @@ from enum import Enum
 import pandas as pd
 import os
 import numpy as np
+from datetime import datetime
 
 from collections import namedtuple
 
-Portfolio = namedtuple("Portfolio", ["url", "skip_rows"])
+Portfolio = namedtuple("Portfolio", ["url", "skip_rows", "start_date", "slice"])
 
 
 ff_base_url = "https://mba.tuck.dartmouth.edu/pages/faculty/ken.french/ftp/"
@@ -16,9 +17,17 @@ NUMBER_OF_ROWS = 1138
 
 
 class FF_Portfolios(Enum):
-    Formed_on_ME = Portfolio(
+    Formed_on_ME_VW = Portfolio(
         url="Portfolios_Formed_on_ME",
         skip_rows=12,
+        start_date=datetime(1926, 7, 1),
+        slice=0,
+    )
+    Formed_on_ME_EW = Portfolio(
+        url="Portfolios_Formed_on_ME",
+        skip_rows=12,
+        start_date=datetime(1926, 7, 1),
+        slice=1,
     )
 
 
@@ -43,12 +52,25 @@ def get_portfolio(portfolio_id: FF_Portfolios) -> pd.DataFrame:
 
     from datetime import datetime
 
-    ff_factors = pd.read_csv(
-        f"downloads/{portfolio_id.value.url}.csv",
-        skiprows=portfolio_id.value.skip_rows,
-        index_col=0,
-        na_values=[-99.99, 'Equal Weight Returns -- Monthly'],
-        skipinitialspace=True
+    dateparse = lambda x: datetime.strptime(x, "%Y%m")
+
+    end_date = datetime.now()
+    start_date = portfolio_id.value.start_date
+    months_diff = (end_date.year - start_date.year) * 12 + (
+        end_date.month - start_date.month
     )
 
-    return ff_factors.iloc[:NUMBER_OF_ROWS].astype(float)/100
+    ff_factors = pd.read_csv(
+        f"downloads/{portfolio_id.value.url}.csv",
+        skiprows=portfolio_id.value.skip_rows
+        + months_diff * portfolio_id.value.slice
+        + 3 * portfolio_id.value.slice,
+        header=0,
+        nrows=months_diff-1,
+        index_col=0,
+        na_values=[-99.99],
+        skipinitialspace=True,
+        date_parser=dateparse
+    )
+
+    return ff_factors.astype(float)/100
