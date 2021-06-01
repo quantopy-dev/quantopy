@@ -163,3 +163,36 @@ def effect_vol(nominal_vol, period=periods.Period.DAILY):
     ann_factor = periods.annualization_factor[period]
 
     return nominal_vol * np.sqrt(ann_factor)
+
+
+@overload
+def gmean(simple_returns: pd.DataFrame) -> pd.Series:
+    ...
+
+
+@overload
+def gmean(simple_returns: pd.Series) -> PythonScalar:
+    ...
+
+
+@overload
+def gmean(simple_returns: np.ndarray) -> PythonScalar:
+    ...
+
+
+def gmean(simple_returns):
+    """
+    Compute the geometric mean for a set of simple returns.
+
+    Parameters
+    ----------
+    returns : pd.DataFrame or pd.Series
+       Noncumulative simple returns of one or more timeseries.
+
+    Returns
+    -------
+    geometric_mean : pd.Series or PythonScalar
+    """
+    n_periods = simple_returns.shape[0]
+
+    return (simple_returns + 1).prod()**(1/n_periods) - 1
