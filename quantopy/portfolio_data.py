@@ -66,11 +66,11 @@ def get_portfolio(portfolio_id: FF_Portfolios) -> pd.DataFrame:
         + months_diff * portfolio_id.value.slice
         + 3 * portfolio_id.value.slice,
         header=0,
-        nrows=months_diff-1,
+        nrows=months_diff - 1,
         index_col=0,
         na_values=[-99.99],
         skipinitialspace=True,
-        date_parser=dateparse
+        date_parser=dateparse,
     )
 
-    return ff_factors.astype(float)/100
+    return ff_factors.astype(float) / 100

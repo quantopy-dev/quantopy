@@ -1,0 +1,51 @@
+{
+    "extensions": {
+        "recommendations": [
+            "brainfit.vscode-importmagic",
+            "bungcip.better-toml",
+            "davidanson.vscode-markdownlint",
+            "editorconfig.editorconfig",
+            "foxundermoon.shell-format",
+            "ivory-lab.jenkinsfile-support",
+            "lextudio.restructuredtext",
+            "ms-python.python",
+            "njpwerner.autodocstring"
+        ]
+    },
+    "folders": [
+        {
+            "path": "."
+        }
+    ],
+    "settings": {
+        "[python]": {
+            "editor.codeActionsOnSave": {
+                "source.organizeImports": true
+            }
+        },
+        "autoDocstring.customTemplatePath": "docs/docstring.mustache",
+        "autoDocstring.docstringFormat": "google",
+        "editor.formatOnSave": true,
+        "editor.rulers": [
+            100
+        ],
+        "files.insertFinalNewline": true,
+        "files.trimFinalNewlines": true,
+        "files.trimTrailingWhitespace": true,
+        "importMagic.maxColumns": 100,
+        "importMagic.multiline": "parentheses",
+        "python.formatting.provider": "black",
+        "python.linting.enabled": true,
+        "python.linting.flake8Enabled": true,
+        "python.linting.lintOnSave": true,
+        "python.linting.mypyEnabled": true,
+        "python.linting.pylintCategorySeverity.refactor": "Information",
+        "python.linting.pylintEnabled": true,
+        "python.linting.pylintUseMinimalCheckers": false,
+        "python.testing.pytestEnabled": true,
+        "restructuredtext.builtDocumentationPath": "${workspaceFolder}/docs/build/html",
+        "restructuredtext.confPath": "${workspaceFolder}/docs/source",
+        "restructuredtext.linter.run": "off",
+        "shellformat.flag": "-i 2 -ci -bn -sr"
+    }
+}

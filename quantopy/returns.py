@@ -195,18 +195,12 @@ def gmean(simple_returns):
     """
     n_periods = simple_returns.shape[0]
 
-    return (simple_returns + 1).prod()**(1/n_periods) - 1
+    return (simple_returns + 1).prod() ** (1 / n_periods) - 1
 
 
-
-def sharpe_ratio(
-    annualized_return,
-    annualized_vol,
-    riskfree_rate
-):
+def sharpe_ratio(annualized_return, annualized_vol, riskfree_rate):
     """
     TBD
     """
     excess_return = annualized_return - riskfree_rate
-    return excess_return/annualized_vol
-
+    return excess_return / annualized_vol
