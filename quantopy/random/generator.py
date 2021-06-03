@@ -54,10 +54,10 @@ def returns(
     ----------
     .. [1] "Normal distribution", *Wikipedia*, https://en.wikipedia.org/wiki/Normal_distribution.
     """
-    if isinstance(mu, list):
-        size = (size, len(mu))
+    mu = np.asarray(mu)
+    sigma = np.asarray(sigma)
 
-    simulated_returns = np.random.normal(mu, sigma, size)
+    simulated_returns = np.random.normal(mu, sigma, (size,) + mu.shape)
 
     if len(simulated_returns.shape) == 1:
         return qp.ReturnSeries(simulated_returns)
