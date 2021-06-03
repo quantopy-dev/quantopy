@@ -31,7 +31,7 @@ class TestReturnDataFrame:
         mu = [0.25, 0.12]
         sigma = [0.1, 0.1]  # mean and standard deviation
         riskfree_rate = 0.1
-        rdf = qp.random.generator.returns(mu, sigma, (10000,2))
+        rdf = qp.random.generator.returns(mu, sigma, 10000)
         rs_sharpe_ratio = rdf.sharpe_ratio(riskfree_rate)
 
         expected = (np.array(mu) - riskfree_rate) / sigma

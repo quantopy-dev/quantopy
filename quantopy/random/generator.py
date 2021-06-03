@@ -20,7 +20,7 @@ def returns(
 def returns(
     mu: Union[List[int], List[float]],
     sigma: Union[List[int], List[float]],
-    size: Optional[Tuple[int, int]] = None,
+    size: Optional[int] = None,
 ) -> qp.ReturnDataFrame:
     ...
 
@@ -54,6 +54,9 @@ def returns(
     ----------
     .. [1] "Normal distribution", *Wikipedia*, https://en.wikipedia.org/wiki/Normal_distribution.
     """
+    if isinstance(mu, list):
+        size = (size, len(mu))
+
     simulated_returns = np.random.normal(mu, sigma, size)
 
     if len(simulated_returns.shape) == 1:

@@ -26,7 +26,7 @@ class TestGenerator:
         # Test list of mu and sigma
         mu_list = [1, 2]  # mean
         sigma_list = [0.1, 0.2]  # standard deviation
-        rdf = qp.random.generator.returns(mu_list, sigma_list, (1000, 2))
+        rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
         assert type(rdf) is qp.ReturnDataFrame
 
         assert rdf.shape == (1000, 2)
