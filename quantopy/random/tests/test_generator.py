@@ -1,8 +1,9 @@
 import numpy as np
 import pandas.testing as tm
 import pytest
-import quantopy as qp
 from numpy.testing import assert_allclose, assert_almost_equal
+
+import quantopy as qp
 
 
 @pytest.fixture(autouse=True)

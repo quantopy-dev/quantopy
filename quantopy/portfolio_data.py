@@ -1,12 +1,12 @@
+import os
 import urllib.request
 import zipfile
-from enum import Enum
-import pandas as pd
-import os
-import numpy as np
-from datetime import datetime
-
 from collections import namedtuple
+from datetime import datetime
+from enum import Enum
+
+import numpy as np
+import pandas as pd
 
 Portfolio = namedtuple("Portfolio", ["url", "skip_rows", "start_date", "slice"])
 

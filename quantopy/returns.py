@@ -1,10 +1,10 @@
 from typing import overload
 
-import pandas as pd
 import numpy as np
+import pandas as pd
 
-from quantopy._typing import FrameOrSeries, PythonScalar
 from quantopy import periods
+from quantopy._typing import FrameOrSeries, PythonScalar
 
 
 @overload

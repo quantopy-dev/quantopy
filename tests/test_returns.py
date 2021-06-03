@@ -1,9 +1,9 @@
+import numpy as np
 import pandas as pd
 import pandas._testing as tm
 from numpy import NaN
-import numpy as np
 
-from quantopy import returns, periods
+from quantopy import periods, returns
 
 
 class TestReturns:

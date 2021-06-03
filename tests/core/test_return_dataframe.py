@@ -1,5 +1,9 @@
 import pandas.testing as tm
+
 import quantopy as qp
+
+import numpy as np
+from numpy.testing import assert_allclose
 
 
 class TestReturnDataFrame:
@@ -20,3 +24,16 @@ class TestReturnDataFrame:
         expected = qp.ReturnSeries([-0.200802, -0.036209], index=["x", "y"])
         tm.assert_series_equal(rs.gmean(), expected, rtol=1e-5)
         assert type(rs.gmean()) is qp.ReturnSeries
+
+
+    def test_sharpe_ratio_return_dataframe(self) -> None:
+        # Data from https://en.wikipedia.org/wiki/Sharpe_ratio
+        mu = [0.25, 0.12]
+        sigma = [0.1, 0.1]  # mean and standard deviation
+        riskfree_rate = 0.1
+        rdf = qp.random.generator.returns(mu, sigma, (10000,2))
+        rs_sharpe_ratio = rdf.sharpe_ratio(riskfree_rate)
+
+        expected = (np.array(mu) - riskfree_rate) / sigma
+        assert_allclose(rs_sharpe_ratio, expected, rtol=1e-1)
+        assert type(rs_sharpe_ratio) is qp.ReturnSeries

@@ -2,6 +2,7 @@ from typing import List, Optional, Tuple, Union, overload
 
 import numpy as np
 import pandas as pd
+
 import quantopy as qp
 from quantopy._typing import PythonScalar
 

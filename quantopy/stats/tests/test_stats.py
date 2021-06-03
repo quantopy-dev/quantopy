@@ -1,7 +1,8 @@
 import numpy as np
 import pandas.testing as tm
-import quantopy as qp
 from numpy.testing import assert_allclose
+
+import quantopy as qp
 
 
 class TestGeoMean:
