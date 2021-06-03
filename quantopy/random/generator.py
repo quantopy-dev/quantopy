@@ -12,6 +12,7 @@ def returns(
     mu: PythonScalar,
     sigma: PythonScalar,
     size: Optional[int] = None,
+    method: str = ...
 ) -> qp.ReturnSeries:
     ...
 
@@ -21,6 +22,7 @@ def returns(
     mu: Union[List[int], List[float]],
     sigma: Union[List[int], List[float]],
     size: Optional[int] = None,
+    method: str = ...
 ) -> qp.ReturnDataFrame:
     ...
 
@@ -29,6 +31,7 @@ def returns(
     mu,
     sigma,
     size=None,
+    method='basic'
 ):
     """Generate random simple returns from a normal (Gaussian) distribution.
 
@@ -45,6 +48,9 @@ def returns(
         are drawn. If size is None (default), a single value is returned if mu and sigma
         are both scalars. Otherwise, np.broadcast(mu, sigma).size samples are drawn.
 
+    method: str
+        Method used for returns generation
+
     Returns
     -------
     out : ndarray or scalar
@@ -57,7 +63,14 @@ def returns(
     mu = np.asarray(mu)
     sigma = np.asarray(sigma)
 
-    simulated_returns = np.random.normal(mu, sigma, (size,) + mu.shape)
+    if method == 'basic':
+        simulated_returns = np.random.normal(mu, sigma, (size,) + mu.shape)
+    elif method == 'gbm':
+        dt = 1
+        brownian_increments = np.random.normal(0, np.sqrt(dt), (size,) + mu.shape)
+        simulated_returns = (mu - sigma ** 2 / 2) * dt + brownian_increments
+    else:
+        raise ValueError(f"Invalid method {method}")
 
     if len(simulated_returns.shape) == 1:
         return qp.ReturnSeries(simulated_returns)
