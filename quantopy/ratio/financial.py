@@ -1,6 +1,7 @@
 from typing import overload
 
 import numpy as np
+
 import quantopy as qp
 
 

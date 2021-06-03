@@ -1,10 +1,9 @@
 import numpy as np
 import pandas.testing as tm
-import quantopy as qp
+import pytest
 from numpy.testing import assert_allclose
 
-
-import pytest
+import quantopy as qp
 
 
 @pytest.fixture(autouse=True)
@@ -19,7 +18,7 @@ class TestRatio:
         mu, sigma = 0.25, 0.1  # mean and standard deviation
         riskfree_rate = 0.1
         rs = qp.random.generator.returns(mu, sigma, 4000)
-        rs_sharpe_ratio = qp.finance.ratio.sharpe(rs, riskfree_rate)
+        rs_sharpe_ratio = qp.ratio.sharpe(rs, riskfree_rate)
 
         expected = (mu - riskfree_rate) / sigma
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
@@ -29,7 +28,7 @@ class TestRatio:
         mu, sigma = 0.12, 0.1  # mean and standard deviation
         riskfree_rate = 0.05
         rs = qp.random.generator.returns(mu, sigma, 4000)
-        rs_sharpe_ratio = qp.finance.ratio.sharpe(rs, riskfree_rate)
+        rs_sharpe_ratio = qp.ratio.sharpe(rs, riskfree_rate)
 
         expected = (mu - riskfree_rate) / sigma
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
