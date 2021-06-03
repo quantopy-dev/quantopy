@@ -36,6 +36,6 @@ def gmean(simple_returns):
     ----------
     .. [1] "Weighted Geometric Mean", *Wikipedia*, https://en.wikipedia.org/wiki/Weighted_geometric_mean.
     """
-    n_periods = simple_returns.shape[0]
+    log_values = np.log(simple_returns + 1)
 
-    return (simple_returns + 1).prod() ** (1 / n_periods) - 1
+    return np.exp(log_values.mean()) - 1
