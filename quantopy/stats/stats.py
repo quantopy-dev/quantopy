@@ -1,8 +1,9 @@
 from typing import overload
 
 import numpy as np
-
+import pandas as pd
 import quantopy as qp
+from quantopy.stats.period import annualization_factor, period
 
 
 @overload
@@ -40,3 +41,39 @@ def gmean(simple_returns):
     log_values = np.log(simple_returns + 1)
 
     return np.exp(log_values.mean()) - 1
+
+
+@overload
+def effect(simple_returns: qp.ReturnDataFrame, period: period = ...) -> qp.ReturnSeries:
+    ...
+
+
+@overload
+def effect(simple_returns: qp.ReturnSeries, period: period = ...) -> np.float64:
+    ...
+
+
+def effect(
+    simple_returns,
+    period=period.MONTHLY,
+):
+    """
+    Determines the annual effective annual interest rate given the nominal rate and
+    the compounding period.
+
+    Parameters
+    ----------
+    nominal_rate : qp.ReturnSeries or qp.ReturnDataFrame
+        The nominal interest rate.
+
+    period : period, default period.MONTHLY
+        Defines the periodicity of the 'returns' data for purposes of
+        annualizing.
+
+    Returns
+    -------
+    effective_annual_rate : qp.ReturnSeries or qp.ReturnDataFrame
+    """
+    ann_factor = annualization_factor[period]
+
+    return (simple_returns.mean() + 1) ** ann_factor - 1

@@ -1,7 +1,7 @@
 from enum import Enum, auto
 
 
-class Period(Enum):
+class period(Enum):
     DAILY = auto()
     WEEKLY = auto()
     MONTHLY = auto()
@@ -11,10 +11,10 @@ class Period(Enum):
 
 
 annualization_factor = {
-    Period.DAILY: 252,
-    Period.WEEKLY: 52,
-    Period.MONTHLY: 12,
-    Period.QUARTERLY: 4,
-    Period.SEMIANNUAL: 2,
-    Period.YEARLY: 1,
+    period.DAILY: 252,
+    period.WEEKLY: 52,
+    period.MONTHLY: 12,
+    period.QUARTERLY: 4,
+    period.SEMIANNUAL: 2,
+    period.YEARLY: 1,
 }
