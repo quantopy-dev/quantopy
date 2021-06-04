@@ -200,6 +200,9 @@ def prices(initial_price, mu, sigma, size=None, method="normal"):
     """
     simulated_returns = returns(mu, sigma, size - 1, method)
 
+    if method == "gbm":
+        simulated_returns = np.exp(simulated_returns)
+
     simulated_prices = initial_price * (simulated_returns + 1).cumprod()
 
     if len(simulated_returns.shape) == 1:
