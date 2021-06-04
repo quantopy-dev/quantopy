@@ -1,15 +1,23 @@
+from typing import TYPE_CHECKING
+
 import pandas as pd
-import quantopy as qp
+from quantopy.ratio.financial import sharpe
+from quantopy.stats.stats import gmean
+
+if TYPE_CHECKING:
+    from quantopy.core.return_series import ReturnSeries
 
 
 class ReturnDataFrame(pd.DataFrame):
     @property
-    def _constructor(self):
+    def _constructor(self) -> type["ReturnDataFrame"]:
         return ReturnDataFrame
 
     @property
-    def _constructor_sliced(self):
-        return qp.ReturnSeries
+    def _constructor_sliced(self) -> type["ReturnSeries"]:
+        from quantopy.core.return_series import ReturnSeries
+
+        return ReturnSeries
 
     @classmethod
     def from_price(cls, prices: pd.DataFrame):
@@ -36,7 +44,7 @@ class ReturnDataFrame(pd.DataFrame):
         ----------
         .. [1] "Weighted Geometric Mean", *Wikipedia*, https://en.wikipedia.org/wiki/Weighted_geometric_mean.
         """
-        return qp.stats.gmean(self)
+        return gmean(self)
 
     def sharpe_ratio(self, riskfree_rate: float):  # -> qp.ReturnSeries:
         """Compute the sharpe ratio. Commonly used to measure the performance of an investment compared
@@ -59,4 +67,4 @@ class ReturnDataFrame(pd.DataFrame):
         ----------
         .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
         """
-        return qp.ratio.sharpe(self, riskfree_rate)
+        return sharpe(self, riskfree_rate)
