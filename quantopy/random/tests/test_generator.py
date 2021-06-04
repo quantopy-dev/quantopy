@@ -2,9 +2,8 @@ import numpy as np
 import pandas as pd
 import pandas.testing as tm
 import pytest
-from numpy.testing import assert_allclose, assert_almost_equal
-
 import quantopy as qp
+from numpy.testing import assert_allclose, assert_almost_equal
 
 
 @pytest.fixture(autouse=True)
@@ -66,8 +65,8 @@ class TestGenerator:
         mu, sigma = 0, 0.1  # mean and standard deviation
         initial_price = 10
         ps = qp.random.generator.prices(initial_price, mu, sigma, 10000)
-        rs = ps.pct_change()[1:]
-        assert type(rs) is pd.Series
+        rs = qp.ReturnSeries.from_price(ps)
+        assert type(ps) is pd.Series
 
         assert_almost_equal(rs.mean(), mu, decimal=2)
         assert_almost_equal(rs.std(), sigma, decimal=2)
@@ -79,8 +78,8 @@ class TestGenerator:
         sigma_list = [0.1, 0.2]  # standard deviation
         initial_price_list = [1, 2]
         pdf = qp.random.generator.prices(initial_price_list, mu_list, sigma_list, 500)
-        rdf = pdf.pct_change()[1:]
-        assert type(rdf) is pd.DataFrame
+        rdf = qp.ReturnDataFrame.from_price(pdf)
+        assert type(pdf) is pd.DataFrame
 
         assert rdf.shape == (499, 2)
 

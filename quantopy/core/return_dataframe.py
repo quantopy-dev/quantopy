@@ -1,5 +1,4 @@
 import pandas as pd
-
 import quantopy as qp
 
 
@@ -11,6 +10,16 @@ class ReturnDataFrame(pd.DataFrame):
     @property
     def _constructor_sliced(self):
         return qp.ReturnSeries
+
+    @classmethod
+    def from_price(cls, prices: pd.DataFrame):
+        """Generate simple return series from prices.
+
+        Returns
+        -------
+        Simple return series
+        """
+        return ReturnDataFrame(prices.pct_change()[1:])
 
     def gmean(self):  # -> qp.ReturnSeries:
         """Compute the geometric mean of series of returns. Commonly used to determine the
