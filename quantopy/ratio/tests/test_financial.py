@@ -45,4 +45,3 @@ class TestRatio:
         expected = (np.array(mu) - riskfree_rate) / sigma
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-1)
         assert type(rs_sharpe_ratio) is qp.ReturnSeries
-

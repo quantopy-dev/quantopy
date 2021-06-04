@@ -29,7 +29,7 @@ class ReturnDataFrame(pd.DataFrame):
         """
         return qp.stats.gmean(self)
 
-    def sharpe_ratio(self, riskfree_rate: float): # -> qp.ReturnSeries:
+    def sharpe_ratio(self, riskfree_rate: float):  # -> qp.ReturnSeries:
         """Compute the sharpe ratio. Commonly used to measure the performance of an investment compared
         to a risk-free asset, after adjusting for its risk.
 

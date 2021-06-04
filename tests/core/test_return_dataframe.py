@@ -25,7 +25,6 @@ class TestReturnDataFrame:
         tm.assert_series_equal(rs.gmean(), expected, rtol=1e-5)
         assert type(rs.gmean()) is qp.ReturnSeries
 
-
     def test_sharpe_ratio_return_dataframe(self) -> None:
         # Data from https://en.wikipedia.org/wiki/Sharpe_ratio
         mu = [0.25, 0.12]
