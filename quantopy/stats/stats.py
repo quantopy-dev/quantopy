@@ -60,7 +60,7 @@ def effect(
     period=period.MONTHLY,
 ):
     """
-    Determines the annual effective annual interest rate given the nominal rate and
+    Determines the annual effective annual interest rate given the simple returns and
     the compounding period.
 
     Parameters

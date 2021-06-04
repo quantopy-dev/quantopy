@@ -1,8 +1,7 @@
 import numpy as np
 import pytest
-from numpy.testing import assert_allclose
-
 import quantopy as qp
+from numpy.testing import assert_allclose
 
 
 @pytest.fixture(autouse=True)
@@ -36,3 +35,19 @@ class TestReturnSeries:
         expected = (mu - riskfree_rate) / sigma
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
         assert type(rs_sharpe_ratio) is np.float64
+
+    def test_effect(self):
+        mu = 0.03  # mean
+        sigma = 0.01  # standard deviation
+        rs = qp.random.generator.returns(mu, sigma, 1000)
+
+        expected = (mu + 1) ** 12 - 1
+
+        effect = rs.effect(qp.stats.period.MONTHLY)
+        assert type(effect) is np.float64
+
+        assert_allclose(
+            effect,
+            expected,
+            rtol=1e-1,
+        )
