@@ -1,8 +1,7 @@
 import numpy as np
-import pandas.testing as tm
-from numpy.testing import assert_allclose
-
+import pandas._testing as tm
 import quantopy as qp
+from numpy.testing import assert_allclose
 
 
 class TestReturnDataFrame:
@@ -24,7 +23,7 @@ class TestReturnDataFrame:
         tm.assert_series_equal(rs.gmean(), expected, rtol=1e-5)
         assert type(rs.gmean()) is qp.ReturnSeries
 
-    def test_sharpe_ratio_return_dataframe(self) -> None:
+    def test_sharpe_ratio(self) -> None:
         # Data from https://en.wikipedia.org/wiki/Sharpe_ratio
         mu = [0.25, 0.12]
         sigma = [0.1, 0.1]  # mean and standard deviation
@@ -35,3 +34,19 @@ class TestReturnDataFrame:
         expected = (np.array(mu) - riskfree_rate) / sigma
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-1)
         assert type(rs_sharpe_ratio) is qp.ReturnSeries
+
+    def test_effect(self):
+        mu_list = [0.03, 0.015, 0.04, 0.005, 0.01]  # mean
+        sigma_list = [0.01, 0.01, 0.01, 0.01, 0.01]  # standard deviation
+        rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
+
+        expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1  # type: ignore
+
+        effect = rdf.effect(qp.stats.period.MONTHLY)
+        assert type(effect) is qp.ReturnSeries
+
+        tm.assert_almost_equal(
+            effect,
+            expected,
+            rtol=1e-1,
+        )

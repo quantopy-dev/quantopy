@@ -4,7 +4,6 @@ import numpy as np
 import pandas as pd
 from quantopy.ratio.financial import sharpe
 from quantopy.stats import stats
-from quantopy.stats.period import period
 
 if TYPE_CHECKING:
     from quantopy.core.return_frame import ReturnDataFrame
@@ -73,7 +72,7 @@ class ReturnSeries(pd.Series):
 
     def effect(
         self,
-        period: period = period.MONTHLY,
+        period: stats.period = stats.period.MONTHLY,
     ) -> np.float64:
         """
         Determines the annual effective annual return.

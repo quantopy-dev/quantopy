@@ -2,7 +2,7 @@ from typing import TYPE_CHECKING
 
 import pandas as pd
 from quantopy.ratio.financial import sharpe
-from quantopy.stats.stats import gmean
+from quantopy.stats import stats
 
 if TYPE_CHECKING:
     from quantopy.core.return_series import ReturnSeries
@@ -20,7 +20,7 @@ class ReturnDataFrame(pd.DataFrame):
         return ReturnSeries
 
     @classmethod
-    def from_price(cls, prices: pd.DataFrame):
+    def from_price(cls, prices: pd.DataFrame) -> "ReturnDataFrame":
         """Generate simple return series from prices.
 
         Returns
@@ -44,7 +44,7 @@ class ReturnDataFrame(pd.DataFrame):
         ----------
         .. [1] "Weighted Geometric Mean", *Wikipedia*, https://en.wikipedia.org/wiki/Weighted_geometric_mean.
         """
-        return gmean(self)
+        return stats.gmean(self)
 
     def sharpe_ratio(self, riskfree_rate: float):  # -> qp.ReturnSeries:
         """Compute the sharpe ratio. Commonly used to measure the performance of an investment compared
@@ -68,3 +68,22 @@ class ReturnDataFrame(pd.DataFrame):
         .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
         """
         return sharpe(self, riskfree_rate)
+
+    def effect(
+        self,
+        period: stats.period = stats.period.MONTHLY,
+    ) -> "ReturnSeries":
+        """
+        Determines the annual effective annual return.
+
+        Parameters
+        ----------
+        period : period, default period.MONTHLY
+            Defines the periodicity of the 'returns' data for purposes of
+            annualizing.
+
+        Returns
+        -------
+        effective_annual_rate : qp.ReturnSeries or qp.ReturnDataFrame
+        """
+        return stats.effect(self, period)
