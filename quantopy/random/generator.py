@@ -35,7 +35,7 @@ def normal_returns(mu: np.ndarray, sigma: np.ndarray, size: int) -> np.ndarray:
 
 
 def geometric_brownian_motion(
-    mu: np.ndarray, sigma: np.ndarray, size: int
+    mu: np.ndarray, sigma: np.ndarray, size: int, dt: int = 1
 ) -> np.ndarray:
     """Generate random simple returns from a geometric brownian motion.
 
@@ -61,9 +61,12 @@ def geometric_brownian_motion(
     ----------
     .. [1] "Geometric Brownian Motion", *Wikipedia*, https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
     """
-    dt = 1
-    brownian_increments = np.random.normal(0, np.sqrt(dt), (size,) + mu.shape)
-    simulated_returns = (mu - sigma ** 2 / 2) * dt + brownian_increments
+    brownian_path = np.random.normal(0, np.sqrt(dt), size=(size,) + mu.shape)
+
+    drift = mu - sigma ** 2 / 2
+    difussion = sigma * brownian_path
+
+    simulated_returns = drift + difussion
 
     return simulated_returns
 
