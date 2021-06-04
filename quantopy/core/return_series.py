@@ -2,6 +2,8 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
+from quantopy.ratio.financial import sharpe
+from quantopy.stats.stats import gmean
 
 if TYPE_CHECKING:
     from quantopy.core.return_dataframe import ReturnDataFrame
@@ -43,8 +45,6 @@ class ReturnSeries(pd.Series):
         ----------
         .. [1] "Weighted Geometric Mean", *Wikipedia*, https://en.wikipedia.org/wiki/Weighted_geometric_mean.
         """
-        from quantopy.stats.stats import gmean
-
         return gmean(self)
 
     def sharpe_ratio(self, riskfree_rate: float) -> np.float64:
@@ -68,6 +68,4 @@ class ReturnSeries(pd.Series):
         ----------
         .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
         """
-        from quantopy.ratio.financial import sharpe
-
         return sharpe(self, riskfree_rate)

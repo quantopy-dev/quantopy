@@ -1,17 +1,19 @@
-from typing import overload
+from typing import TYPE_CHECKING, overload
 
 import numpy as np
 
-import quantopy as qp
+if TYPE_CHECKING:
+    from quantopy.core.return_dataframe import ReturnDataFrame
+    from quantopy.core.return_series import ReturnSeries
 
 
 @overload
-def sharpe(simple_returns: qp.ReturnSeries, riskfree_rate: float) -> np.float64:
+def sharpe(simple_returns: "ReturnSeries", riskfree_rate: float) -> np.float64:
     ...
 
 
 @overload
-def sharpe(simple_returns: qp.ReturnDataFrame, riskfree_rate: float) -> qp.ReturnSeries:
+def sharpe(simple_returns: "ReturnDataFrame", riskfree_rate: float) -> "ReturnSeries":
     ...
 
 

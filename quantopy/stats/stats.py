@@ -1,20 +1,22 @@
-from typing import overload
+from typing import TYPE_CHECKING, overload
 
 import numpy as np
-import pandas as pd
-import quantopy as qp
 from quantopy.stats.period import annualization_factor, period
+
+if TYPE_CHECKING:
+    from quantopy.core.return_dataframe import ReturnDataFrame
+    from quantopy.core.return_series import ReturnSeries
 
 
 @overload
-def gmean(simple_returns: qp.ReturnSeries) -> np.float64:
+def gmean(simple_returns: "ReturnSeries") -> np.float64:
     ...
 
 
 @overload
 def gmean(
-    simple_returns: qp.ReturnDataFrame,
-) -> qp.ReturnSeries:
+    simple_returns: "ReturnDataFrame",
+) -> "ReturnSeries":
     ...
 
 
@@ -44,12 +46,12 @@ def gmean(simple_returns):
 
 
 @overload
-def effect(simple_returns: qp.ReturnDataFrame, period: period = ...) -> qp.ReturnSeries:
+def effect(simple_returns: "ReturnDataFrame", period: period = ...) -> "ReturnSeries":
     ...
 
 
 @overload
-def effect(simple_returns: qp.ReturnSeries, period: period = ...) -> np.float64:
+def effect(simple_returns: "ReturnSeries", period: period = ...) -> np.float64:
     ...
 
 
