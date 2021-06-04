@@ -63,8 +63,8 @@ def effect(
 
     Parameters
     ----------
-    nominal_rate : qp.ReturnSeries or qp.ReturnDataFrame
-        The nominal interest rate.
+    simple_returns : qp.ReturnSeries or qp.ReturnDataFrame
+        The simple returns series of frame.
 
     period : period, default period.MONTHLY
         Defines the periodicity of the 'returns' data for purposes of

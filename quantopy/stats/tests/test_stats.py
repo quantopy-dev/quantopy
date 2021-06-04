@@ -99,7 +99,7 @@ class TestEffect:
         effect = qp.stats.effect(rs, qp.stats.period.MONTHLY)
         assert type(effect) is np.float64
 
-        tm.assert_almost_equal(
+        assert_allclose(
             effect,
             expected,
             rtol=1e-1,
@@ -112,7 +112,7 @@ class TestEffect:
 
         expected = (mu + 1) ** 2 - 1
 
-        tm.assert_almost_equal(
+        assert_allclose(
             qp.stats.effect(rs, qp.stats.period.SEMIANNUAL),
             expected,
             rtol=1e-1,
@@ -125,7 +125,7 @@ class TestEffect:
 
         expected = (mu + 1) ** 252 - 1
 
-        tm.assert_almost_equal(
+        assert_allclose(
             qp.stats.effect(rdf, qp.stats.period.DAILY),
             expected,
             rtol=1e-1,
