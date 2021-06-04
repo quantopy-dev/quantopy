@@ -6,7 +6,7 @@ from quantopy.ratio.financial import sharpe
 from quantopy.stats.stats import gmean
 
 if TYPE_CHECKING:
-    from quantopy.core.return_dataframe import ReturnDataFrame
+    from quantopy.core.return_frame import ReturnDataFrame
 
 
 class ReturnSeries(pd.Series):
@@ -16,7 +16,7 @@ class ReturnSeries(pd.Series):
 
     @property
     def _constructor_expanddim(self) -> type["ReturnDataFrame"]:
-        from quantopy.core.return_dataframe import ReturnDataFrame
+        from quantopy.core.return_frame import ReturnDataFrame
 
         return ReturnDataFrame
 
