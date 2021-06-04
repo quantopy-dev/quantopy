@@ -2,6 +2,7 @@ from typing import List, Optional, Tuple, Union, overload
 
 import numpy as np
 import pandas as pd
+
 import quantopy as qp
 from quantopy._typing import PythonScalar
 
@@ -206,12 +207,8 @@ def prices(initial_price, mu, sigma, size=None, method="normal"):
     simulated_prices = initial_price * (simulated_returns + 1).cumprod()
 
     if len(simulated_returns.shape) == 1:
-        simulated_prices = pd.concat(
-            [qp.ReturnSeries([initial_price]), simulated_prices]
-        )
+        simulated_prices = pd.concat([pd.Series([initial_price]), simulated_prices])
     else:
-        simulated_prices = pd.concat(
-            [qp.ReturnDataFrame([initial_price]), simulated_prices]
-        )
+        simulated_prices = pd.concat([pd.DataFrame([initial_price]), simulated_prices])
 
     return simulated_prices

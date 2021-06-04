@@ -1,9 +1,8 @@
+import numpy as np
 import pandas.testing as tm
+from numpy.testing import assert_allclose
 
 import quantopy as qp
-
-import numpy as np
-from numpy.testing import assert_allclose
 
 
 class TestReturnDataFrame:

@@ -1,8 +1,10 @@
 import numpy as np
+import pandas as pd
 import pandas.testing as tm
 import pytest
-import quantopy as qp
 from numpy.testing import assert_allclose, assert_almost_equal
+
+import quantopy as qp
 
 
 @pytest.fixture(autouse=True)
@@ -65,7 +67,7 @@ class TestGenerator:
         initial_price = 10
         ps = qp.random.generator.prices(initial_price, mu, sigma, 10000)
         rs = ps.pct_change()[1:]
-        assert type(rs) is qp.ReturnSeries
+        assert type(rs) is pd.Series
 
         assert_almost_equal(rs.mean(), mu, decimal=2)
         assert_almost_equal(rs.std(), sigma, decimal=2)
@@ -78,7 +80,7 @@ class TestGenerator:
         initial_price_list = [1, 2]
         pdf = qp.random.generator.prices(initial_price_list, mu_list, sigma_list, 500)
         rdf = pdf.pct_change()[1:]
-        assert type(rdf) is qp.ReturnDataFrame
+        assert type(rdf) is pd.DataFrame
 
         assert rdf.shape == (499, 2)
 
@@ -93,7 +95,7 @@ class TestGenerator:
         initial_price = 10
         ps = qp.random.generator.prices(initial_price, mu, sigma, 1000, "gbm")
         rs = np.log(ps.pct_change())[1:]
-        assert type(rs) is qp.ReturnSeries
+        assert type(rs) is pd.Series
 
         assert_almost_equal(rs.mean(), mu, decimal=2)
         assert_almost_equal(rs.std(), sigma, decimal=2)
@@ -108,7 +110,7 @@ class TestGenerator:
             initial_price_list, mu_list, sigma_list, 300, "gbm"
         )
         rdf = np.log(pdf.pct_change())[1:]
-        assert type(rdf) is qp.ReturnDataFrame
+        assert type(rdf) is pd.DataFrame
 
         assert rdf.shape == (299, 2)
 
