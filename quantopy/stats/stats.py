@@ -4,7 +4,7 @@ import numpy as np
 from quantopy.stats.period import annualization_factor, period
 
 if TYPE_CHECKING:
-    from quantopy.core.return_dataframe import ReturnDataFrame
+    from quantopy.core.return_frame import ReturnDataFrame
     from quantopy.core.return_series import ReturnSeries
 
 

@@ -2,9 +2,9 @@ from typing import List, Optional, Tuple, Union, overload
 
 import numpy as np
 import pandas as pd
-
-import quantopy as qp
 from quantopy._typing import PythonScalar
+from quantopy.core.return_frame import ReturnDataFrame
+from quantopy.core.return_series import ReturnSeries
 
 
 def normal_returns(mu: np.ndarray, sigma: np.ndarray, size: int) -> np.ndarray:
@@ -75,7 +75,7 @@ def geometric_brownian_motion(
 @overload
 def returns(
     mu: PythonScalar, sigma: PythonScalar, size: Optional[int] = None, method: str = ...
-) -> qp.ReturnSeries:
+) -> ReturnSeries:
     ...
 
 
@@ -85,7 +85,7 @@ def returns(
     sigma: Union[List[int], List[float]],
     size: Optional[int] = None,
     method: str = ...,
-) -> qp.ReturnDataFrame:
+) -> ReturnDataFrame:
     ...
 
 
@@ -135,9 +135,9 @@ def returns(mu, sigma, size=None, method="normal"):
         raise ValueError(f"Invalid method {method}")
 
     if len(simulated_returns.shape) == 1:
-        return qp.ReturnSeries(simulated_returns)
+        return ReturnSeries(simulated_returns)
     else:
-        return qp.ReturnDataFrame(simulated_returns)
+        return ReturnDataFrame(simulated_returns)
 
 
 @overload
@@ -147,7 +147,7 @@ def prices(
     sigma: PythonScalar,
     size: Optional[int] = None,
     method: str = ...,
-) -> qp.ReturnSeries:
+) -> ReturnSeries:
     ...
 
 
@@ -158,7 +158,7 @@ def prices(
     sigma: Union[List[int], List[float]],
     size: Optional[int] = None,
     method: str = ...,
-) -> qp.ReturnDataFrame:
+) -> ReturnDataFrame:
     ...
 
 
