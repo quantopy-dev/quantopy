@@ -87,3 +87,22 @@ class ReturnDataFrame(pd.DataFrame):
         effective_annual_rate : qp.ReturnSeries or qp.ReturnDataFrame
         """
         return stats.effect(self, period)
+
+    def effect_vol(
+        self,
+        period: stats.period = stats.period.MONTHLY,
+    ) -> "ReturnSeries":
+        """
+        Determines the annual effective annual volatility.
+
+        Parameters
+        ----------
+        period : period, default period.MONTHLY
+            Defines the periodicity of the 'returns' data for purposes of
+            annualizing.
+
+        Returns
+        -------
+        effective_annual_volatility : qp.ReturnSeries or qp.ReturnDataFrame
+        """
+        return stats.effect_vol(self, period)

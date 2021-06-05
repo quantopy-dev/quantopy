@@ -50,3 +50,19 @@ class TestReturnDataFrame:
             expected,
             rtol=1e-1,
         )
+
+    def test_return_dataframe(self):
+        mu_list = [0.01]  # mean
+        sigma_list = [0.01]  # standard deviation
+        rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
+
+        expected = qp.ReturnSeries(sigma_list) * np.sqrt(252)
+
+        effect = rdf.effect_vol(qp.stats.period.DAILY)
+        assert type(effect) is qp.ReturnSeries
+
+        tm.assert_almost_equal(
+            effect,
+            expected,
+            rtol=1e-1,
+        )
