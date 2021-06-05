@@ -51,3 +51,19 @@ class TestReturnSeries:
             expected,
             rtol=1e-1,
         )
+
+    def test_effect_vol(self):
+        mu = 0.01  # mean
+        sigma = 0.01  # standard deviation
+        rs = qp.random.generator.returns(mu, sigma, 1000)
+
+        expected = sigma * np.sqrt(252)
+
+        effect = rs.effect_vol(qp.stats.period.DAILY)
+        assert type(effect) is np.float64
+
+        assert_allclose(
+            effect,
+            expected,
+            rtol=1e-1,
+        )

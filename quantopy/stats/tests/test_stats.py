@@ -183,7 +183,7 @@ class TestEffectVol:
         effect = qp.stats.effect_vol(rs, qp.stats.period.DAILY)
         assert type(effect) is np.float64
 
-        tm.assert_almost_equal(
+        assert_allclose(
             effect,
             expected,
             rtol=1e-1,
@@ -199,7 +199,7 @@ class TestEffectVol:
         effect = qp.stats.effect_vol(rdf, qp.stats.period.MONTHLY)
         assert type(effect) is np.float64
 
-        tm.assert_almost_equal(
+        assert_allclose(
             effect,
             expected,
             rtol=1e-1,
