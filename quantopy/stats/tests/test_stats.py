@@ -3,6 +3,7 @@ import pandas as pd
 import pandas._testing as tm
 import quantopy as qp
 from numpy.testing import assert_allclose
+from quantopy.stats.stats import total_return
 
 
 class TestGeoMean:
@@ -204,3 +205,43 @@ class TestEffectVol:
             expected,
             rtol=1e-1,
         )
+
+
+class TestTotalReturn:
+    def test_return_series(self):
+        ps = pd.Series([8.7, 8.91, 8.71, 8.43, 8.73])
+        rs = qp.ReturnSeries.from_price(ps)
+
+        rs_total_return = qp.stats.total_return(rs)
+        assert type(rs_total_return) is np.float64
+
+        hpr = (ps.iloc[-1] - ps.iloc[0]) / ps.iloc[0]
+
+        assert_allclose(
+            rs_total_return,
+            hpr,
+            rtol=1e-1,
+        )
+
+    def test_return_frame(self):
+        pdf = pd.DataFrame(
+            {
+                "stock_1": [8.7, 8.91, 8.71, 8.43, 8.73],
+                "stock_2": [10.66, 11.08, 10.71, 11.59, 12.11],
+            }
+        )
+        rdf = qp.ReturnDataFrame.from_price(pdf)
+
+        rdf_total_return = qp.stats.total_return(rdf)
+        assert type(rdf_total_return) is qp.ReturnSeries
+
+        hpr_1 = (pdf["stock_1"].iloc[-1] - pdf["stock_1"].iloc[0]) / pdf[
+            "stock_1"
+        ].iloc[0]
+        hpr_2 = (pdf["stock_2"].iloc[-1] - pdf["stock_2"].iloc[0]) / pdf[
+            "stock_2"
+        ].iloc[0]
+
+        expected = qp.ReturnSeries([hpr_1, hpr_2], index=["stock_1", "stock_2"])
+
+        tm.assert_almost_equal(rdf_total_return, expected, rtol=1e-4)

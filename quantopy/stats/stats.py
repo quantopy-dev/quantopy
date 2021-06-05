@@ -113,3 +113,29 @@ def effect_vol(
     ann_factor = annualization_factor[period]
 
     return simple_returns.std() * np.sqrt(ann_factor)
+
+
+@overload
+def total_return(simple_returns: "ReturnDataFrame") -> "ReturnSeries":
+    ...
+
+
+@overload
+def total_return(simple_returns: "ReturnSeries") -> np.float64:
+    ...
+
+
+def total_return(simple_returns):
+    """
+    Compute total returns from simple returns.
+
+    Parameters
+    ----------
+    returns : pd.DataFrame or pd.Series
+       Noncumulative simple returns of one or more timeseries.
+
+    Returns
+    -------
+    total_returns : pd.Series or PythonScalar
+    """
+    return (simple_returns + 1).prod() - 1
