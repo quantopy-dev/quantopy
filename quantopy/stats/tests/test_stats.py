@@ -130,3 +130,77 @@ class TestEffect:
             expected,
             rtol=1e-1,
         )
+
+
+class TestEffectVol:
+    def test_return_dataframe(self):
+        # From Wikipedia - https://en.wikipedia.org/wiki/Volatility_(finance)
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+
+        # 1. Test with daily period
+        mu_list = [0.01]  # mean
+        sigma_list = [0.01]  # standard deviation
+        rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
+
+        expected = qp.ReturnSeries(sigma_list) * np.sqrt(252)
+
+        effect = qp.stats.effect_vol(rdf, qp.stats.period.DAILY)
+        assert type(effect) is qp.ReturnSeries
+
+        tm.assert_almost_equal(
+            effect,
+            expected,
+            rtol=1e-1,
+        )
+
+        # 2. Test with monthly period
+        mu_list = [0.01, 0.01]  # mean
+        sigma_list = [0.02397, 0.079601]  # standard deviation
+        rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
+
+        expected = qp.ReturnSeries(sigma_list) * np.sqrt(12)
+
+        effect = qp.stats.effect_vol(rdf, qp.stats.period.MONTHLY)
+        assert type(effect) is qp.ReturnSeries
+
+        tm.assert_almost_equal(
+            effect,
+            expected,
+            rtol=1e-1,
+        )
+
+    def test_return_series(self):
+        # From Wikipedia - https://en.wikipedia.org/wiki/Volatility_(finance)
+        # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
+
+        # 1. Test with daily period
+        mu = 0.01  # mean
+        sigma = 0.01  # standard deviation
+        rs = qp.random.generator.returns(mu, sigma, 1000)
+
+        expected = sigma * np.sqrt(252)
+
+        effect = qp.stats.effect_vol(rs, qp.stats.period.DAILY)
+        assert type(effect) is np.float64
+
+        tm.assert_almost_equal(
+            effect,
+            expected,
+            rtol=1e-1,
+        )
+
+        # 2. Test with monthly period
+        mu = 0.01  # mean
+        sigma = 0.02397  # standard deviation
+        rdf = qp.random.generator.returns(mu, sigma, 1000)
+
+        expected = sigma * np.sqrt(12)
+
+        effect = qp.stats.effect_vol(rdf, qp.stats.period.MONTHLY)
+        assert type(effect) is np.float64
+
+        tm.assert_almost_equal(
+            effect,
+            expected,
+            rtol=1e-1,
+        )

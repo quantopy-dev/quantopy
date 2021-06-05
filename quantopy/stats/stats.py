@@ -79,3 +79,37 @@ def effect(
     ann_factor = annualization_factor[period]
 
     return (simple_returns.mean() + 1) ** ann_factor - 1
+
+
+@overload
+def effect_vol(
+    simple_returns: "ReturnDataFrame", period: period = ...
+) -> "ReturnSeries":
+    ...
+
+
+@overload
+def effect_vol(simple_returns: "ReturnSeries", period: period = ...) -> np.float64:
+    ...
+
+
+def effect_vol(
+    simple_returns,
+    period=period.MONTHLY,
+):
+    """
+    Determines the annual effective annual volatility given the compounding period.
+
+    Parameters
+    ----------
+    period : period, default period.MONTHLY
+        Defines the periodicity of the 'returns' data for purposes of
+        annualizing.
+
+    Returns
+    -------
+    effective_annual_volatility : qp.ReturnSeries or qp.ReturnDataFrame
+    """
+    ann_factor = annualization_factor[period]
+
+    return simple_returns.std() * np.sqrt(ann_factor)
