@@ -5,6 +5,19 @@ from quantopy.core.return_frame import ReturnDataFrame
 
 
 def get_available_datasets(data_source):
+    """
+    Get the list of datasets available from the specified data library.
+
+    Parameters
+    ----------
+    data_source: str
+        the data source ("famafrench")
+
+    Returns
+    -------
+    A list of valid inputs for specified data library.
+    """
+
     expected_source = ["famafrench"]
 
     if data_source not in expected_source:
@@ -27,7 +40,7 @@ def get(name, data_source=None, start=None, end=None, retry_count=3, pause=0.1):
         the name of the dataset. Some data sources (IEX, fred) will
         accept a list of names.
     data_source: {str, None}
-        the data source ("iex", "fred", "ff")
+        the data source ("famafrench")
     start : string, int, date, datetime, Timestamp
         left boundary for range (defaults to 1/1/2010)
     end : string, int, date, datetime, Timestamp
