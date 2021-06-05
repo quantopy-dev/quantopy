@@ -10,11 +10,11 @@ if TYPE_CHECKING:
 
 class ReturnDataFrame(pd.DataFrame):
     @property
-    def _constructor(self) -> type["ReturnDataFrame"]:
+    def _constructor(self):
         return ReturnDataFrame
 
     @property
-    def _constructor_sliced(self) -> type["ReturnSeries"]:
+    def _constructor_sliced(self):
         from quantopy.core.return_series import ReturnSeries
 
         return ReturnSeries

@@ -10,6 +10,7 @@ dependencies:
   # required
   - python=3.8.3
   - pandas=1.2.4
+  - pandas-datareader=0.9.0
   - matplotlib=3.4.2
 
   # code checks
