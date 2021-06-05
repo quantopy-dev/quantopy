@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import pytest
 import quantopy as qp
 from numpy.testing import assert_allclose
@@ -65,5 +66,20 @@ class TestReturnSeries:
         assert_allclose(
             effect,
             expected,
+            rtol=1e-1,
+        )
+
+    def test_total_return(self):
+        ps = pd.Series([8.7, 8.91, 8.71, 8.43, 8.73])
+        rs = qp.ReturnSeries.from_price(ps)
+
+        rs_total_return = rs.total_return()
+        assert type(rs_total_return) is np.float64
+
+        hpr = (ps.iloc[-1] - ps.iloc[0]) / ps.iloc[0]
+
+        assert_allclose(
+            rs_total_return,
+            hpr,
             rtol=1e-1,
         )

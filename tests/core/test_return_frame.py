@@ -1,4 +1,5 @@
 import numpy as np
+import pandas as pd
 import pandas._testing as tm
 import quantopy as qp
 from numpy.testing import assert_allclose
@@ -66,3 +67,26 @@ class TestReturnDataFrame:
             expected,
             rtol=1e-1,
         )
+
+    def test_total_return(self):
+        pdf = pd.DataFrame(
+            {
+                "stock_1": [8.7, 8.91, 8.71, 8.43, 8.73],
+                "stock_2": [10.66, 11.08, 10.71, 11.59, 12.11],
+            }
+        )
+        rdf = qp.ReturnDataFrame.from_price(pdf)
+
+        rdf_total_return = rdf.total_return()
+        assert type(rdf_total_return) is qp.ReturnSeries
+
+        hpr_1 = (pdf["stock_1"].iloc[-1] - pdf["stock_1"].iloc[0]) / pdf[
+            "stock_1"
+        ].iloc[0]
+        hpr_2 = (pdf["stock_2"].iloc[-1] - pdf["stock_2"].iloc[0]) / pdf[
+            "stock_2"
+        ].iloc[0]
+
+        expected = qp.ReturnSeries([hpr_1, hpr_2], index=["stock_1", "stock_2"])
+
+        tm.assert_almost_equal(rdf_total_return, expected, rtol=1e-4)

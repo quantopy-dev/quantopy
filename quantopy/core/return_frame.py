@@ -25,7 +25,7 @@ class ReturnDataFrame(pd.DataFrame):
 
         Returns
         -------
-        Simple return series
+        out : ReturnDataFrame
         """
         return ReturnDataFrame(prices.pct_change()[1:])
 
@@ -38,7 +38,7 @@ class ReturnDataFrame(pd.DataFrame):
 
         Returns
         -------
-        gmean
+        gmean : ReturnSeries
 
         References
         ----------
@@ -61,7 +61,7 @@ class ReturnDataFrame(pd.DataFrame):
 
         Returns
         -------
-        sharpe_ratio : np.float64
+        sharpe_ratio : ReturnSeries
 
         References
         ----------
@@ -84,7 +84,7 @@ class ReturnDataFrame(pd.DataFrame):
 
         Returns
         -------
-        effective_annual_rate : qp.ReturnSeries or qp.ReturnDataFrame
+        effective_annual_rate : qp.ReturnSeries
         """
         return stats.effect(self, period)
 
@@ -103,6 +103,16 @@ class ReturnDataFrame(pd.DataFrame):
 
         Returns
         -------
-        effective_annual_volatility : qp.ReturnSeries or qp.ReturnDataFrame
+        effective_annual_volatility : qp.ReturnSeries
         """
         return stats.effect_vol(self, period)
+
+    def total_return(self) -> "ReturnSeries":
+        """
+        Compute total returns.
+
+        Returns
+        -------
+        total_returns : np.float64
+        """
+        return stats.total_return(self)

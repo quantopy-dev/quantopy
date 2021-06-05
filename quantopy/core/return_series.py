@@ -26,7 +26,7 @@ class ReturnSeries(pd.Series):
 
         Returns
         -------
-        Simple return series
+        out : ReturnSeries
         """
         return ReturnSeries(prices.pct_change()[1:])
 
@@ -39,7 +39,7 @@ class ReturnSeries(pd.Series):
 
         Returns
         -------
-        gmean
+        gmean : np.float64
 
         References
         ----------
@@ -85,7 +85,7 @@ class ReturnSeries(pd.Series):
 
         Returns
         -------
-        effective_annual_rate : qp.ReturnSeries or qp.ReturnDataFrame
+        effective_annual_rate : np.float64
         """
         return stats.effect(self, period)
 
@@ -104,6 +104,16 @@ class ReturnSeries(pd.Series):
 
         Returns
         -------
-        effective_annual_volatility : qp.ReturnSeries or qp.ReturnDataFrame
+        effective_annual_volatility : np.float64
         """
         return stats.effect_vol(self, period)
+
+    def total_return(self) -> np.float64:
+        """
+        Compute total returns.
+
+        Returns
+        -------
+        total_returns : np.float64
+        """
+        return stats.total_return(self)
