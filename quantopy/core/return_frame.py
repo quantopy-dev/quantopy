@@ -29,7 +29,7 @@ class ReturnDataFrame(pd.DataFrame):
         """
         return ReturnDataFrame(prices.pct_change()[1:])
 
-    def gmean(self):  # -> qp.ReturnSeries:
+    def gmean(self) -> "ReturnSeries":
         """Compute the geometric mean of series of returns. Commonly used to determine the
         performance results of an investment or portfolio.
 
@@ -46,7 +46,7 @@ class ReturnDataFrame(pd.DataFrame):
         """
         return stats.gmean(self)
 
-    def sharpe_ratio(self, riskfree_rate: float):  # -> qp.ReturnSeries:
+    def sharpe_ratio(self, riskfree_rate: float) -> "ReturnSeries":
         """Compute the sharpe ratio. Commonly used to measure the performance of an investment compared
         to a risk-free asset, after adjusting for its risk.
 
