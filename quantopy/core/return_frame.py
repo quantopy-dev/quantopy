@@ -46,7 +46,9 @@ class ReturnDataFrame(pd.DataFrame):
         """
         return stats.gmean(self)
 
-    def sharpe_ratio(self, riskfree_rate: float) -> "ReturnSeries":
+    def sharpe_ratio(
+        self, riskfree_rate: float, period: stats.period = stats.period.MONTHLY
+    ) -> "ReturnSeries":
         """Compute the sharpe ratio. Commonly used to measure the performance of an investment compared
         to a risk-free asset, after adjusting for its risk.
 
@@ -59,6 +61,10 @@ class ReturnDataFrame(pd.DataFrame):
         riskfree_rate: float
             Risk free rate, with the same periodicity as simple retuns (e.g. daily, monthly, ...).
 
+        period : period, default period.MONTHLY
+            Defines the periodicity of the 'returns' data for purposes of
+            annualizing.
+
         Returns
         -------
         sharpe_ratio : ReturnSeries
@@ -67,7 +73,7 @@ class ReturnDataFrame(pd.DataFrame):
         ----------
         .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
         """
-        return sharpe(self, riskfree_rate)
+        return sharpe(self, riskfree_rate, period)
 
     def effect(
         self,

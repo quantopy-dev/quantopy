@@ -55,10 +55,7 @@ def effect(simple_returns: "ReturnSeries", period: period = ...) -> np.float64:
     ...
 
 
-def effect(
-    simple_returns,
-    period=period.MONTHLY,
-):
+def effect(simple_returns, period=period.MONTHLY):
     """
     Determines the annual effective annual interest rate given the simple returns and
     the compounding period.
@@ -78,7 +75,7 @@ def effect(
     """
     ann_factor = annualization_factor[period]
 
-    return (simple_returns.mean() + 1) ** ann_factor - 1
+    return (simple_returns.gmean() + 1) ** ann_factor - 1
 
 
 @overload

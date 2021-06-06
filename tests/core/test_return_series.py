@@ -28,12 +28,14 @@ class TestReturnSeries:
 
     def test_sharpe_ratio(self) -> None:
         # Data from https://en.wikipedia.org/wiki/Sharpe_ratio
-        mu, sigma = 0.25, 0.1  # mean and standard deviation
-        riskfree_rate = 0.1
+        mu = (1 + 0.25) ** (1 / 12) - 1  # monthly
+        sigma = (1 + 0.1) ** (1 / 12) - 1  # monthly
+        riskfree_rate = 0.1  # yearly
         rs = qp.random.generator.returns(mu, sigma, 4000)
-        rs_sharpe_ratio = rs.sharpe_ratio(riskfree_rate)
+        periodicity = qp.stats.period.MONTHLY
+        rs_sharpe_ratio = rs.sharpe_ratio(riskfree_rate, periodicity)
 
-        expected = (mu - riskfree_rate) / sigma
+        expected = (rs.effect(periodicity) - riskfree_rate) / rs.effect_vol(periodicity)
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
         assert type(rs_sharpe_ratio) is np.float64
 
