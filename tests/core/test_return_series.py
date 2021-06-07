@@ -39,6 +39,18 @@ class TestReturnSeries:
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
         assert type(rs_sharpe_ratio) is np.float64
 
+    def test_return_series(self) -> None:
+        rs = qp.random.generator.returns(0.01, 0.1, 100)
+        rs_drawdown = rs.drawdown()
+        assert type(rs_drawdown) is qp.ReturnSeries
+
+        # Compute expected value
+        wealth_index = (rs + 1).cumprod()
+        previous_peaks = wealth_index.cummax()
+        expected = (wealth_index - previous_peaks) / previous_peaks
+
+        assert_allclose(rs_drawdown, expected, rtol=1e-2)
+
     def test_effect(self):
         mu = 0.03  # mean
         sigma = 0.01  # standard deviation

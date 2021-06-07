@@ -1,7 +1,7 @@
 from typing import TYPE_CHECKING
 
 import pandas as pd
-from quantopy.ratio.financial import sharpe
+from quantopy.ratio import financial
 from quantopy.stats import stats
 
 if TYPE_CHECKING:
@@ -73,7 +73,21 @@ class ReturnDataFrame(pd.DataFrame):
         ----------
         .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
         """
-        return sharpe(self, riskfree_rate, period)
+        return financial.sharpe(self, riskfree_rate, period)
+
+    def drawdown(self) -> "ReturnDataFrame":
+        """Compute the maximum drawdown in series of simple returns. Commonly used to measure the risk
+        of a portfolio.
+
+        Returns
+        -------
+        out : qp.ReturnDataFrame
+
+        References
+        ----------
+        .. [1] "Drawdown", *Wikipedia*, https://en.wikipedia.org/wiki/Drawdown_(economics).
+        """
+        return financial.drawdown(self)
 
     def effect(
         self,

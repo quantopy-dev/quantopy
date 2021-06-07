@@ -52,3 +52,42 @@ def sharpe(simple_returns, riskfree_rate, period=period.MONTHLY):
     excess_return = simple_returns.effect(period) - riskfree_rate
 
     return excess_return / simple_returns.effect_vol(period)
+
+
+@overload
+def drawdown(simple_returns: "ReturnSeries") -> "ReturnSeries":
+    ...
+
+
+@overload
+def drawdown(simple_returns: "ReturnDataFrame") -> "ReturnDataFrame":
+    ...
+
+
+def drawdown(simple_returns):
+    """Compute the maximum drawdown in series of simple returns. Commonly used to measure the risk
+    of a portfolio.
+
+    Parameters
+    ----------
+    simple_returns : qp.ReturnDataFrame or qp.ReturnSeries
+        Input array or object that can be converted to an array.
+
+    Returns
+    -------
+    out : qp.ReturnDataFrame or qp.ReturnSeries
+
+    References
+    ----------
+    .. [1] "Drawdown", *Wikipedia*, https://en.wikipedia.org/wiki/Drawdown_(economics).
+    """
+    # 1. Compute a wealth index
+    wealth_index = (1 + simple_returns).cumprod()
+
+    # 2. Compute previous peaks
+    previous_peaks = wealth_index.cummax()
+
+    # 3. Compute drawdown - which is the wealth value as a percentage of the previous peak
+    drawdown = (wealth_index - previous_peaks) / previous_peaks
+
+    return drawdown
