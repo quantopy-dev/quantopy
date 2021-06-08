@@ -1,6 +1,6 @@
 # Quantopy
 [![Android-master Actions Status](https://github.com/quantopy-dev/quantopy/workflows/CI/badge.svg)](https://github.com/quantopy-dev/quantopy/actions)
-[![Coverage](https://codecov.io/github/quantopy-dev/quantopy/coverage.svg?branch=master)](https://codecov.io/gh/quantopy-dev/quantopy)
+[![Coverage](https://codecov.io/github/quantopy-dev/quantopy/coverage.svg?branch=main)](https://codecov.io/gh/quantopy-dev/quantopy)
 [![License](https://img.shields.io/pypi/l/quantopy.svg)](https://github.com/quantopy-dev/quantopy/blob/master/LICENSE)
 
 ```python
