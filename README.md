@@ -1,5 +1,6 @@
 # Quantopy
 [![Android-master Actions Status](https://github.com/quantopy-dev/quantopy/workflows/CI/badge.svg)](https://github.com/quantopy-dev/quantopy/actions)
+[![License](https://img.shields.io/pypi/l/quantopy.svg)](https://github.com/quantopy-dev/quantopy/blob/master/LICENSE)
 
 ```python
 # Create and activate the build environment
