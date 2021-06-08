@@ -47,10 +47,10 @@ jobs:
             python: 3.8
             toxenv: py38
 
-          - name: Python 3.7 (MacOS X)
+          - name: Python 3.8 (MacOS X)
             os: macos-latest
-            python: 3.7
-            toxenv: py37
+            python: 3.8
+            toxenv: py38
 
     steps:
     - name: Checkout
