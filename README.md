@@ -1,4 +1,5 @@
 # Quantopy
+![example workflow](https://github.com/quantopy-dev/quantopy/.github/workflows/ci.yml/badge.svg)
 
 ```python
 # Create and activate the build environment
