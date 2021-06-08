@@ -40,17 +40,88 @@ jobs:
       run: tox -e codestyle
       if: always()
 
-  Explore-GitHub-Actions:
-    runs-on: ubuntu-latest
+
+
+  checks:
+    name: ${{ matrix.name }}
+    runs-on: ${{ matrix.os }}
+    strategy:
+      fail-fast: true
+      matrix:
+        include:
+
+          - name: Code style checks
+            os: ubuntu-latest
+            python: 3.x
+            toxenv: codestyle
+
+          - name: Python 3.9
+            os: ubuntu-latest
+            python: 3.9
+            toxenv: py39
+
+          # - name: Python 3.9 with minimal dependencies
+          #   os: ubuntu-latest
+          #   python: 3.9
+          #   toxenv: py39-test
+
+          # # NOTE: In the build below we also check that tests do not open and
+          # # leave open any files. This has a performance impact on running the
+          # # tests, hence why it is not enabled by default.
+          # - name: Python 3.8 with all optional dependencies
+          #   os: ubuntu-latest
+          #   python: 3.8
+          #   toxenv: py38-test-alldeps
+          #   toxargs: -v --develop
+          #   toxposargs: --open-files
+
+          # - name: Python 3.7 with oldest supported version of all dependencies
+          #   os: ubuntu-16.04
+          #   python: 3.7
+          #   toxenv: py37-test-oldestdeps
+
+          # - name: Python 3.8 with numpy 1.17 and full coverage
+          #   os: ubuntu-latest
+          #   python: 3.8
+          #   toxenv: py38-test-alldeps-numpy117-cov-clocale
+          #   toxposargs: --remote-data=astropy
+
+          # - name: Python 3.8 with all optional dependencies (Windows)
+          #   os: windows-latest
+          #   python: 3.8
+          #   toxenv: py38-test-alldeps
+          #   toxposargs: --durations=50
+
+          # - name: Python 3.7 with all optional dependencies (MacOS X)
+          #   os: macos-latest
+          #   python: 3.7
+          #   toxenv: py37-test-alldeps
+          #   toxposargs: --durations=50
+
     steps:
-      - run: echo "🎉 The job was automatically triggered by a ${{ github.event_name }} event."
-      - run: echo "🐧 This job is now running on a ${{ runner.os }} server hosted by GitHub!"
-      - run: echo "🔎 The name of your branch is ${{ github.ref }} and your repository is ${{ github.repository }}."
-      - name: Check out repository code
-        uses: actions/checkout@v2
-      - run: echo "💡 The ${{ github.repository }} repository has been cloned to the runner."
-      - run: echo "🖥️ The workflow is now ready to test your code on the runner."
-      - name: List files in the repository
-        run: |
-          ls ${{ github.workspace }}
-      - run: echo "🍏 This job's status is ${{ job.status }}."
+    - name: Checkout
+      uses: actions/checkout@v2
+      with:
+        fetch-depth: 0
+
+    - name: Cache conda
+      uses: actions/cache@v2
+      with:
+        path: ~/conda_pkgs_dir
+        key: ${{ runner.os }}-conda-${{ hashFiles('${{ env.ENV_FILE }}') }}
+
+    - uses: conda-incubator/setup-miniconda@v2
+      with:
+        activate-environment: quantopy-dev
+        channel-priority: strict
+        environment-file: ${{ env.ENV_FILE }}
+        use-only-tar-bz2: true
+
+    - name: Run tests
+      run: tox ${{ matrix.toxargs }} -e ${{ matrix.toxenv }} -- ${{ matrix.toxposargs }}
+    # TODO: Do we need --gcov-glob "*cextern*" ?
+    # - name: Upload coverage to codecov
+    #   if: ${{ contains(matrix.toxenv,'-cov') }}
+    #   uses: codecov/codecov-action@v1
+    #   with:
+    #     file: ./coverage.xml
