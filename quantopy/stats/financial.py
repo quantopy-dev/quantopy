@@ -1,6 +1,10 @@
-from typing import TYPE_CHECKING, overload
+from typing import (
+    TYPE_CHECKING,
+    overload,
+)
 
 import numpy as np
+
 from quantopy.stats.period import period
 
 if TYPE_CHECKING:

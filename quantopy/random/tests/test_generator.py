@@ -1,9 +1,9 @@
 import numpy as np
+from numpy.testing import assert_almost_equal
 import pandas as pd
-import pandas.testing as tm
 import pytest
+
 import quantopy as qp
-from numpy.testing import assert_allclose, assert_almost_equal
 
 
 @pytest.fixture(autouse=True)

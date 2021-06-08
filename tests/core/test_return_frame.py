@@ -1,8 +1,9 @@
 import numpy as np
+from numpy.testing import assert_allclose
 import pandas as pd
 import pandas._testing as tm
+
 import quantopy as qp
-from numpy.testing import assert_allclose
 
 
 class TestReturnDataFrame:
@@ -45,7 +46,7 @@ class TestReturnDataFrame:
         assert type(rs_drawdown) is qp.ReturnDataFrame
 
         # Compute expected value
-        wealth_index = (rs + 1).cumprod()
+        wealth_index = (rs + 1).cumprod()  # type: ignore
         previous_peaks = wealth_index.cummax()
         expected = (wealth_index - previous_peaks) / previous_peaks
 
@@ -56,7 +57,7 @@ class TestReturnDataFrame:
         sigma_list = [0.01, 0.01, 0.01, 0.01, 0.01]  # standard deviation
         rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
 
-        expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1  # type: ignore
+        expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1
 
         effect = rdf.effect(qp.stats.period.MONTHLY)
         assert type(effect) is qp.ReturnSeries

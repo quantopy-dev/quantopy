@@ -1,7 +1,14 @@
-from typing import TYPE_CHECKING, overload
+from typing import (
+    TYPE_CHECKING,
+    overload,
+)
 
 import numpy as np
-from quantopy.stats.period import annualization_factor, period
+
+from quantopy.stats.period import (
+    annualization_factor,
+    period,
+)
 
 if TYPE_CHECKING:
     from quantopy.core.return_frame import ReturnDataFrame
@@ -38,7 +45,8 @@ def gmean(simple_returns):
 
     References
     ----------
-    .. [1] "Weighted Geometric Mean", *Wikipedia*, https://en.wikipedia.org/wiki/Weighted_geometric_mean.
+    .. [1] "Weighted Geometric Mean", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Weighted_geometric_mean.
     """
     log_values = np.log(simple_returns + 1)
 

@@ -1,15 +1,13 @@
 # IDE
 .vscode/
 
-# coverage
+# unit tests and coverage
 .mypy_cache
 *.pytest_cache
+.tox/
 
 # hypothesis test database
 __pycache__
-
-# Downloaded portfolio data
-downloads/
 
 # Distribution / packaging
 .Python
