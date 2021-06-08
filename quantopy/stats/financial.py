@@ -15,7 +15,7 @@ if TYPE_CHECKING:
 @overload
 def sharpe(
     simple_returns: "ReturnSeries", riskfree_rate: float, period: period = ...
-) -> np.float64:
+) -> np.float64:  # type: ignore
     ...
 
 
