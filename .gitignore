@@ -5,6 +5,8 @@
 .mypy_cache
 *.pytest_cache
 .tox/
+.coverage
+coverage.xml
 
 # hypothesis test database
 __pycache__

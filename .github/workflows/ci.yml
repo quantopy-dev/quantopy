@@ -32,43 +32,25 @@ jobs:
             python: 3.9
             toxenv: py39
 
-          # - name: Python 3.9 with minimal dependencies
-          #   os: ubuntu-latest
-          #   python: 3.9
-          #   toxenv: py39-test
+          - name: Python 3.7
+            os: ubuntu-16.04
+            python: 3.7
+            toxenv: py37
 
-          # # NOTE: In the build below we also check that tests do not open and
-          # # leave open any files. This has a performance impact on running the
-          # # tests, hence why it is not enabled by default.
-          # - name: Python 3.8 with all optional dependencies
-          #   os: ubuntu-latest
-          #   python: 3.8
-          #   toxenv: py38-test-alldeps
-          #   toxargs: -v --develop
-          #   toxposargs: --open-files
+          - name: Python 3.8 with full coverage
+            os: ubuntu-latest
+            python: 3.8
+            toxenv: py38-cov
 
-          # - name: Python 3.7 with oldest supported version of all dependencies
-          #   os: ubuntu-16.04
-          #   python: 3.7
-          #   toxenv: py37-test-oldestdeps
+          - name: Python 3.8 (Windows)
+            os: windows-latest
+            python: 3.8
+            toxenv: py38
 
-          # - name: Python 3.8 with numpy 1.17 and full coverage
-          #   os: ubuntu-latest
-          #   python: 3.8
-          #   toxenv: py38-test-alldeps-numpy117-cov-clocale
-          #   toxposargs: --remote-data=astropy
-
-          # - name: Python 3.8 with all optional dependencies (Windows)
-          #   os: windows-latest
-          #   python: 3.8
-          #   toxenv: py38-test-alldeps
-          #   toxposargs: --durations=50
-
-          # - name: Python 3.7 with all optional dependencies (MacOS X)
-          #   os: macos-latest
-          #   python: 3.7
-          #   toxenv: py37-test-alldeps
-          #   toxposargs: --durations=50
+          - name: Python 3.7 (MacOS X)
+            os: macos-latest
+            python: 3.7
+            toxenv: py37
 
     steps:
     - name: Checkout
@@ -76,24 +58,19 @@ jobs:
       with:
         fetch-depth: 0
 
-    - name: Cache conda
-      uses: actions/cache@v2
+    - name: Set up Python
+      uses: actions/setup-python@v2
       with:
-        path: ~/conda_pkgs_dir
-        key: ${{ runner.os }}-conda-${{ hashFiles('${{ env.ENV_FILE }}') }}
+        python-version: ${{ matrix.python }}
 
-    - uses: conda-incubator/setup-miniconda@v2
-      with:
-        activate-environment: quantopy-dev
-        channel-priority: strict
-        environment-file: ${{ env.ENV_FILE }}
-        use-only-tar-bz2: true
+    - name: Install Python dependencies
+      run: python -m pip install --upgrade tox codecov
 
     - name: Run tests
       run: tox ${{ matrix.toxargs }} -e ${{ matrix.toxenv }} -- ${{ matrix.toxposargs }}
-    # TODO: Do we need --gcov-glob "*cextern*" ?
-    # - name: Upload coverage to codecov
-    #   if: ${{ contains(matrix.toxenv,'-cov') }}
-    #   uses: codecov/codecov-action@v1
-    #   with:
-    #     file: ./coverage.xml
+
+    - name: Upload coverage to codecov
+      if: ${{ contains(matrix.toxenv,'-cov') }}
+      uses: codecov/codecov-action@v1
+      with:
+        file: ./coverage.xml
