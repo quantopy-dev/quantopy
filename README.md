@@ -1,5 +1,5 @@
 # Quantopy
-[![YourActionName Actions Status](https://github.com/quantopy-dev/quantopy/workflows/ci.yml/badge.svg)](https://github.com/quantopy-dev/quantopy/actions)
+[![Android-master Actions Status](https://github.com/quantopy-dev/quantopy/workflows/CI/badge.svg)](https://github.com/quantopy-dev/quantopy/actions)
 
 ```python
 # Create and activate the build environment
