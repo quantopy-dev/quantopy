@@ -16,7 +16,7 @@ if TYPE_CHECKING:
 
 
 @overload
-def gmean(simple_returns: "ReturnSeries") -> np.float64:  # type: ignore
+def gmean(simple_returns: "ReturnSeries") -> np.float64:
     ...
 
 

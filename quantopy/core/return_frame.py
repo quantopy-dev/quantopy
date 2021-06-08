@@ -48,7 +48,7 @@ class ReturnDataFrame(pd.DataFrame):
         .. [1] "Weighted Geometric Mean", *Wikipedia*,
                     https://en.wikipedia.org/wiki/Weighted_geometric_mean.
         """
-        return stats.gmean(self)  # type: ignore
+        return stats.gmean(self)
 
     def sharpe_ratio(
         self, riskfree_rate: float, period: stats.period = stats.period.MONTHLY
@@ -77,7 +77,7 @@ class ReturnDataFrame(pd.DataFrame):
         ----------
         .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
         """
-        return financial.sharpe(self, riskfree_rate, period)  # type: ignore
+        return financial.sharpe(self, riskfree_rate, period)
 
     def drawdown(self) -> "ReturnDataFrame":
         """Compute the maximum drawdown in series of simple returns. Commonly used to measure the risk
