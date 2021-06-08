@@ -1,8 +1,11 @@
 from typing import TYPE_CHECKING
 
 import pandas as pd
-from quantopy.ratio import financial
-from quantopy.stats import stats
+
+from quantopy.stats import (
+    financial,
+    stats,
+)
 
 if TYPE_CHECKING:
     from quantopy.core.return_series import ReturnSeries
@@ -42,7 +45,8 @@ class ReturnDataFrame(pd.DataFrame):
 
         References
         ----------
-        .. [1] "Weighted Geometric Mean", *Wikipedia*, https://en.wikipedia.org/wiki/Weighted_geometric_mean.
+        .. [1] "Weighted Geometric Mean", *Wikipedia*,
+                    https://en.wikipedia.org/wiki/Weighted_geometric_mean.
         """
         return stats.gmean(self)
 

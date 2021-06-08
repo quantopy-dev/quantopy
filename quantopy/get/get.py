@@ -1,6 +1,7 @@
 import numpy as np
-import pandas_datareader.data as web
 from pandas_datareader import famafrench
+import pandas_datareader.data as web
+
 from quantopy.core.return_frame import ReturnDataFrame
 
 

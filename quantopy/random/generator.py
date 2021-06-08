@@ -1,7 +1,13 @@
-from typing import List, Optional, Tuple, Union, overload
+from typing import (
+    List,
+    Optional,
+    Union,
+    overload,
+)
 
 import numpy as np
 import pandas as pd
+
 from quantopy._typing import PythonScalar
 from quantopy.core.return_frame import ReturnDataFrame
 from quantopy.core.return_series import ReturnSeries
@@ -60,7 +66,8 @@ def geometric_brownian_motion(
 
     References
     ----------
-    .. [1] "Geometric Brownian Motion", *Wikipedia*, https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
+    .. [1] "Geometric Brownian Motion", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
     """
     brownian_path = np.random.normal(0, np.sqrt(dt), size=(size,) + mu.shape)
 
@@ -121,8 +128,10 @@ def returns(mu, sigma, size=None, method="normal"):
 
     References
     ----------
-    .. [1] "Normal distribution", *Wikipedia*, https://en.wikipedia.org/wiki/Normal_distribution.
-    .. [2] "Geometric Brownian Motion", *Wikipedia*, https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
+    .. [1] "Normal distribution", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Normal_distribution.
+    .. [2] "Geometric Brownian Motion", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
     """
     mu = np.asarray(mu)
     sigma = np.asarray(sigma)
@@ -196,8 +205,10 @@ def prices(initial_price, mu, sigma, size=None, method="normal"):
 
     References
     ----------
-    .. [1] "Normal distribution", *Wikipedia*, https://en.wikipedia.org/wiki/Normal_distribution.
-    .. [2] "Geometric Brownian Motion", *Wikipedia*, https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
+    .. [1] "Normal distribution", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Normal_distribution.
+    .. [2] "Geometric Brownian Motion", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
     """
     simulated_returns = returns(mu, sigma, size - 1, method)
 

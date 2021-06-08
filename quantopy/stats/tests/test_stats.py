@@ -1,9 +1,9 @@
 import numpy as np
+from numpy.testing import assert_allclose
 import pandas as pd
 import pandas._testing as tm
+
 import quantopy as qp
-from numpy.testing import assert_allclose
-from quantopy.stats.stats import total_return
 
 
 class TestGeoMean:
@@ -20,7 +20,7 @@ class TestGeoMean:
 
         rs = qp.ReturnSeries([0.2, 0.06, 0.01, 0.1])
         sliced1 = rs[:3]
-        rs_gmean = qp.stats.gmean(sliced1)  # type: ignore
+        rs_gmean = qp.stats.gmean(sliced1)
         assert_allclose(rs_gmean, 0.0871, rtol=1e-3)
         assert type(rs_gmean) is np.float64
 
@@ -30,11 +30,11 @@ class TestGeoMean:
         )
         rs_gmean = qp.stats.gmean(rs)
         expected = qp.ReturnSeries([-0.200802, -0.036209], index=["x", "y"])
-        tm.assert_series_equal(rs_gmean, expected, rtol=1e-5)  # type: ignore
+        tm.assert_series_equal(rs_gmean, expected, rtol=1e-5)
         assert type(rs_gmean) is qp.ReturnSeries
 
         sliced1 = rs["x"]
-        rs_gmean = qp.stats.gmean(sliced1)  # type: ignore
+        rs_gmean = qp.stats.gmean(sliced1)
         assert_allclose(rs_gmean, -0.200802, rtol=1e-5)
         assert type(rs_gmean) is np.float64
 
@@ -49,7 +49,7 @@ class TestEffect:
         sigma_list = [0.01, 0.01, 0.01, 0.01, 0.01]  # standard deviation
         rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
 
-        expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1  # type: ignore
+        expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1
 
         effect = qp.stats.effect(rdf, qp.stats.period.MONTHLY)
         assert type(effect) is qp.ReturnSeries
@@ -65,7 +65,7 @@ class TestEffect:
         sigma_list = [0.01]  # standard deviation
         rdf = qp.random.generator.returns(mu_list, sigma_list, 200)
 
-        expected = (qp.ReturnSeries(mu_list) + 1) ** 2 - 1  # type: ignore
+        expected = (qp.ReturnSeries(mu_list) + 1) ** 2 - 1
 
         tm.assert_almost_equal(
             qp.stats.effect(rdf, qp.stats.period.SEMIANNUAL),
@@ -78,7 +78,7 @@ class TestEffect:
         sigma_list = [0.00001]  # standard deviation
         rdf = qp.random.generator.returns(mu_list, sigma_list, 200)
 
-        expected = (qp.ReturnSeries(mu_list) + 1) ** 252 - 1  # type: ignore
+        expected = (qp.ReturnSeries(mu_list) + 1) ** 252 - 1
 
         tm.assert_almost_equal(
             qp.stats.effect(rdf, qp.stats.period.DAILY),

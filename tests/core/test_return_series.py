@@ -1,8 +1,9 @@
 import numpy as np
+from numpy.testing import assert_allclose
 import pandas as pd
 import pytest
+
 import quantopy as qp
-from numpy.testing import assert_allclose
 
 
 @pytest.fixture(autouse=True)
@@ -45,7 +46,7 @@ class TestReturnSeries:
         assert type(rs_drawdown) is qp.ReturnSeries
 
         # Compute expected value
-        wealth_index = (rs + 1).cumprod()
+        wealth_index = (rs + 1).cumprod()  # type: ignore
         previous_peaks = wealth_index.cummax()
         expected = (wealth_index - previous_peaks) / previous_peaks
 
