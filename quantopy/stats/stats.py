@@ -4,6 +4,7 @@ from typing import (
 )
 
 import numpy as np
+import scipy.stats
 
 from quantopy.stats.period import (
     annualization_factor,
@@ -48,9 +49,7 @@ def gmean(simple_returns):
     .. [1] "Weighted Geometric Mean", *Wikipedia*,
                 https://en.wikipedia.org/wiki/Weighted_geometric_mean.
     """
-    log_values = np.log(simple_returns + 1)
-
-    return np.exp(log_values.mean()) - 1
+    return (simple_returns + 1).aggregate(scipy.stats.gmean) - 1
 
 
 @overload
