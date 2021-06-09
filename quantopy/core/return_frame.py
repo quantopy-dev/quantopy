@@ -1,6 +1,8 @@
 from typing import TYPE_CHECKING
 
+import numpy as np
 import pandas as pd
+import scipy.stats
 
 from quantopy.stats import (
     financial,
@@ -140,3 +142,15 @@ class ReturnDataFrame(pd.DataFrame):
         total_returns : np.float64
         """
         return stats.total_return(self)
+
+    def log(self):
+        return (self + 1).apply(np.log)
+
+    def skew(self):
+        return self.aggregate(scipy.stats.skew)
+
+    def kurtosis(self):
+        return self.aggregate(scipy.stats.kurtosis) + 3
+
+    def is_normal(self, pvalue=0.01):
+        return self.aggregate(scipy.stats.jarque_bera)  # [1] > pvalue
