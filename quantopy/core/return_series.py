@@ -2,6 +2,7 @@ from typing import TYPE_CHECKING
 
 import numpy as np
 import pandas as pd
+import scipy.stats
 
 from quantopy.stats import (
     financial,
@@ -141,3 +142,16 @@ class ReturnSeries(pd.Series):
         total_returns : np.float64
         """
         return stats.total_return(self)
+
+    def log(self):
+        return (self + 1).apply(np.log)  # type: ignore
+
+    def skew(self):
+        return scipy.stats.skew(self)
+
+    def kurtosis(self):
+        return scipy.stats.kurtosis(self) + 3
+
+    def is_normal(self, pvalue=0.01):
+        jb_value, p = scipy.stats.jarque_bera(self)
+        return p > pvalue

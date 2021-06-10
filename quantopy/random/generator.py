@@ -41,18 +41,16 @@ def normal_returns(mu: np.ndarray, sigma: np.ndarray, size: int) -> np.ndarray:
     return np.random.normal(mu, sigma, (size,) + mu.shape)
 
 
-def geometric_brownian_motion(
-    mu: np.ndarray, sigma: np.ndarray, size: int, dt: int = 1
-) -> np.ndarray:
-    """Generate random simple returns from a geometric brownian motion.
+def log_normal_returns(mu: np.ndarray, sigma: np.ndarray, size: int) -> np.ndarray:
+    """Generate random simple returns from a log-normal distribution.
 
     Parameters
     ----------
     mu : float or array_like of floats
-        Mean (“centre”) of the distribution.
+        Mean value of the underlying normal distribution.
 
     sigma : float or array_like of floats
-       Standard deviation (spread or “width”) of the distribution. Must be non-negative.
+       Standard deviation of the underlying normal distribution.
 
     size : int or tuple of ints, optional
         Output shape. If the given shape is, e.g., (m, n, k), then m * n * k samples
@@ -62,21 +60,54 @@ def geometric_brownian_motion(
     Returns
     -------
     out : ndarray or scalar
-        Drawn samples from a geometric brownian motion.
+        Drawn samples from the parameterized log-normal distribution.
 
     References
     ----------
-    .. [1] "Geometric Brownian Motion", *Wikipedia*,
-                https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
+    .. [1] "Log-Normal distribution", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Log-normal_distribution.
     """
-    brownian_path = np.random.normal(0, np.sqrt(dt), size=(size,) + mu.shape)
+    log_returns = np.random.normal(mu, sigma, (size,) + mu.shape)
 
-    drift = mu - sigma ** 2 / 2
-    difussion = sigma * brownian_path
+    return np.exp(log_returns) - 1
 
-    simulated_returns = drift + difussion
 
-    return simulated_returns
+# def geometric_brownian_motion(
+#     mu: np.ndarray, sigma: np.ndarray, size: int, dt: int = 1
+# ) -> np.ndarray:
+#     """Generate random simple returns from a geometric brownian motion.
+
+#     Parameters
+#     ----------
+#     mu : float or array_like of floats
+#         Mean (“centre”) of the distribution.
+
+#     sigma : float or array_like of floats
+#        Standard deviation (spread or “width”) of the distribution. Must be non-negative.
+
+#     size : int or tuple of ints, optional
+#         Output shape. If the given shape is, e.g., (m, n, k), then m * n * k samples
+#         are drawn. If size is None (default), a single value is returned if mu and sigma
+#         are both scalars. Otherwise, np.broadcast(mu, sigma).size samples are drawn.
+
+#     Returns
+#     -------
+#     out : ndarray or scalar
+#         Drawn samples from a geometric brownian motion.
+
+#     References
+#     ----------
+#     .. [1] "Geometric Brownian Motion", *Wikipedia*,
+#                 https://en.wikipedia.org/wiki/Geometric_Brownian_motion.
+#     """
+#     brownian_path = np.random.normal(0, np.sqrt(dt), size=(size,) + mu.shape)
+
+#     drift = mu - sigma ** 2 / 2
+#     difussion = sigma * brownian_path
+
+#     simulated_returns = drift + difussion
+
+#     return simulated_returns
 
 
 @overload
@@ -99,6 +130,7 @@ def returns(
 def returns(mu, sigma, size=None, method="normal"):
     """Generate simple returns from a given method:
         - 'normal': gaussian distribution
+        - 'lognormal': gaussian distribution
         - 'gbr': geometric brownian motion
 
     Parameters
@@ -138,8 +170,10 @@ def returns(mu, sigma, size=None, method="normal"):
 
     if method == "normal":
         simulated_returns = normal_returns(mu, sigma, size)
-    elif method == "gbm":
-        simulated_returns = geometric_brownian_motion(mu, sigma, size)
+    elif method == "lognormal":
+        simulated_returns = log_normal_returns(mu, sigma, size)
+    # elif method == "gbm":
+    #     simulated_returns = geometric_brownian_motion(mu, sigma, size)
     else:
         raise ValueError(f"Invalid method {method}")
 
@@ -212,8 +246,8 @@ def prices(initial_price, mu, sigma, size=None, method="normal"):
     """
     simulated_returns = returns(mu, sigma, size - 1, method)
 
-    if method == "gbm":
-        simulated_returns = np.exp(simulated_returns)
+    # if method == "gbm":
+    #     simulated_returns = np.exp(simulated_returns)
 
     simulated_prices = initial_price * (simulated_returns + 1).cumprod()
 
