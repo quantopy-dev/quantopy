@@ -144,7 +144,7 @@ class ReturnSeries(pd.Series):
         return stats.total_return(self)
 
     def log(self):
-        return (self + 1).apply(np.log)
+        return (self + 1).apply(np.log)  # type: ignore
 
     def skew(self):
         return scipy.stats.skew(self)

@@ -42,7 +42,7 @@ class TestGenerator:
         rs = qp.random.generator.returns(mu, sigma, 10000, "lognormal")
         assert type(rs) is qp.ReturnSeries
 
-        log_rs = (rs + 1).apply(np.log)
+        log_rs = (rs + 1).apply(np.log)  # type: ignore
 
         assert_almost_equal(log_rs.mean(), mu, decimal=2)
         assert_almost_equal(log_rs.std(), sigma, decimal=2)
@@ -57,7 +57,7 @@ class TestGenerator:
 
         assert rdf.shape == (10000, 2)
 
-        log_rdf = (rdf + 1).apply(np.log)
+        log_rdf = (rdf + 1).apply(np.log)  # type: ignore
 
         assert_almost_equal(log_rdf.iloc[:, 0].mean(), mu_list[0], decimal=2)
         assert_almost_equal(log_rdf.iloc[:, 0].std(), sigma_list[0], decimal=2)
@@ -124,7 +124,7 @@ class TestGenerator:
         rs = qp.ReturnSeries.from_price(ps)
         assert type(ps) is pd.Series
 
-        log_rs = (rs + 1).apply(np.log)
+        log_rs = (rs + 1).apply(np.log)  # type: ignore
 
         assert_almost_equal(log_rs.mean(), mu, decimal=2)
         assert_almost_equal(log_rs.std(), sigma, decimal=2)
@@ -143,7 +143,7 @@ class TestGenerator:
 
         assert rdf.shape == (1999, 2)
 
-        log_rdf = (rdf + 1).apply(np.log)
+        log_rdf = (rdf + 1).apply(np.log)  # type: ignore
 
         assert_almost_equal(log_rdf.iloc[:, 0].mean(), mu_list[0], decimal=2)
         assert_almost_equal(log_rdf.iloc[:, 0].std(), sigma_list[0], decimal=2)

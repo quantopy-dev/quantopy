@@ -64,7 +64,8 @@ def log_normal_returns(mu: np.ndarray, sigma: np.ndarray, size: int) -> np.ndarr
 
     References
     ----------
-    .. [1] "Log-Normal distribution", *Wikipedia*, https://en.wikipedia.org/wiki/Log-normal_distribution.
+    .. [1] "Log-Normal distribution", *Wikipedia*,
+                https://en.wikipedia.org/wiki/Log-normal_distribution.
     """
     log_returns = np.random.normal(mu, sigma, (size,) + mu.shape)
 
