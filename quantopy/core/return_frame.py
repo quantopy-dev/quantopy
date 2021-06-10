@@ -153,4 +153,4 @@ class ReturnDataFrame(pd.DataFrame):
         return self.aggregate(scipy.stats.kurtosis) + 3
 
     def is_normal(self, pvalue=0.01):
-        return self.aggregate(scipy.stats.jarque_bera)  # [1] > pvalue
+        return self.aggregate(scipy.stats.jarque_bera).iloc[1] > pvalue
