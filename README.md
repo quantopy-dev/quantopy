@@ -3,6 +3,10 @@
 [![Coverage](https://codecov.io/github/quantopy-dev/quantopy/coverage.svg?branch=main)](https://codecov.io/gh/quantopy-dev/quantopy)
 [![License](https://img.shields.io/pypi/l/quantopy.svg)](https://github.com/quantopy-dev/quantopy/blob/master/LICENSE)
 
+The Quantopy Project is a community effort to develop a single core package for Finance in Python and foster interoperability between Python finance packages. This repository contains the core package which is intended to contain much of the core functionality and some common tools needed for performing quantitative finance with Python.
+
+Releases are [registered on PyPI!](https://pypi.org/project/quantopy/), and development is occurring at the [project's GitHub page!](https://github.com/quantopy-dev/quantopy).
+
 ```python
 # Create and activate the build environment
 conda env create -f environment.yml
