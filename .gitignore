@@ -31,3 +31,14 @@ share/python-wheels/
 .installed.cfg
 *.egg
 MANIFEST
+
+# Documentation generated files #
+#################################
+docs/source/generated
+docs/source/user_guide/styled.xlsx
+docs/source/reference/api
+docs/source/_static/*.html
+docs/source/vbench
+docs/source/vbench.rst
+docs/source/index.rst
+docs/build/html/index.html
