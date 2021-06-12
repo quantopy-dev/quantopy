@@ -1,3 +1,4 @@
+pandas
 numpydoc
 nbsphinx
 sphinx_panels
