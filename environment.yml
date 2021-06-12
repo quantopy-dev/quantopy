@@ -30,3 +30,6 @@ dependencies:
 
   # notebook
   - ipykernel=5.5.5
+
+  # documentation
+  - sphinx=4.0.2
