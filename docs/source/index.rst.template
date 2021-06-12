@@ -1,26 +1,24 @@
 :notoc:
 
-.. pandas documentation master file, created by
+.. quantopy documentation master file, created by
 
-.. module:: pandas
+.. module:: quantopy
 
 ********************
-pandas documentation
+quantopy documentation
 ********************
 
 **Date**: |today| **Version**: |version|
 
-**Download documentation**: `PDF Version <pandas.pdf>`__ | `Zipped HTML <pandas.zip>`__
-
 **Useful links**:
-`Binary Installers <https://pypi.org/project/pandas>`__ |
-`Source Repository <https://github.com/pandas-dev/pandas>`__ |
-`Issues & Ideas <https://github.com/pandas-dev/pandas/issues>`__ |
-`Q&A Support <https://stackoverflow.com/questions/tagged/pandas>`__ |
+`Binary Installers <https://pypi.org/project/quantopy>`__ |
+`Source Repository <https://github.com/quantopy-dev/quantopy>`__ |
+`Issues & Ideas <https://github.com/quantopy-dev/quantopy/issues>`__ |
+`Q&A Support <https://stackoverflow.com/questions/tagged/quantopy>`__ |
 `Mailing List <https://groups.google.com/g/pydata>`__
 
-:mod:`pandas` is an open source, BSD-licensed library providing high-performance,
-easy-to-use data structures and data analysis tools for the `Python <https://www.python.org/>`__
+:mod:`quantopy` is an open source, MIT-licensed library providing high-performance,
+easy-to-use financial data structures and analysis tools for the `Python <https://www.python.org/>`__
 programming language.
 
 .. panels::
@@ -33,8 +31,8 @@ programming language.
     Getting started
     ^^^^^^^^^^^^^^^
 
-    New to *pandas*? Check out the getting started guides. They contain an
-    introduction to *pandas'* main concepts and links to additional tutorials.
+    New to *quantopy*? Check out the getting started guides. They contain an
+    introduction to *quantopy'* main concepts and links to additional tutorials.
 
     +++
 
@@ -50,7 +48,7 @@ programming language.
     ^^^^^^^^^^
 
     The user guide provides in-depth information on the
-    key concepts of pandas with useful background information and explanation.
+    key concepts of quantopy with useful background information and explanation.
 
     +++
 
@@ -66,7 +64,7 @@ programming language.
     ^^^^^^^^^^^^^
 
     The reference guide contains a detailed description of
-    the pandas API. The reference describes how the methods work and which parameters can
+    the quantopy API. The reference describes how the methods work and which parameters can
     be used. It assumes that you have an understanding of the key concepts.
 
     +++
@@ -84,7 +82,7 @@ programming language.
 
     Saw a typo in the documentation? Want to improve
     existing functionalities? The contributing guidelines will guide
-    you through the process of improving pandas.
+    you through the process of improving quantopy.
 
     +++
 
