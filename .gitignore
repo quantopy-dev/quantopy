@@ -46,3 +46,4 @@ docs/build/html/index.html
 docs/tmp.sv
 env/
 docs/source/savefig/
+.DS_Store
