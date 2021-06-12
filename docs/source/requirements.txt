@@ -4,6 +4,5 @@ matplotlib
 ipython
 pandas
 numpydoc
-nbsphinx
 sphinx_panels
 git+https://github.com/pydata/pydata-sphinx-theme.git@master

@@ -33,7 +33,6 @@ dependencies:
 
   # documentation
   - sphinx=4.0.2
-  - nbsphinx
   - numpydoc
   - gitpython  # obtain contributors from git for whatsnew
   - gitdb

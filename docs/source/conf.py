@@ -1,5 +1,5 @@
 #
-# pandas documentation build configuration file, created by
+# quantopy documentation build configuration file, created by
 #
 # This file is execfile()d with the current directory set to its containing
 # dir.
@@ -64,9 +64,8 @@ extensions = [
     "sphinx.ext.mathjax",
     "sphinx.ext.ifconfig",
     "sphinx.ext.linkcode",
-    "nbsphinx",
     "sphinx_panels",
-    "contributors",  # custom pandas extension
+    "contributors",  # custom quantopy extension
 ]
 
 exclude_patterns = [
@@ -89,7 +88,7 @@ else:
 
 # sphinx_pattern can be '-api' to exclude the API pages,
 # the path to a file, or a Python object
-# (e.g. '10min.rst' or 'pandas.DataFrame.head')
+# (e.g. '10min.rst' or 'quantopy.ReturnDataFrame.head')
 source_path = os.path.dirname(os.path.abspath(__file__))
 pattern = os.environ.get("SPHINX_PATTERN")
 single_doc = pattern is not None and pattern not in ("-api", "whatsnew")
@@ -137,9 +136,6 @@ plot_html_show_source_link = False
 plot_pre_code = """import numpy as np
 import pandas as pd"""
 
-# nbsphinx do not use requirejs (breaks bootstrap)
-nbsphinx_requirejs_path = ""
-
 # sphinx-panels shouldn't add bootstrap css since the pydata-sphinx-theme
 # already loads it
 panels_add_bootstrap_css = False
@@ -157,18 +153,18 @@ source_encoding = "utf-8"
 master_doc = "index"
 
 # General information about the project.
-project = "pandas"
-copyright = f"2008-{datetime.now().year}, the pandas development team"
+project = "quantopy"
+copyright = f"2021-{datetime.now().year}, the quantopy development team"
 
 # The version info for the project you're documenting, acts as replacement for
 # |version| and |release|, also used in various other places throughout the
 # built documents.
 #
 # The short X.Y version.
-import pandas  # isort:skip
+import quantopy  # isort:skip
 
 # version = '%s r%s' % (pandas.__version__, svn_version())
-version = str(pandas.__version__)
+version = str(quantopy.__version__)
 
 # The full version, including alpha/beta/rc tags.
 release = version
@@ -227,7 +223,7 @@ html_theme = "pydata_sphinx_theme"
 # documentation.
 html_theme_options = {
     "external_links": [],
-    "github_url": "https://github.com/pandas-dev/pandas",
+    "github_url": "https://github.com/quantopy-dev/quantopy",
     "twitter_url": "https://twitter.com/pandas_dev",
     "google_analytics_id": "UA-27880019-2",
 }
@@ -277,7 +273,7 @@ html_favicon = "../../web/pandas/static/img/favicon.ico"
 
 
 header = f"""\
-.. currentmodule:: pandas
+.. currentmodule:: quantopy
 
 .. ipython:: python
    :suppress:
@@ -319,11 +315,8 @@ html_use_modindex = True
 # html_file_suffix = ''
 
 # Output file base name for HTML help builder.
-htmlhelp_basename = "pandas"
+htmlhelp_basename = "quantopy"
 
-# -- Options for nbsphinx ------------------------------------------------
-
-nbsphinx_allow_errors = True
 
 # -- Options for LaTeX output --------------------------------------------
 
@@ -380,8 +373,8 @@ if include_api:
 
 # extlinks alias
 extlinks = {
-    "issue": ("https://github.com/pandas-dev/pandas/issues/%s", "GH"),
-    "wiki": ("https://github.com/pandas-dev/pandas/wiki/%s", "wiki "),
+    "issue": ("https://github.com/quantopy-dev/quantopy/issues/%s", "GH"),
+    "wiki": ("https://github.com/quantopy-dev/quantopy/wiki/%s", "wiki "),
 }
 
 
@@ -407,6 +400,7 @@ from sphinx.ext.autodoc import (  # isort:skip
     Documenter,
     MethodDocumenter,
 )
+
 from sphinx.ext.autosummary import Autosummary  # isort:skip
 
 
@@ -509,13 +503,13 @@ class AccessorCallableDocumenter(AccessorLevelDocumenter, MethodDocumenter):
         return MethodDocumenter.format_name(self).rstrip(".__call__")
 
 
-class PandasAutosummary(Autosummary):
+class QuantopyAutosummary(Autosummary):
     """
     This alternative autosummary class lets us override the table summary for
     Series.plot and DataFrame.plot in the API docs.
     """
 
-    def _replace_pandas_items(self, display_name, sig, summary, real_name):
+    def _replace_quantopy_items(self, display_name, sig, summary, real_name):
         # this a hack: ideally we should extract the signature from the
         # .__call__ method instead of hard coding this
         if display_name == "DataFrame.plot":
@@ -545,7 +539,7 @@ class PandasAutosummary(Autosummary):
 
     def get_items(self, names):
         items = Autosummary.get_items(self, names)
-        items = [self._replace_pandas_items(*item) for item in items]
+        items = [self._replace_quantopy_items(*item) for item in items]
         items = list(self._add_deprecation_prefixes(items))
         return items
 
@@ -589,14 +583,14 @@ def linkcode_resolve(domain, info):
     else:
         linespec = ""
 
-    fn = os.path.relpath(fn, start=os.path.dirname(pandas.__file__))
+    fn = os.path.relpath(fn, start=os.path.dirname(quantopy.__file__))
 
-    if "+" in pandas.__version__:
-        return f"https://github.com/pandas-dev/pandas/blob/master/pandas/{fn}{linespec}"
+    if "+" in quantopy.__version__:
+        return f"https://github.com/quantopy-dev/quantopy/blob/master/quantopy/{fn}{linespec}"
     else:
         return (
-            f"https://github.com/pandas-dev/pandas/blob/"
-            f"v{pandas.__version__}/pandas/{fn}{linespec}"
+            f"https://github.com/quantopy-dev/quantopy/blob/"
+            f"v{quantopy.__version__}/quantopy/{fn}{linespec}"
         )
 
 
@@ -671,7 +665,7 @@ def process_business_alias_docstrings(app, what, name, obj, options, lines):
 
 
 suppress_warnings = [
-    # We "overwrite" autosummary with our PandasAutosummary, but
+    # We "overwrite" autosummary with our QuantopyAutosummary, but
     # still want the regular autosummary setup to run. So we just
     # suppress this warning.
     "app.add_directive"
@@ -704,4 +698,4 @@ def setup(app):
     app.add_autodocumenter(AccessorAttributeDocumenter)
     app.add_autodocumenter(AccessorMethodDocumenter)
     app.add_autodocumenter(AccessorCallableDocumenter)
-    app.add_directive("autosummary", PandasAutosummary)
+    app.add_directive("autosummary", QuantopyAutosummary)

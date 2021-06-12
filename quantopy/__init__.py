@@ -11,3 +11,5 @@ from . import (
 )
 
 __all__ = ["stats", "random"]
+
+__version__ = "0.0.1"
