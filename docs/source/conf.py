@@ -240,7 +240,7 @@ html_theme_options = {
 
 # The name of an image file (relative to this directory) to place at the top
 # of the sidebar.
-html_logo = "../../web/pandas/static/img/pandas.svg"
+html_logo = "../../web/pandas/static/img/quantopy.png"
 
 # Add any paths that contain custom static files (such as style sheets) here,
 # relative to this directory. They are copied after the builtin static files,
