@@ -44,7 +44,7 @@ The official logos of _pandas_ are:
 <table class="table logo">
     <tr>
         <td>
-            <img alt="" src="{{ base_url }}/static/img/pandas.svg"/>
+            <img alt="" src="{{ base_url }}/static/img/quantopy.png"/>
         </td>
         <td style="background-color: #150458">
             <img alt="" src="{{ base_url }}/static/img/pandas_white.svg"/>
