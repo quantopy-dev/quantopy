@@ -33,3 +33,9 @@ dependencies:
 
   # documentation
   - sphinx=4.0.2
+  - gitpython  # obtain contributors from git for whatsnew
+  - gitdb
+  - sphinx-panels
+  - pip
+  - pip:
+    - git+https://github.com/pydata/pydata-sphinx-theme.git@master
