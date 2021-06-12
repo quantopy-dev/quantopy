@@ -20,6 +20,10 @@ class ReturnSeries(pd.Series):
 
     @property
     def _constructor_expanddim(self):
+        """
+        Used when a manipulation result has one higher dimension as the
+        original, such as ReturnSeries.to_frame()
+        """
         from quantopy.core.return_frame import ReturnDataFrame
 
         return ReturnDataFrame
