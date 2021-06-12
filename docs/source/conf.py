@@ -583,14 +583,14 @@ def linkcode_resolve(domain, info):
     else:
         linespec = ""
 
-    fn = os.path.relpath(fn, start=os.path.dirname(quantopy.__file__))
+    fn = os.path.relpath(fn, start=os.path.dirname(pandas.__file__))
 
-    if "+" in quantopy.__version__:
+    if "+" in pandas.__version__:
         return f"https://github.com/quantopy-dev/quantopy/blob/master/quantopy/{fn}{linespec}"
     else:
         return (
             f"https://github.com/quantopy-dev/quantopy/blob/"
-            f"v{quantopy.__version__}/quantopy/{fn}{linespec}"
+            f"v{pandas.__version__}/quantopy/{fn}{linespec}"
         )
 
 
