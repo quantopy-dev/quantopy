@@ -3,10 +3,10 @@
 {{ header }}
 
 ********************
-10 minutes to pandas
+10 minutes to quantopy
 ********************
 
-This is a short introduction to pandas, geared mainly for new users.
+This is a short introduction to quantopy, geared mainly for new users.
 You can see more complex recipes in the :ref:`Cookbook<cookbook>`.
 
 Customarily, we import as follows:
@@ -15,6 +15,7 @@ Customarily, we import as follows:
 
    import numpy as np
    import pandas as pd
+   import quantopy as qp
 
 Object creation
 ---------------
