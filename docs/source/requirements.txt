@@ -1,3 +1,5 @@
+gitpython  # obtain contributors from git for whatsnew
+gitdb
 matplotlib
 ipython
 pandas
