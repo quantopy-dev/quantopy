@@ -1,0 +1,2 @@
+git+https://github.com/pydata/pydata-sphinx-theme.git@master
+numpydoc < 1.2
