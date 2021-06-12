@@ -16,27 +16,27 @@ Installation
     Working with conda?
     ^^^^^^^^^^^^^^^^^^^
 
-    pandas is part of the `Anaconda <https://docs.continuum.io/anaconda/>`__
+    quantopy is part of the `Anaconda <https://docs.continuum.io/anaconda/>`__
     distribution and can be installed with Anaconda or Miniconda:
 
     ++++++++++++++++++++++
 
     .. code-block:: bash
 
-        conda install pandas
+        conda install quantopy
 
     ---
 
     Prefer pip?
     ^^^^^^^^^^^
 
-    pandas can be installed via pip from `PyPI <https://pypi.org/project/pandas>`__.
+    quantopy can be installed via pip from `PyPI <https://pypi.org/project/quantopy>`__.
 
     ++++
 
     .. code-block:: bash
 
-        pip install pandas
+        pip install quantopy
 
     ---
     :column: col-12 p-3
@@ -55,7 +55,7 @@ Installation
 
 .. _gentle_intro:
 
-Intro to pandas
+Intro to quantopy
 ---------------
 
 .. raw:: html
@@ -68,7 +68,7 @@ Intro to pandas
                 <div class="d-flex flex-row tutorial-card-header-1">
                     <div class="d-flex flex-row tutorial-card-header-2">
                         <button class="btn btn-dark btn-sm"></button>
-                        What kind of data does pandas handle?
+                        What kind of data does quantopy handle?
                     </div>
                     <span class="badge gs-badge-link">
 
@@ -82,8 +82,8 @@ Intro to pandas
             <div id="collapseOne" class="collapse" data-parent="#accordion">
                 <div class="card-body">
 
-When working with tabular data, such as data stored in spreadsheets or databases, pandas is the right tool for you. pandas will help you
-to explore, clean, and process your data. In pandas, a data table is called a :class:`DataFrame`.
+When working with tabular data, such as data stored in spreadsheets or databases, quantopy is the right tool for you. quantopy will help you
+to explore, clean, and process your data. In quantopy, a data table is called a :class:`DataFrame`.
 
 .. image:: ../_static/schemas/01_table_dataframe.svg
    :align: center
@@ -129,7 +129,7 @@ to explore, clean, and process your data. In pandas, a data table is called a :c
             <div id="collapseTwo" class="collapse" data-parent="#accordion">
                 <div class="card-body">
 
-pandas supports the integration with many file formats or data sources out of the box (csv, excel, sql, json, parquet,…). Importing data from each of these
+quantopy supports the integration with many file formats or data sources out of the box (csv, excel, sql, json, parquet,…). Importing data from each of these
 data sources is provided by function with the prefix ``read_*``. Similarly, the ``to_*`` methods are used to store data.
 
 .. image:: ../_static/schemas/02_io_readwrite.svg
@@ -177,7 +177,7 @@ data sources is provided by function with the prefix ``read_*``. Similarly, the 
                 <div class="card-body">
 
 Selecting or filtering specific rows and/or columns? Filtering the data on a condition? Methods for slicing, selecting, and extracting the
-data you need are available in pandas.
+data you need are available in quantopy.
 
 .. image:: ../_static/schemas/03_subset_columns_rows.svg
    :align: center
@@ -209,7 +209,7 @@ data you need are available in pandas.
                 <div class="d-flex flex-row tutorial-card-header-1">
                     <div class="d-flex flex-row tutorial-card-header-2">
                         <button class="btn btn-dark btn-sm"></button>
-                        How to create plots in pandas?
+                        How to create plots in quantopy?
                     </div>
                     <span class="badge gs-badge-link">
 
@@ -223,7 +223,7 @@ data you need are available in pandas.
             <div id="collapseFour" class="collapse" data-parent="#accordion">
                 <div class="card-body">
 
-pandas provides plotting your data out of the box, using the power of Matplotlib. You can pick the plot type (scatter, bar, boxplot,...)
+quantopy provides plotting your data out of the box, using the power of Matplotlib. You can pick the plot type (scatter, bar, boxplot,...)
 corresponding to your data.
 
 .. image:: ../_static/schemas/04_plot_overview.svg
@@ -364,7 +364,7 @@ data set, a sliding window of the data, or grouped by categories. The latter is 
             <div id="collapseSeven" class="collapse" data-parent="#accordion">
                 <div class="card-body">
 
-Change the structure of your data table in multiple ways. You can :func:`~pandas.melt` your data table from wide to long/tidy form or :func:`~pandas.pivot`
+Change the structure of your data table in multiple ways. You can :func:`~quantopy.melt` your data table from wide to long/tidy form or :func:`~quantopy.pivot`
 from long to wide format. With aggregations built-in, a pivot table is created with a single command.
 
 .. image:: ../_static/schemas/07_melt.svg
@@ -457,7 +457,7 @@ Multiple tables can be concatenated both column wise and row wise as database-li
             <div id="collapseNine" class="collapse" data-parent="#accordion">
                 <div class="card-body">
 
-pandas has great support for time series and has an extensive set of tools for working with dates, times, and time-indexed data.
+quantopy has great support for time series and has an extensive set of tools for working with dates, times, and time-indexed data.
 
 .. raw:: html
 
@@ -500,7 +500,7 @@ pandas has great support for time series and has an extensive set of tools for w
             <div id="collapseTen" class="collapse" data-parent="#accordion">
                 <div class="card-body">
 
-Data sets do not only contain numerical data. pandas provides a wide range of functions to clean textual data and extract useful information from it.
+Data sets do not only contain numerical data. quantopy provides a wide range of functions to clean textual data and extract useful information from it.
 
 .. raw:: html
 
@@ -534,7 +534,7 @@ Coming from...
 --------------
 
 Are you familiar with other software for manipulating tablular data? Learn
-the pandas-equivalent operations compared to software you already know:
+the quantopy-equivalent operations compared to software you already know:
 
 .. panels::
     :card: + comparison-card text-center shadow
@@ -547,7 +547,7 @@ the pandas-equivalent operations compared to software you already know:
     The `R programming language <https://www.r-project.org/>`__ provides the
     ``data.frame`` data structure and multiple packages, such as
     `tidyverse <https://www.tidyverse.org>`__ use and extend ``data.frame``
-    for convenient data handling functionalities similar to pandas.
+    for convenient data handling functionalities similar to quantopy.
 
     +++
 
@@ -562,7 +562,7 @@ the pandas-equivalent operations compared to software you already know:
     :img-top: ../_static/logo_sql.svg
 
     Already familiar to ``SELECT``, ``GROUP BY``, ``JOIN``, etc.?
-    Most of these SQL manipulations do have equivalents in pandas.
+    Most of these SQL manipulations do have equivalents in quantopy.
 
     +++
 
@@ -577,8 +577,8 @@ the pandas-equivalent operations compared to software you already know:
     :img-top: ../_static/logo_stata.svg
 
     The ``data set`` included in the `STATA <https://en.wikipedia.org/wiki/Stata>`__
-    statistical software suite corresponds to the pandas ``DataFrame``.
-    Many of the operations known from STATA have an equivalent in pandas.
+    statistical software suite corresponds to the quantopy ``DataFrame``.
+    Many of the operations known from STATA have an equivalent in quantopy.
 
     +++
 
@@ -594,7 +594,7 @@ the pandas-equivalent operations compared to software you already know:
 
     Users of `Excel <https://en.wikipedia.org/wiki/Microsoft_Excel>`__
     or other spreadsheet programs will find that many of the concepts are
-    transferrable to pandas.
+    transferrable to quantopy.
 
     +++
 
@@ -609,9 +609,9 @@ the pandas-equivalent operations compared to software you already know:
     :img-top: ../_static/logo_sas.svg
 
     The `SAS <https://en.wikipedia.org/wiki/SAS_(software)>`__ statistical software suite
-    also provides the ``data set`` corresponding to the pandas ``DataFrame``.
+    also provides the ``data set`` corresponding to the quantopy ``DataFrame``.
     Also SAS vectorized operations, filtering, string processing operations,
-    and more have similar functions in pandas.
+    and more have similar functions in quantopy.
 
     +++
 
@@ -624,10 +624,10 @@ the pandas-equivalent operations compared to software you already know:
 Tutorials
 ---------
 
-For a quick overview of pandas functionality, see :ref:`10 Minutes to pandas<10min>`.
+For a quick overview of quantopy functionality, see :ref:`10 Minutes to quantopy<10min>`.
 
-You can also reference the pandas `cheat sheet <https://pandas.pydata.org/Pandas_Cheat_Sheet.pdf>`_
-for a succinct guide for manipulating data with pandas.
+You can also reference the quantopy `cheat sheet <https://quantopy.pydata.org/quantopy_Cheat_Sheet.pdf>`_
+for a succinct guide for manipulating data with quantopy.
 
 The community produces a wide variety of tutorials available online. Some of the
 material is enlisted in the community contributed :ref:`communitytutorials`.
