@@ -3,6 +3,7 @@ gitdb
 matplotlib
 ipython
 pandas
+scipy
 numpydoc
 sphinx_panels
 git+https://github.com/pydata/pydata-sphinx-theme.git@master
