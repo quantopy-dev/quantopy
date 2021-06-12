@@ -161,10 +161,10 @@ copyright = f"2021-{datetime.now().year}, the quantopy development team"
 # built documents.
 #
 # The short X.Y version.
-import quantopy  # isort:skip
+import pandas  # isort:skip
 
 # version = '%s r%s' % (pandas.__version__, svn_version())
-version = str(quantopy.__version__)
+version = str(pandas.__version__)
 
 # The full version, including alpha/beta/rc tags.
 release = version
