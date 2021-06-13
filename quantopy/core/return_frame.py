@@ -30,7 +30,8 @@ class ReturnDataFrame(pd.DataFrame):
 
     @classmethod
     def from_price(cls, price) -> "ReturnDataFrame":
-        """Generate a new ReturnDataFrame with simple returns from given prices.
+        """
+        Generate a new ReturnDataFrame with simple returns from given prices.
 
         Parameters
         ----------
@@ -80,7 +81,8 @@ class ReturnDataFrame(pd.DataFrame):
         )
 
     def cumulated(self) -> "ReturnDataFrame":
-        """Computes cumulated indexed values from simple returns.
+        """
+        Computes cumulated indexed values from simple returns.
 
         Returns
         -------
@@ -102,8 +104,33 @@ class ReturnDataFrame(pd.DataFrame):
         """
         return financial.cumulated(self)
 
+    def mean(self) -> "ReturnSeries":
+        """
+        Compute the arithmetic mean of pasts returns.
+
+        Returns
+        -------
+        ReturnSeries
+            The arithmetic mean of past returns.
+
+        Examples
+        --------
+        >>> rdf = qp.ReturnDataFrame(
+                    {
+                        "stock_1": [0.5, 0.333333],
+                        "stock_2": [-0.333333, 0.75]
+                    }
+            )
+        >>> rdf.mean()
+        stock_1    0.416666
+        stock_2    0.208334
+        dtype: float64
+        """
+        return super().mean()
+
     def gmean(self) -> "ReturnSeries":
-        """Compute the geometric mean of series of returns. Commonly used to determine the
+        """
+        Compute the geometric mean of series of simple returns. Commonly used to determine the
         performance results of an investment or portfolio.
 
         Return the geometric average of the simple returns.
@@ -111,12 +138,26 @@ class ReturnDataFrame(pd.DataFrame):
 
         Returns
         -------
-        gmean : ReturnSeries
+        ReturnSeries
+            The geometric mean of past simple returns
 
         References
         ----------
         .. [1] "Weighted Geometric Mean", *Wikipedia*,
                     https://en.wikipedia.org/wiki/Weighted_geometric_mean.
+
+        Examples
+        --------
+        >>> rdf = qp.ReturnDataFrame(
+                    {
+                        "stock_1": [0.5, 0.333333],
+                        "stock_2": [-0.333333, 0.75]
+                    }
+            )
+        >>> rdf.gmean()
+        stock_1    0.414213
+        stock_2    0.080124
+        dtype: float64
         """
         return stats.gmean(self)
 

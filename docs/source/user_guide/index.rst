@@ -6,13 +6,13 @@
 User Guide
 ==========
 
-The User Guide covers all of pandas by topic area. Each of the subsections
+The User Guide covers all of quantopy by topic area. Each of the subsections
 introduces a topic (such as "working with missing data"), and discusses how
-pandas approaches the problem, with many examples throughout.
+quantopy approaches the problem, with many examples throughout.
 
-Users brand-new to pandas should start with :ref:`10min`.
+Users brand-new to quantopy should start with :ref:`10min`.
 
-For a high level summary of the pandas fundamentals, see :ref:`dsintro` and :ref:`basics`.
+For a high level summary of the quantopy fundamentals, see :ref:`dsintro` and :ref:`basics`.
 
 Further information on any specific method can be obtained in the
 :ref:`api`.
@@ -23,31 +23,4 @@ Further information on any specific method can be obtained in the
 .. toctree::
     :maxdepth: 2
 
-    10min
     return_calculations
-    dsintro
-    basics
-    io
-    indexing
-    advanced
-    merging
-    reshaping
-    text
-    missing_data
-    duplicates
-    categorical
-    integer_na
-    boolean
-    visualization
-    style
-    computation
-    groupby
-    window
-    timeseries
-    timedeltas
-    options
-    enhancingperf
-    scale
-    sparse
-    gotchas
-    cookbook

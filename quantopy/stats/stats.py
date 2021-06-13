@@ -29,7 +29,8 @@ def gmean(
 
 
 def gmean(simple_returns):
-    """Compute the geometric mean of series of returns. Commonly used to determine the
+    """
+    Compute the geometric mean of series of returns. Commonly used to determine the
     performance results of an investment or portfolio.
 
     Return the geometric average of the simple returns.
@@ -38,16 +39,31 @@ def gmean(simple_returns):
     Parameters
     ----------
     simple_returns : qp.ReturnDataFrame or qp.ReturnSeries
-        Input array or object that can be converted to an array.
+        The simple returns series.
 
     Returns
     -------
-    gmean : qp.ReturnSeries or np.float64
+    qp.ReturnSeries or np.float64
+        The geometric mean of past simple returns
 
     References
     ----------
     .. [1] "Weighted Geometric Mean", *Wikipedia*,
                 https://en.wikipedia.org/wiki/Weighted_geometric_mean.
+
+    Examples
+    --------
+    >>> qp.stats.gmean(qp.ReturnSeries([-0.1, 0.25, 0.05]))
+    0.057094
+    >>> qp.stats.gmean(qp.ReturnDataFrame(
+                    {
+                        "stock_1": [0.5, 0.333333],
+                        "stock_2": [-0.333333, 0.75]
+                    }
+            ))
+    stock_1    0.414213
+    stock_2    0.080124
+    dtype: float64
     """
     return (simple_returns + 1).aggregate(scipy.stats.gmean) - 1
 

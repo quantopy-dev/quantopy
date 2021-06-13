@@ -30,7 +30,8 @@ class ReturnSeries(pd.Series):
 
     @classmethod
     def from_price(cls, price) -> "ReturnSeries":
-        """Generate a new ReturnSeries with simple returns from given prices.
+        """
+        Generate a new ReturnSeries with simple returns from given prices.
 
         Parameters
         ----------
@@ -68,7 +69,8 @@ class ReturnSeries(pd.Series):
         )
 
     def cumulated(self) -> "ReturnSeries":
-        """Computes cumulated indexed values from simple returns.
+        """
+        Compute the cumulated indexed values from simple returns.
 
         Returns
         -------
@@ -77,7 +79,7 @@ class ReturnSeries(pd.Series):
 
         Examples
         --------
-        >>> rs = qp.ReturnSeries([[0.5, 0.333333]])
+        >>> rs = qp.ReturnSeries([0.5, 0.333333])
         >>> rs.cumulated()
         1    1.5
         2    2.0
@@ -85,8 +87,26 @@ class ReturnSeries(pd.Series):
         """
         return financial.cumulated(self)
 
+    def mean(self) -> np.float64:
+        """
+        Compute the arithmetic mean of pasts returns.
+
+        Returns
+        -------
+        np.float64
+            The arithmetic mean of past returns.
+
+        Examples
+        --------
+        >>> rs = qp.ReturnSeries([0.3, 0.1, -0.2, -0.1, 0.25])
+        >>> rs.mean()
+        0.06999
+        """
+        return super().mean()
+
     def gmean(self) -> np.float64:
-        """Compute the geometric mean of series of returns. Commonly used to determine the
+        """
+        Compute the geometric mean of series of returns. Commonly used to determine the
         performance results of an investment or portfolio.
 
         Return the geometric average of the simple returns.
@@ -94,12 +114,19 @@ class ReturnSeries(pd.Series):
 
         Returns
         -------
-        gmean : np.float64
+        np.float64
+            The geometric mean of past simple returns
 
         References
         ----------
         .. [1] "Weighted Geometric Mean", *Wikipedia*,
                     https://en.wikipedia.org/wiki/Weighted_geometric_mean.
+
+        Examples
+        --------
+        >>> rs = qp.ReturnSeries([-0.1, 0.25, 0.05])
+        >>> rs.gmean()
+        0.057094
         """
         return stats.gmean(self)
 

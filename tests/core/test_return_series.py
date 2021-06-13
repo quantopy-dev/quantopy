@@ -13,8 +13,10 @@ def random():
 
 class TestReturnSeries:
     def test_from_price(self):
-        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
         expected = [0.0625, 0.058824]
+
+        rs = qp.ReturnSeries.from_price([80, 85, 90])
+        assert type(rs) is qp.ReturnSeries
 
         assert_allclose(
             qp.ReturnSeries.from_price([80, 85, 90]),
@@ -47,9 +49,11 @@ class TestReturnSeries:
         )
 
     def test_cumulated(self) -> None:
-        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        val = qp.ReturnSeries([0.062500, 0.058824]).cumulated()
+        assert type(val) is qp.ReturnSeries
+
         assert_allclose(
-            qp.ReturnSeries([0.062500, 0.058824]).cumulated(),
+            val,
             [1.0625, 1.1250],
             rtol=1e-1,
         )
@@ -72,6 +76,21 @@ class TestReturnSeries:
             rtol=1e-1,
         )
 
+    def test_mean(self) -> None:
+        arithmetic_mean = qp.ReturnSeries([0.3, 0.25, 0.09, 0.1, 0.23]).mean()
+        assert type(arithmetic_mean) is np.float64
+
+        assert_allclose(
+            arithmetic_mean,
+            0.194,
+            rtol=1e-1,
+        )
+
+    def test_gmean(self):
+        rs = qp.ReturnSeries([0.9, 0.1, 0.2, 0.3, -0.9])
+        assert_allclose(rs.gmean(), -0.200802, rtol=1e-5)
+        assert type(rs.gmean()) is np.float64
+
     def test_manipulations(self):
         rs = qp.ReturnSeries([1, 2, 3])
         assert type(rs) is qp.ReturnSeries
@@ -81,11 +100,6 @@ class TestReturnSeries:
 
         sliced1 = rs[:2]
         assert type(sliced1) is qp.ReturnSeries
-
-    def test_gmean(self):
-        rs = qp.ReturnSeries([0.9, 0.1, 0.2, 0.3, -0.9])
-        assert_allclose(rs.gmean(), -0.200802, rtol=1e-5)
-        assert type(rs.gmean()) is np.float64
 
     def test_sharpe_ratio(self) -> None:
         # Data from https://en.wikipedia.org/wiki/Sharpe_ratio

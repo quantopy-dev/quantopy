@@ -8,9 +8,11 @@ import quantopy as qp
 
 class TestReturnDataFrame:
     def test_from_price(self):
-        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        rdf = qp.ReturnDataFrame.from_price([80, 85, 90])
+        assert type(rdf) is qp.ReturnDataFrame
+
         assert_allclose(
-            qp.ReturnDataFrame.from_price([80, 85, 90]),
+            rdf,
             [[0.0625], [0.058824]],
             rtol=1e-1,
         )
@@ -40,10 +42,13 @@ class TestReturnDataFrame:
         ).empty
 
     def test_cumulated(self) -> None:
+        val = qp.ReturnDataFrame(
+            {"stock_1": [0.062500, 0.058824], "stock_2": [0.500000, 0.333333]}
+        ).cumulated()
+        assert type(val) is qp.ReturnDataFrame
+
         assert_allclose(
-            qp.ReturnDataFrame(
-                {"stock_1": [0.062500, 0.058824], "stock_2": [0.500000, 0.333333]}
-            ).cumulated(),
+            val,
             [[1.0625, 1.5], [1.125001, 2.0]],
             rtol=1e-1,
         )
@@ -56,6 +61,26 @@ class TestReturnDataFrame:
 
         assert qp.ReturnDataFrame([], dtype="float64").cumulated().empty
 
+    def test_mean(self) -> None:
+        arithmetic_mean = qp.ReturnDataFrame(
+            {"stock_1": [0.062500, 0.058824], "stock_2": [0.500000, 0.333333]}
+        ).mean()
+        assert type(arithmetic_mean) is qp.ReturnSeries
+
+        assert_allclose(
+            arithmetic_mean,
+            [0.060662, 0.416666],
+            rtol=1e-1,
+        )
+
+    def test_gmean(self):
+        rs = qp.ReturnDataFrame(
+            {"x": [0.9, 0.1, 0.2, 0.3, -0.9], "y": [0.05, 0.1, 0.2, -0.5, 0.2]}
+        )
+        expected = qp.ReturnSeries([-0.200802, -0.036209], index=["x", "y"])
+        tm.assert_series_equal(rs.gmean(), expected, rtol=1e-5)
+        assert type(rs.gmean()) is qp.ReturnSeries
+
     def test_manipulations(self):
         rdf = qp.ReturnDataFrame({"A": [1, 2, 3], "B": [4, 5, 6], "C": [7, 8, 9]})
         assert type(rdf) is qp.ReturnDataFrame
@@ -65,14 +90,6 @@ class TestReturnDataFrame:
 
         to_series = rdf["A"]
         assert type(to_series) is qp.ReturnSeries
-
-    def test_gmean(self):
-        rs = qp.ReturnDataFrame(
-            {"x": [0.9, 0.1, 0.2, 0.3, -0.9], "y": [0.05, 0.1, 0.2, -0.5, 0.2]}
-        )
-        expected = qp.ReturnSeries([-0.200802, -0.036209], index=["x", "y"])
-        tm.assert_series_equal(rs.gmean(), expected, rtol=1e-5)
-        assert type(rs.gmean()) is qp.ReturnSeries
 
     def test_sharpe_ratio(self) -> None:
         # Data from https://en.wikipedia.org/wiki/Sharpe_ratio
