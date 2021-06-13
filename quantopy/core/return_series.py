@@ -67,8 +67,23 @@ class ReturnSeries(pd.Series):
             ReturnSeries(price, dtype="float64")
         )
 
-    def cumulated(self):
-        return (self + 1).cumprod()
+    def cumulated(self) -> "ReturnSeries":
+        """Computes cumulated indexed values from simple returns.
+
+        Returns
+        -------
+        ReturnSeries
+            A ReturnSeries object with cumulated indexed values.
+
+        Examples
+        --------
+        >>> rs = qp.ReturnSeries([[0.5, 0.333333]])
+        >>> rs.cumulated()
+        1    1.5
+        2    2.0
+        dtype: float64
+        """
+        return financial.cumulated(self)
 
     def gmean(self) -> np.float64:
         """Compute the geometric mean of series of returns. Commonly used to determine the

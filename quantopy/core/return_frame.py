@@ -79,6 +79,29 @@ class ReturnDataFrame(pd.DataFrame):
             ReturnDataFrame(price, dtype="float64")
         )
 
+    def cumulated(self) -> "ReturnDataFrame":
+        """Computes cumulated indexed values from simple returns.
+
+        Returns
+        -------
+        ReturnDataFrame
+            A ReturnDataFrame object with cumulated indexed values.
+
+        Examples
+        --------
+        >>> rdf = qp.ReturnDataFrame(
+                    {
+                        "stock_1": [0.5, 0.333333],
+                        "stock_2": [-0.333333, 0.75]
+                    }
+            )
+        >>> rdf.cumulated()
+            stock_1   stock_2
+        0       1.5  0.666667
+        1       2.0  1.166667
+        """
+        return financial.cumulated(self)
+
     def gmean(self) -> "ReturnSeries":
         """Compute the geometric mean of series of returns. Commonly used to determine the
         performance results of an investment or portfolio.

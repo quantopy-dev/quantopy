@@ -10,6 +10,92 @@ def random():
     np.random.seed(0)
 
 
+class TestSimpleReturnsFromPrice:
+    def test_return_series(self) -> None:
+        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        expected = [0.0625, 0.058824]
+
+        assert_allclose(
+            qp.stats.get_simple_returns_from_price(qp.ReturnSeries([80, 85, 90])),
+            expected,
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.stats.get_simple_returns_from_price(qp.ReturnSeries([80])),
+            [],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.stats.get_simple_returns_from_price(
+                qp.ReturnSeries([], dtype="float64")
+            ),
+            [],
+            rtol=1e-1,
+        )
+
+    def test_return_data_frame(self) -> None:
+        assert_allclose(
+            qp.stats.get_simple_returns_from_price(
+                qp.ReturnDataFrame({"stock_1": [80, 85, 90], "stock_2": [10, 20, 30]})
+            ),
+            [[0.0625, 1.0], [0.058824, 0.5]],
+            rtol=1e-1,
+        )
+
+        assert qp.stats.get_simple_returns_from_price(qp.ReturnDataFrame([80])).empty
+
+        assert qp.stats.get_simple_returns_from_price(qp.ReturnDataFrame([])).empty
+
+
+class TestCumulated:
+    def test_return_series(self) -> None:
+        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        assert_allclose(
+            qp.stats.cumulated(qp.ReturnSeries([0.062500, 0.058824])),
+            [1.0625, 1.1250],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.stats.cumulated(qp.ReturnSeries([0.500000, 0.333333])),
+            [1.5, 2.0],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.stats.cumulated(qp.ReturnSeries([0.5])),
+            [1.5],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.stats.cumulated(qp.ReturnSeries([], dtype="float64")),
+            [],
+            rtol=1e-1,
+        )
+
+    def test_return_data_frame(self) -> None:
+        assert_allclose(
+            qp.stats.cumulated(
+                qp.ReturnDataFrame(
+                    {"stock_1": [0.062500, 0.058824], "stock_2": [0.500000, 0.333333]}
+                )
+            ),
+            [[1.0625, 1.5], [1.125001, 2.0]],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.stats.cumulated(qp.ReturnDataFrame([0.5])),
+            [[1.5]],
+            rtol=1e-1,
+        )
+
+        assert qp.stats.cumulated(qp.ReturnDataFrame([], dtype="float64")).empty
+
+
 class TestRatio:
     def test_sharpe_ratio_return_series(self) -> None:
         # Data from https://en.wikipedia.org/wiki/Sharpe_ratio
@@ -76,42 +162,3 @@ class TestDrawdown:
         expected = (wealth_index - previous_peaks) / previous_peaks
 
         assert_allclose(rs_drawdown, expected, rtol=1e-2)
-
-
-class TestSimpleReturnsFromPrice:
-    def test_return_series(self) -> None:
-        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
-        expected = [0.0625, 0.058824]
-
-        assert_allclose(
-            qp.stats.get_simple_returns_from_price(qp.ReturnSeries([80, 85, 90])),
-            expected,
-            rtol=1e-1,
-        )
-
-        assert_allclose(
-            qp.stats.get_simple_returns_from_price(qp.ReturnSeries([80])),
-            [],
-            rtol=1e-1,
-        )
-
-        assert_allclose(
-            qp.stats.get_simple_returns_from_price(
-                qp.ReturnSeries([], dtype="float64")
-            ),
-            [],
-            rtol=1e-1,
-        )
-
-    def test_return_data_frame(self) -> None:
-        assert_allclose(
-            qp.stats.get_simple_returns_from_price(
-                qp.ReturnDataFrame({"stock_1": [80, 85, 90], "stock_2": [10, 20, 30]})
-            ),
-            [[0.0625, 1.0], [0.058824, 0.5]],
-            rtol=1e-1,
-        )
-
-        assert qp.stats.get_simple_returns_from_price(qp.ReturnDataFrame([80])).empty
-
-        assert qp.stats.get_simple_returns_from_price(qp.ReturnDataFrame([])).empty

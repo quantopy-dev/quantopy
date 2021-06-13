@@ -31,7 +31,6 @@ class TestReturnDataFrame:
             rtol=1e-1,
         )
 
-    def test_from_price_edge_cases(self):
         assert qp.ReturnDataFrame.from_price([80]).empty
 
         assert qp.ReturnDataFrame.from_price([]).empty
@@ -39,6 +38,23 @@ class TestReturnDataFrame:
         assert qp.ReturnDataFrame.from_price(
             pd.DataFrame({"stock_1": [], "stock_2": []})
         ).empty
+
+    def test_cumulated(self) -> None:
+        assert_allclose(
+            qp.ReturnDataFrame(
+                {"stock_1": [0.062500, 0.058824], "stock_2": [0.500000, 0.333333]}
+            ).cumulated(),
+            [[1.0625, 1.5], [1.125001, 2.0]],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnDataFrame([0.5]).cumulated(),
+            [[1.5]],
+            rtol=1e-1,
+        )
+
+        assert qp.ReturnDataFrame([], dtype="float64").cumulated().empty
 
     def test_manipulations(self):
         rdf = qp.ReturnDataFrame({"A": [1, 2, 3], "B": [4, 5, 6], "C": [7, 8, 9]})

@@ -87,15 +87,14 @@ In general, the k-month gross return is defined as the product of k one-month gr
 
    1 + R_t(k) = \prod_{j=0}^{k-1}(1+R_{t−j})
 
-To view a small sample of a Series or DataFrame object, use the
-:meth:`~DataFrame.head` and :meth:`~DataFrame.tail` methods. The default number
-of elements to display is five, but you may pass a custom number.
+The method :meth:`~ReturnDataFrame.cumulated` computes the cumulated indexed values from simple
+returns.
 
 .. ipython:: python
 
-   long_series = pd.Series(np.random.randn(1000))
-   long_series.head()
-   long_series.tail(3)
+   stock1_rs.cumulated()
+
+   stocks_rdf.cumulated()
 
 .. _return_calculations.references:
 

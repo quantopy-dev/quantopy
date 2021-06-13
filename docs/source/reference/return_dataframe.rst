@@ -21,6 +21,7 @@ Computations / descriptive stats
 
    ReturnDataFrame.mean
    ReturnDataFrame.gmean
+   ReturnDataFrame.cumulated
 
 Serialization / IO / conversion
 -------------------------------

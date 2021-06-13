@@ -34,7 +34,6 @@ class TestReturnSeries:
             rtol=1e-1,
         )
 
-    def test_from_price_edge_cases(self):
         assert_allclose(
             qp.ReturnSeries.from_price([80]),
             [],
@@ -43,6 +42,32 @@ class TestReturnSeries:
 
         assert_allclose(
             qp.ReturnSeries.from_price([]),
+            [],
+            rtol=1e-1,
+        )
+
+    def test_cumulated(self) -> None:
+        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        assert_allclose(
+            qp.ReturnSeries([0.062500, 0.058824]).cumulated(),
+            [1.0625, 1.1250],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnSeries([0.500000, 0.333333]).cumulated(),
+            [1.5, 2.0],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnSeries([0.5]).cumulated(),
+            [1.5],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnSeries([], dtype="float64").cumulated(),
             [],
             rtol=1e-1,
         )

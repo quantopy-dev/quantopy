@@ -13,6 +13,51 @@ if TYPE_CHECKING:
 
 
 @overload
+def get_simple_returns_from_price(price: "ReturnSeries") -> "ReturnSeries":
+    ...
+
+
+@overload
+def get_simple_returns_from_price(price: "ReturnDataFrame") -> "ReturnDataFrame":
+    ...
+
+
+def get_simple_returns_from_price(price):
+    """Generate simple returns from given prices.
+    This function is only intended for internal use.
+    """
+    return price.pct_change()[1:]
+
+
+@overload
+def cumulated(simple_returns: "ReturnSeries") -> "ReturnSeries":
+    ...
+
+
+@overload
+def cumulated(simple_returns: "ReturnDataFrame") -> "ReturnDataFrame":
+    ...
+
+
+def cumulated(simple_returns):
+    """Computes cumulated indexed values from simple returns.
+
+    Returns
+    -------
+    ReturnSeries or ReturnDataFrame
+        A ReturnSeries or ReturnDataFrame object with cumulated indexed values.
+
+    Examples
+    --------
+    >>> qp.stats.cumulated(ReturnSeries([0.500000, 0.333333]))
+    1    1.5
+    2    2.0
+    dtype: float64
+    """
+    return (simple_returns + 1).cumprod()
+
+
+@overload
 def sharpe(
     simple_returns: "ReturnSeries", riskfree_rate: float, period: period = ...
 ) -> np.float64:
@@ -95,17 +140,3 @@ def drawdown(simple_returns):
     drawdown = (wealth_index - previous_peaks) / previous_peaks
 
     return drawdown
-
-
-@overload
-def get_simple_returns_from_price(price: "ReturnSeries") -> "ReturnSeries":
-    ...
-
-
-@overload
-def get_simple_returns_from_price(price: "ReturnDataFrame") -> "ReturnDataFrame":
-    ...
-
-
-def get_simple_returns_from_price(price):
-    return price.pct_change()[1:]
