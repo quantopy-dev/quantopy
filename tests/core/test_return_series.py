@@ -12,6 +12,41 @@ def random():
 
 
 class TestReturnSeries:
+    def test_from_price(self):
+        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        expected = [0.0625, 0.058824]
+
+        assert_allclose(
+            qp.ReturnSeries.from_price([80, 85, 90]),
+            expected,
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnSeries.from_price(np.array([80, 85, 90])),
+            expected,
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnSeries.from_price(pd.Series([80, 85, 90])),
+            expected,
+            rtol=1e-1,
+        )
+
+    def test_from_price_edge_cases(self):
+        assert_allclose(
+            qp.ReturnSeries.from_price([80]),
+            [],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnSeries.from_price([]),
+            [],
+            rtol=1e-1,
+        )
+
     def test_manipulations(self):
         rs = qp.ReturnSeries([1, 2, 3])
         assert type(rs) is qp.ReturnSeries

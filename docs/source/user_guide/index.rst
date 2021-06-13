@@ -24,6 +24,7 @@ Further information on any specific method can be obtained in the
     :maxdepth: 2
 
     10min
+    return_calculations
     dsintro
     basics
     io

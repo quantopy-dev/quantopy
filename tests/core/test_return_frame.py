@@ -7,6 +7,39 @@ import quantopy as qp
 
 
 class TestReturnDataFrame:
+    def test_from_price(self):
+        # From Introduction to Computational Finance and Financial Econometrics with R, Eric Zivot
+        assert_allclose(
+            qp.ReturnDataFrame.from_price([80, 85, 90]),
+            [[0.0625], [0.058824]],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnDataFrame.from_price(
+                {"stock_1": [80, 85, 90], "stock_2": [10, 20, 30]}
+            ),
+            [[0.0625, 1.0], [0.058824, 0.5]],
+            rtol=1e-1,
+        )
+
+        assert_allclose(
+            qp.ReturnDataFrame.from_price(
+                pd.DataFrame({"stock_1": [80, 85, 90], "stock_2": [10, 20, 30]})
+            ),
+            [[0.0625, 1.0], [0.058824, 0.5]],
+            rtol=1e-1,
+        )
+
+    def test_from_price_edge_cases(self):
+        assert qp.ReturnDataFrame.from_price([80]).empty
+
+        assert qp.ReturnDataFrame.from_price([]).empty
+
+        assert qp.ReturnDataFrame.from_price(
+            pd.DataFrame({"stock_1": [], "stock_2": []})
+        ).empty
+
     def test_manipulations(self):
         rdf = qp.ReturnDataFrame({"A": [1, 2, 3], "B": [4, 5, 6], "C": [7, 8, 9]})
         assert type(rdf) is qp.ReturnDataFrame

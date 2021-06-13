@@ -1,9 +1,9 @@
 {{ header }}
 
-.. _api.return_series:
+.. _api.return_dataframe:
 
 ======
-ReturnSeries
+ReturnDataFrame
 ======
 .. currentmodule:: quantopy
 
@@ -12,20 +12,19 @@ Constructor
 .. autosummary::
    :toctree: api/
 
-   ReturnSeries
+   ReturnDataFrame
 
 Computations / descriptive stats
 --------------------------------
 .. autosummary::
    :toctree: api/
 
-   ReturnSeries.mean
-   ReturnSeries.gmean
+   ReturnDataFrame.mean
+   ReturnDataFrame.gmean
 
 Serialization / IO / conversion
 -------------------------------
 .. autosummary::
    :toctree: api/
 
-   ReturnSeries.from_price
-   ReturnSeries.to_frame
+   ReturnDataFrame.from_price

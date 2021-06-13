@@ -26,3 +26,4 @@ public functions related to data types in pandas.
    :maxdepth: 2
 
    return_series
+   return_dataframe

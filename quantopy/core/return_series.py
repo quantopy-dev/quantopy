@@ -29,14 +29,41 @@ class ReturnSeries(pd.Series):
         return ReturnDataFrame
 
     @classmethod
-    def from_price(cls, prices: pd.Series) -> "ReturnSeries":
-        """Generate simple return series from prices.
+    def from_price(cls, price) -> "ReturnSeries":
+        """Generate a new ReturnSeries with simple returns from given prices.
+
+        Parameters
+        ----------
+        price : array-like or Iterable
+            Contains price stored in Series.
 
         Returns
         -------
-        out : ReturnSeries
+        ReturnSeries
+            A new ReturnSeries object with simple returns for the given price series.
+
+        See Also
+        --------
+        ReturnDataFrame.from_price: Analogous function for ReturnDataFrame.
+
+        Examples
+        --------
+        >>> qp.ReturnSeries.from_price([10, 15, 20])
+        1    0.500000
+        2    0.333333
+        dtype: float64
+
+        >>> qp.ReturnSeries.from_price(np.array([10, 15, 20]))
+        1    0.500000
+        2    0.333333
+        dtype: float64
+
+        >>> qp.ReturnSeries.from_price(pd.Series([10, 15, 20]))
+        1    0.500000
+        2    0.333333
+        dtype: float64
         """
-        return ReturnSeries(prices.pct_change()[1:])
+        return ReturnSeries(price, dtype="float64").pct_change()[1:]
 
     def gmean(self) -> np.float64:
         """Compute the geometric mean of series of returns. Commonly used to determine the

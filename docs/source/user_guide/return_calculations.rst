@@ -1,25 +1,30 @@
-.. _basics:
+.. _return_calculations:
 
 {{ header }}
 
-==============================
- Essential return calculations
-==============================
+====================================
+ Fundamentals of Return Calculations
+====================================
 
 Here we discuss a lot of the essential functionality for asset return calculations. We first cover simple
 return calculations, which are typically reported in practice but are often not convenient for statistical
 modeling purposes. We then describe continuously compounded return calculations, which are more convenient
 for statistical modeling purposes.
 
-To begin, let's create some example objects like we did in the :ref:`10 minutes to quantopy <10min>` section:
+Customarily, we import as follows:
 
 .. ipython:: python
 
-   index = pd.date_range("1/1/2000", periods=8)
-   s = pd.Series(np.random.randn(5), index=["a", "b", "c", "d", "e"])
-   df = pd.DataFrame(np.random.randn(8, 3), index=index, columns=["A", "B", "C"])
+   import quantopy as qp
 
-.. _basics.simple_returns:
+To begin, let's create some example stock prices like we did in the :ref:`10 minutes to quantopy <10min>` section:
+
+.. ipython:: python
+
+   stock1_price = [10, 12, 15]
+   stock2_price = [30, 20, 35]
+
+.. _return_calculations.simple_returns:
 
 Simple Returns
 --------------
@@ -39,9 +44,30 @@ And we can define the *simple gross return* as:
 
    1 + R_t = \frac{P_{t}}{P_{t-1}}
 
+:meth:`ReturnSeries.from_price` gives a :class:`ReturnSeries` with simple returns calculated from
+a given price for a single asset, letting quantopy create a default integer index:
+
+.. ipython:: python
+
+   stock1_rs = qp.ReturnSeries.from_price(stock1_price)
+
+   stock1_rs
+
+To generate the simple returns from a list of multiple asset prices, we use :meth:`ReturnDataFrame.from_price`:
+
+.. ipython:: python
+
+   stocks_rdf = qp.ReturnDataFrame.from_price(
+      {
+         'stock_1': stock1_price,
+         'stock_2': stock2_price,
+      }
+   )
+
+   stocks_rdf
 
 Multi-period returns
-~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
+~~~~~~~~~~~~~~~~~~~~
 
 The simple two-month return on an investment in an asset between months t−2 and t is defined as:
 
@@ -71,7 +97,15 @@ of elements to display is five, but you may pass a custom number.
    long_series.head()
    long_series.tail(3)
 
-.. _basics.attrs:
+.. _return_calculations.references:
+
+References
+----------
+
+1. Zivot, E. (2016). Introduction to Computational Finance and Financial Econometrics with R. Springer.
+
+
+.. _return_calculations.attrs:
 
 Attributes and underlying data
 ------------------------------
@@ -182,7 +216,7 @@ drawbacks:
    operation. :meth:`DataFrame.to_numpy`, being a method, makes it clearer that the
    returned NumPy array may not be a view on the same data in the DataFrame.
 
-.. _basics.accelerate:
+.. _return_calculations.accelerate:
 
 Accelerated operations
 ----------------------
@@ -216,7 +250,7 @@ These are both enabled to be used by default, you can control this by setting th
    pd.set_option("compute.use_bottleneck", False)
    pd.set_option("compute.use_numexpr", False)
 
-.. _basics.binop:
+.. _return_calculations.binop:
 
 Flexible binary operations
 --------------------------
@@ -324,7 +358,7 @@ using ``fillna`` if you wish).
    df + df2
    df.add(df2, fill_value=0)
 
-.. _basics.compare:
+.. _return_calculations.compare:
 
 Flexible comparisons
 ~~~~~~~~~~~~~~~~~~~~
@@ -342,7 +376,7 @@ These operations produce a pandas object of the same type as the left-hand-side
 input that is of dtype ``bool``. These ``boolean`` objects can be used in
 indexing operations, see the section on :ref:`Boolean indexing<indexing.boolean>`.
 
-.. _basics.reductions:
+.. _return_calculations.reductions:
 
 Boolean reductions
 ~~~~~~~~~~~~~~~~~~
@@ -400,7 +434,7 @@ To evaluate single-element pandas objects in a boolean context, use the method
 
 See :ref:`gotchas<gotchas.truth>` for a more detailed discussion.
 
-.. _basics.equals:
+.. _return_calculations.equals:
 
 Comparing if objects are equivalent
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -531,7 +565,7 @@ So, for instance, to reproduce :meth:`~DataFrame.combine_first` as above:
 
    df1.combine(df2, combiner)
 
-.. _basics.stats:
+.. _return_calculations.stats:
 
 Descriptive statistics
 ----------------------
@@ -632,7 +666,7 @@ Series:
    series[10:20] = 5
    series.nunique()
 
-.. _basics.describe:
+.. _return_calculations.describe:
 
 Summarizing data: describe
 ~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -687,7 +721,7 @@ arguments. The special value ``all`` can also be used:
 That feature relies on :ref:`select_dtypes <basics.selectdtypes>`. Refer to
 there for details about accepted inputs.
 
-.. _basics.idxmin:
+.. _return_calculations.idxmin:
 
 Index of min/max values
 ~~~~~~~~~~~~~~~~~~~~~~~
@@ -721,7 +755,7 @@ matching index:
 
    ``idxmin`` and ``idxmax`` are called ``argmin`` and ``argmax`` in NumPy.
 
-.. _basics.discretization:
+.. _return_calculations.discretization:
 
 Value counts (histogramming) / mode
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -796,7 +830,7 @@ We can also pass infinite values to define the bins:
    factor = pd.cut(arr, [-np.inf, 0, np.inf])
    factor
 
-.. _basics.apply:
+.. _return_calculations.apply:
 
 Function application
 --------------------
@@ -811,7 +845,7 @@ on an entire ``DataFrame`` or ``Series``, row- or column-wise, or elementwise.
 3. `Aggregation API`_: :meth:`~DataFrame.agg` and :meth:`~DataFrame.transform`
 4. `Applying Elementwise Functions`_: :meth:`~DataFrame.applymap`
 
-.. _basics.pipe:
+.. _return_calculations.pipe:
 
 Tablewise function application
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -978,7 +1012,7 @@ set to True, the passed function will instead receive an ndarray object, which
 has positive performance implications if you do not need the indexing
 functionality.
 
-.. _basics.aggregate:
+.. _return_calculations.aggregate:
 
 Aggregation API
 ~~~~~~~~~~~~~~~
@@ -1080,7 +1114,7 @@ not noted for a particular column will be ``NaN``:
 
    tsdf.agg({"A": ["mean", "min"], "B": "sum"})
 
-.. _basics.aggregation.mixed_string:
+.. _return_calculations.aggregation.mixed_string:
 
 Mixed dtypes
 ++++++++++++
@@ -1104,7 +1138,7 @@ aggregations. This is similar to how ``.groupby.agg`` works.
 
    mdf.agg(["min", "sum"])
 
-.. _basics.aggregation.custom_describe:
+.. _return_calculations.aggregation.custom_describe:
 
 Custom describe
 +++++++++++++++
@@ -1123,7 +1157,7 @@ to the built in :ref:`describe function <basics.describe>`.
 
    tsdf.agg(["count", "mean", "std", "min", q_25, "median", q_75, "max"])
 
-.. _basics.transform:
+.. _return_calculations.transform:
 
 Transform API
 ~~~~~~~~~~~~~
@@ -1205,7 +1239,7 @@ selective transforms.
 
    tsdf.transform({"A": np.abs, "B": [lambda x: x + 1, "sqrt"]})
 
-.. _basics.elementwise:
+.. _return_calculations.elementwise:
 
 Applying elementwise functions
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1244,7 +1278,7 @@ to :ref:`merging/joining functionality <merging>`:
    s.map(t)
 
 
-.. _basics.reindexing:
+.. _return_calculations.reindexing:
 
 Reindexing and altering labels
 ------------------------------
@@ -1320,7 +1354,7 @@ where you specify a single ``labels`` argument and the ``axis`` it applies to.
     cycles matter sprinkling a few explicit ``reindex`` calls here and there can
     have an impact.
 
-.. _basics.reindex_like:
+.. _return_calculations.reindex_like:
 
 Reindexing to align with another object
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1343,7 +1377,7 @@ available to make this simpler:
    df3
    df.reindex_like(df2)
 
-.. _basics.align:
+.. _return_calculations.align:
 
 Aligning objects with each other with ``align``
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1367,7 +1401,7 @@ It returns a tuple with both of the reindexed Series:
    s1.align(s2, join="inner")
    s1.align(s2, join="left")
 
-.. _basics.df_join:
+.. _return_calculations.df_join:
 
 For DataFrames, the join method will be applied to both the index and the
 columns by default:
@@ -1382,7 +1416,7 @@ You can also pass an ``axis`` option to only align on the specified axis:
 
    df.align(df2, join="inner", axis=0)
 
-.. _basics.align.frame.series:
+.. _return_calculations.align.frame.series:
 
 If you pass a Series to :meth:`DataFrame.align`, you can choose to align both
 objects either on the DataFrame's index or columns using the ``axis`` argument:
@@ -1391,7 +1425,7 @@ objects either on the DataFrame's index or columns using the ``axis`` argument:
 
    df.align(df2.iloc[0], axis=1)
 
-.. _basics.reindex_fill:
+.. _return_calculations.reindex_fill:
 
 Filling while reindexing
 ~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1437,7 +1471,7 @@ Note that the same result could have been achieved using
 increasing or decreasing. :meth:`~Series.fillna` and :meth:`~Series.interpolate`
 will not perform any checks on the order of the index.
 
-.. _basics.limits_on_reindex_fill:
+.. _return_calculations.limits_on_reindex_fill:
 
 Limits on filling while reindexing
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1461,7 +1495,7 @@ Notice that when used on a ``DatetimeIndex``, ``TimedeltaIndex`` or
 ``PeriodIndex``, ``tolerance`` will coerced into a ``Timedelta`` if possible.
 This allows you to specify tolerance with appropriate strings.
 
-.. _basics.drop:
+.. _return_calculations.drop:
 
 Dropping labels from an axis
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1481,7 +1515,7 @@ Note that the following also works, but is a bit less obvious / clean:
 
    df.reindex(df.index.difference(["a", "d"]))
 
-.. _basics.rename:
+.. _return_calculations.rename:
 
 Renaming / mapping labels
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -1528,7 +1562,7 @@ for altering the ``Series.name`` attribute.
 
    s.rename("scalar-name")
 
-.. _basics.rename_axis:
+.. _return_calculations.rename_axis:
 
 .. versionadded:: 0.24.0
 
@@ -1548,7 +1582,7 @@ labels).
    df.rename_axis(index={"let": "abc"})
    df.rename_axis(index=str.upper)
 
-.. _basics.iteration:
+.. _return_calculations.iteration:
 
 Iteration
 ---------
@@ -1641,7 +1675,7 @@ For example:
        print(label)
        print(ser)
 
-.. _basics.iterrows:
+.. _return_calculations.iterrows:
 
 iterrows
 ~~~~~~~~
@@ -1717,7 +1751,7 @@ and is generally faster as :meth:`~DataFrame.iterrows`.
    invalid Python identifiers, repeated, or start with an underscore.
    With a large number of columns (>255), regular tuples are returned.
 
-.. _basics.dt_accessors:
+.. _return_calculations.dt_accessors:
 
 .dt accessor
 ------------
@@ -1825,7 +1859,7 @@ always uses them).
 Please see :ref:`Vectorized String Methods <text.string_methods>` for a complete
 description.
 
-.. _basics.sorting:
+.. _return_calculations.sorting:
 
 Sorting
 -------
@@ -1833,7 +1867,7 @@ Sorting
 pandas supports three kinds of sorting: sorting by index labels,
 sorting by column values, and sorting by a combination of both.
 
-.. _basics.sort_index:
+.. _return_calculations.sort_index:
 
 By index
 ~~~~~~~~
@@ -1864,7 +1898,7 @@ used to sort a pandas object by its index levels.
    # Series
    unsorted_df["three"].sort_index()
 
-.. _basics.sort_index_key:
+.. _return_calculations.sort_index_key:
 
 .. versionadded:: 1.1.0
 
@@ -1887,7 +1921,7 @@ the key is applied per-level to the levels specified by ``level``.
 For information on key sorting by value, see :ref:`value sorting
 <basics.sort_value_key>`.
 
-.. _basics.sort_values:
+.. _return_calculations.sort_values:
 
 By values
 ~~~~~~~~~
@@ -1919,7 +1953,7 @@ argument:
    s.sort_values()
    s.sort_values(na_position="first")
 
-.. _basics.sort_value_key:
+.. _return_calculations.sort_value_key:
 
 .. versionadded:: 1.1.0
 
@@ -1952,7 +1986,7 @@ a Series, e.g.
 The name or type of each column can be used to apply different functions to
 different columns.
 
-.. _basics.sort_indexes_and_values:
+.. _return_calculations.sort_indexes_and_values:
 
 By indexes and values
 ~~~~~~~~~~~~~~~~~~~~~
@@ -1984,7 +2018,7 @@ Sort by 'second' (index) and 'A' (column)
    warning is issued and the column takes precedence. This will result in an
    ambiguity error in a future version.
 
-.. _basics.searchsorted:
+.. _return_calculations.searchsorted:
 
 searchsorted
 ~~~~~~~~~~~~
@@ -2002,7 +2036,7 @@ Series has the :meth:`~Series.searchsorted` method, which works similarly to
    ser = pd.Series([3, 1, 2])
    ser.searchsorted([0, 3], sorter=np.argsort(ser))
 
-.. _basics.nsorted:
+.. _return_calculations.nsorted:
 
 smallest / largest values
 ~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2036,7 +2070,7 @@ faster than sorting the entire Series and calling ``head(n)`` on the result.
    df.nsmallest(5, ["a", "c"])
 
 
-.. _basics.multiindex_sorting:
+.. _return_calculations.multiindex_sorting:
 
 Sorting by a MultiIndex column
 ~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~
@@ -2069,7 +2103,7 @@ To be clear, no pandas method has the side effect of modifying your data;
 almost every method returns a new object, leaving the original object
 untouched. If the data is modified, it is because you did so explicitly.
 
-.. _basics.dtypes:
+.. _return_calculations.dtypes:
 
 dtypes
 ------
@@ -2235,7 +2269,7 @@ force some *upcasting*.
 astype
 ~~~~~~
 
-.. _basics.cast:
+.. _return_calculations.cast:
 
 You can use the :meth:`~DataFrame.astype` method to explicitly convert dtypes from one to another. These will by default return a copy,
 even if the dtype was unchanged (pass ``copy=False`` to change this behavior). In addition, they will raise an
@@ -2284,7 +2318,7 @@ Convert certain columns to a specific dtype by passing a dict to :meth:`~DataFra
        dft.loc[:, ["a", "b"]] = dft.loc[:, ["a", "b"]].astype(np.uint8)
        dft.dtypes
 
-.. _basics.object_conversion:
+.. _return_calculations.object_conversion:
 
 object conversion
 ~~~~~~~~~~~~~~~~~
@@ -2441,7 +2475,7 @@ While float dtypes are unchanged.
 Selecting columns based on ``dtype``
 ------------------------------------
 
-.. _basics.selectdtypes:
+.. _return_calculations.selectdtypes:
 
 The :meth:`~DataFrame.select_dtypes` method implements subsetting of columns
 based on their ``dtype``.
