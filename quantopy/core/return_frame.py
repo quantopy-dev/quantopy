@@ -75,7 +75,9 @@ class ReturnDataFrame(pd.DataFrame):
         1  0.500000 -0.333333
         2  0.333333  0.750000
         """
-        return ReturnDataFrame(price, dtype="float64").pct_change()[1:]
+        return financial.get_simple_returns_from_price(
+            ReturnDataFrame(price, dtype="float64")
+        )
 
     def gmean(self) -> "ReturnSeries":
         """Compute the geometric mean of series of returns. Commonly used to determine the
@@ -197,9 +199,3 @@ class ReturnDataFrame(pd.DataFrame):
 
     def is_normal(self, pvalue=0.01):
         return self.aggregate(scipy.stats.jarque_bera).iloc[1] > pvalue
-
-
-# rdf = ReturnDataFrame.from_price([10, 15, 20])
-rdf = ReturnDataFrame.from_price([80])
-
-print(rdf)

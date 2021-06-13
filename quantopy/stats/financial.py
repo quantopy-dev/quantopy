@@ -95,3 +95,17 @@ def drawdown(simple_returns):
     drawdown = (wealth_index - previous_peaks) / previous_peaks
 
     return drawdown
+
+
+@overload
+def get_simple_returns_from_price(price: "ReturnSeries") -> "ReturnSeries":
+    ...
+
+
+@overload
+def get_simple_returns_from_price(price: "ReturnDataFrame") -> "ReturnDataFrame":
+    ...
+
+
+def get_simple_returns_from_price(price):
+    return price.pct_change()[1:]

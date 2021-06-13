@@ -63,7 +63,12 @@ class ReturnSeries(pd.Series):
         2    0.333333
         dtype: float64
         """
-        return ReturnSeries(price, dtype="float64").pct_change()[1:]
+        return financial.get_simple_returns_from_price(
+            ReturnSeries(price, dtype="float64")
+        )
+
+    def cumulated(self):
+        return (self + 1).cumprod()
 
     def gmean(self) -> np.float64:
         """Compute the geometric mean of series of returns. Commonly used to determine the
