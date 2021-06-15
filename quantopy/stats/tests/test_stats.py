@@ -39,7 +39,7 @@ class TestGeoMean:
         assert type(rs_gmean) is np.float64
 
 
-class TestEffect:
+class TestAnnualized:
     def test_return_dataframe(self):
         # From CFA 2019 Schweser - Level 1. LOS 6.c
         # From Introduction to Portfolio Construction and Analysis with Python. EDHEC-Risk
@@ -51,7 +51,7 @@ class TestEffect:
 
         expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1
 
-        effect = qp.stats.effect(rdf, qp.stats.period.MONTHLY)
+        effect = qp.stats.annualized(rdf, qp.stats.period.MONTHLY)
         assert type(effect) is qp.ReturnSeries
 
         tm.assert_almost_equal(
@@ -68,7 +68,7 @@ class TestEffect:
         expected = (qp.ReturnSeries(mu_list) + 1) ** 2 - 1
 
         tm.assert_almost_equal(
-            qp.stats.effect(rdf, qp.stats.period.SEMIANNUAL),
+            qp.stats.annualized(rdf, qp.stats.period.SEMIANNUAL),
             expected,
             rtol=1e-1,
         )
@@ -81,7 +81,7 @@ class TestEffect:
         expected = (qp.ReturnSeries(mu_list) + 1) ** 252 - 1
 
         tm.assert_almost_equal(
-            qp.stats.effect(rdf, qp.stats.period.DAILY),
+            qp.stats.annualized(rdf, qp.stats.period.DAILY),
             expected,
             rtol=1e-1,
         )
@@ -97,7 +97,7 @@ class TestEffect:
 
         expected = (mu + 1) ** 12 - 1
 
-        effect = qp.stats.effect(rs, qp.stats.period.MONTHLY)
+        effect = qp.stats.annualized(rs, qp.stats.period.MONTHLY)
         assert type(effect) is np.float64
 
         assert_allclose(
@@ -114,7 +114,7 @@ class TestEffect:
         expected = (mu + 1) ** 2 - 1
 
         assert_allclose(
-            qp.stats.effect(rs, qp.stats.period.SEMIANNUAL),
+            qp.stats.annualized(rs, qp.stats.period.SEMIANNUAL),
             expected,
             rtol=1e-1,
         )
@@ -127,7 +127,7 @@ class TestEffect:
         expected = (mu + 1) ** 252 - 1
 
         assert_allclose(
-            qp.stats.effect(rdf, qp.stats.period.DAILY),
+            qp.stats.annualized(rdf, qp.stats.period.DAILY),
             expected,
             rtol=1e-1,
         )

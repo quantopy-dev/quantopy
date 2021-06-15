@@ -161,6 +161,56 @@ class ReturnDataFrame(pd.DataFrame):
         """
         return stats.gmean(self)
 
+    def annualized(
+        self,
+        period: stats.period = stats.period.MONTHLY,
+    ) -> "ReturnSeries":
+        """
+        Determines the annualized rate of return. Commonly used for comparison
+        of investment that have different time lenghts.
+
+        Parameters
+        ----------
+        period : period, default period.MONTHLY
+            Defines the periodicity of the 'returns' for purposes of
+            annualizing.
+
+        Returns
+        -------
+        ReturnSeries
+            The annualized rate of return
+
+        Examples
+        --------
+        >>> rdf = qp.ReturnDataFrame(
+                        {
+                            "stock_1": [0.01, 0.02],
+                            "stock_2": [-0.333333, 0.75]
+                        }
+                    )
+        >>> rdf.gmean()
+        stock_1    0.014988
+        stock_2    0.080124
+        dtype: float64
+        >>> rdf.annualized(period=qp.stats.period.DAILY)
+        stock_1    4.147318e+01
+        stock_2    2.724726e+08
+        dtype: float64
+        >>> rdf.annualized(period=qp.stats.period.WEEKLY)
+        stock_1     1.167505
+        stock_2    54.032872
+        dtype: float64
+        >>> rdf.annualized(period=qp.stats.period.MONTHLY)
+        stock_1    0.195444
+        stock_2    1.521634
+        dtype: float64
+        >>> rdf.annualized(period=qp.stats.period.YEARLY)
+        stock_1    0.014988
+        stock_2    0.080124
+        dtype: float64
+        """
+        return stats.annualized(self, period)
+
     def sharpe_ratio(
         self, riskfree_rate: float, period: stats.period = stats.period.MONTHLY
     ) -> "ReturnSeries":
@@ -203,25 +253,6 @@ class ReturnDataFrame(pd.DataFrame):
         .. [1] "Drawdown", *Wikipedia*, https://en.wikipedia.org/wiki/Drawdown_(economics).
         """
         return financial.drawdown(self)
-
-    def effect(
-        self,
-        period: stats.period = stats.period.MONTHLY,
-    ) -> "ReturnSeries":
-        """
-        Determines the annual effective annual return.
-
-        Parameters
-        ----------
-        period : period, default period.MONTHLY
-            Defines the periodicity of the 'returns' data for purposes of
-            annualizing.
-
-        Returns
-        -------
-        effective_annual_rate : qp.ReturnSeries
-        """
-        return stats.effect(self, period)
 
     def effect_vol(
         self,

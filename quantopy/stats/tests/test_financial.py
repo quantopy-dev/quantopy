@@ -107,7 +107,9 @@ class TestRatio:
         periodicity = qp.stats.period.MONTHLY
         rs_sharpe_ratio = qp.stats.sharpe(rs, riskfree_rate, periodicity)
 
-        expected = (rs.effect(periodicity) - riskfree_rate) / rs.effect_vol(periodicity)
+        expected = (rs.annualized(periodicity) - riskfree_rate) / rs.effect_vol(
+            periodicity
+        )
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
         assert type(rs_sharpe_ratio) is np.float64
 
@@ -118,7 +120,9 @@ class TestRatio:
         rs = qp.random.generator.returns(mu, sigma, 4000)
         rs_sharpe_ratio = qp.stats.sharpe(rs, riskfree_rate)
 
-        expected = (rs.effect(periodicity) - riskfree_rate) / rs.effect_vol(periodicity)
+        expected = (rs.annualized(periodicity) - riskfree_rate) / rs.effect_vol(
+            periodicity
+        )
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
         assert type(rs_sharpe_ratio) is np.float64
 
@@ -131,7 +135,7 @@ class TestRatio:
         rdf = qp.random.generator.returns(mu, sigma, 10000)
         rs_sharpe_ratio = qp.stats.sharpe(rdf, riskfree_rate, periodicity)
 
-        expected = (rdf.effect(periodicity) - riskfree_rate) / rdf.effect_vol(
+        expected = (rdf.annualized(periodicity) - riskfree_rate) / rdf.effect_vol(
             periodicity
         )
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-1)

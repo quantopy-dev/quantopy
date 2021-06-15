@@ -110,7 +110,9 @@ class TestReturnSeries:
         periodicity = qp.stats.period.MONTHLY
         rs_sharpe_ratio = rs.sharpe_ratio(riskfree_rate, periodicity)
 
-        expected = (rs.effect(periodicity) - riskfree_rate) / rs.effect_vol(periodicity)
+        expected = (rs.annualized(periodicity) - riskfree_rate) / rs.effect_vol(
+            periodicity
+        )
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-2)
         assert type(rs_sharpe_ratio) is np.float64
 
@@ -126,14 +128,14 @@ class TestReturnSeries:
 
         assert_allclose(rs_drawdown, expected, rtol=1e-2)
 
-    def test_effect(self):
+    def test_annualized(self):
         mu = 0.03  # mean
         sigma = 0.01  # standard deviation
         rs = qp.random.generator.returns(mu, sigma, 1000)
 
         expected = (mu + 1) ** 12 - 1
 
-        effect = rs.effect(qp.stats.period.MONTHLY)
+        effect = rs.annualized(qp.stats.period.MONTHLY)
         assert type(effect) is np.float64
 
         assert_allclose(

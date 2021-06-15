@@ -130,6 +130,41 @@ class ReturnSeries(pd.Series):
         """
         return stats.gmean(self)
 
+    def annualized(
+        self,
+        period: stats.period = stats.period.MONTHLY,
+    ) -> np.float64:
+        """
+        Determines the annualized rate of return. Commonly used for comparison
+        of investment that have different time lenghts.
+
+        Parameters
+        ----------
+        period : period, default period.MONTHLY
+            Defines the periodicity of the 'returns' for purposes of
+            annualizing.
+
+        Returns
+        -------
+        np.float64
+            The annualized rate of return
+
+        Examples
+        --------
+        >>> rs = qp.ReturnSeries([0.01, 0.02])
+        >>> rs.gmean()
+        0.014987
+        >>> rs.annualized(period=qp.stats.period.DAILY)
+        41.47317
+        >>> rs.annualized(period=qp.stats.period.WEEKLY)
+        1.167505
+        >>> rs.annualized(period=qp.stats.period.MONTHLY)
+        0.195444
+        >>> rs.annualized(period=qp.stats.period.YEARLY)
+        0.195444
+        """
+        return stats.annualized(self, period)
+
     def sharpe_ratio(
         self, riskfree_rate: float, period: stats.period = stats.period.MONTHLY
     ) -> np.float64:
@@ -172,25 +207,6 @@ class ReturnSeries(pd.Series):
         .. [1] "Drawdown", *Wikipedia*, https://en.wikipedia.org/wiki/Drawdown_(economics).
         """
         return financial.drawdown(self)
-
-    def effect(
-        self,
-        period: stats.period = stats.period.MONTHLY,
-    ) -> np.float64:
-        """
-        Determines the annual effective annual return.
-
-        Parameters
-        ----------
-        period : period, default period.MONTHLY
-            Defines the periodicity of the 'returns' data for purposes of
-            annualizing.
-
-        Returns
-        -------
-        effective_annual_rate : np.float64
-        """
-        return stats.effect(self, period)
 
     def effect_vol(
         self,

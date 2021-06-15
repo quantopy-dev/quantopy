@@ -100,7 +100,7 @@ class TestReturnDataFrame:
         rdf = qp.random.generator.returns(mu, sigma, 10000)
         rs_sharpe_ratio = rdf.sharpe_ratio(riskfree_rate, periodicity)
 
-        expected = (rdf.effect(periodicity) - riskfree_rate) / rdf.effect_vol(
+        expected = (rdf.annualized(periodicity) - riskfree_rate) / rdf.effect_vol(
             periodicity
         )
         assert_allclose(rs_sharpe_ratio, expected, rtol=1e-1)
@@ -118,14 +118,14 @@ class TestReturnDataFrame:
 
         assert_allclose(rs_drawdown, expected, rtol=1e-2)
 
-    def test_effect(self):
+    def test_annualized(self):
         mu_list = [0.03, 0.015, 0.04, 0.005, 0.01]  # mean
         sigma_list = [0.01, 0.01, 0.01, 0.01, 0.01]  # standard deviation
         rdf = qp.random.generator.returns(mu_list, sigma_list, 1000)
 
         expected = (qp.ReturnSeries(mu_list) + 1) ** 12 - 1
 
-        effect = rdf.effect(qp.stats.period.MONTHLY)
+        effect = rdf.annualized(qp.stats.period.MONTHLY)
         assert type(effect) is qp.ReturnSeries
 
         tm.assert_almost_equal(

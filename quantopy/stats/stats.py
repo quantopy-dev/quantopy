@@ -69,32 +69,50 @@ def gmean(simple_returns):
 
 
 @overload
-def effect(simple_returns: "ReturnDataFrame", period: period = ...) -> "ReturnSeries":
+def annualized(
+    simple_returns: "ReturnDataFrame", period: period = ...
+) -> "ReturnSeries":
     ...
 
 
 @overload
-def effect(simple_returns: "ReturnSeries", period: period = ...) -> np.float64:
+def annualized(simple_returns: "ReturnSeries", period: period = ...) -> np.float64:
     ...
 
 
-def effect(simple_returns, period=period.MONTHLY):
+def annualized(simple_returns, period=period.MONTHLY):
     """
-    Determines the annual effective annual interest rate given the simple returns and
-    the compounding period.
+    Determines the annualized rate of return. Commonly used for comparison
+    of investment that have different time lenghts.
 
     Parameters
     ----------
     simple_returns : qp.ReturnSeries or qp.ReturnDataFrame
-        The simple returns series of frame.
+        The simple returns series.
 
     period : period, default period.MONTHLY
-        Defines the periodicity of the 'returns' data for purposes of
+        Defines the periodicity of the 'returns' for purposes of
         annualizing.
 
     Returns
     -------
-    effective_annual_rate : qp.ReturnSeries or qp.ReturnDataFrame
+    np.float64 or qp.ReturnSeries
+        The annualized rate of return
+
+    Examples
+    --------
+    >>> qp.stats.annualized(qp.ReturnSeries([0.01, 0.02]), period=qp.stats.period.MONTHLY)
+    0.195444
+    >>> qp.stats.annualized(qp.ReturnDataFrame(
+            {
+                "stock_1": [0.01, 0.02],
+                "stock_2": [-0.333333, 0.75]
+            }),
+            period=qp.stats.period.WEEKLY
+        )
+    stock_1     1.167505
+    stock_2    54.032872
+    dtype: float64
     """
     ann_factor = annualization_factor[period]
 

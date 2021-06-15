@@ -166,6 +166,17 @@ Very often returns over different horizons are annualized, i.e., converted to an
 facilitate comparisons with other investments. The annualization process depends on the holding
 period of the investment and an implicit assumption about compounding.
 
+The method :meth:`~ReturnDataFrame.annualized` calculates the annualized rate of return, given the
+compounding period assumption. For monthly returns, we can calculate the annualized return with:
+
+.. ipython:: python
+
+   stock1_rs.annualized(period=qp.stats.period.MONTHLY)
+
+   stocks_rdf.annualized(period=qp.stats.period.MONTHLY)
+
+We can also compute annualized rate for different periods, like daily, weekly and yearly.
+
 .. _return_calculations.references:
 
 References

@@ -98,7 +98,7 @@ def sharpe(simple_returns, riskfree_rate, period=period.MONTHLY):
     ----------
     .. [1] "Sharpe Ratio", *Wikipedia*, https://en.wikipedia.org/wiki/Sharpe_ratio.
     """
-    excess_return = simple_returns.effect(period) - riskfree_rate
+    excess_return = simple_returns.annualized(period) - riskfree_rate
 
     return excess_return / simple_returns.effect_vol(period)
 
