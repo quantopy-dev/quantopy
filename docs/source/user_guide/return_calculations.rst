@@ -181,7 +181,28 @@ We can also compute annualized rate for different periods, like daily, weekly an
 
 Continuously compounded returns
 -------------------------------
+In this section we define continuously compounded returns from simple returns, and describe their
+properties.
 
+Let R\ :sub:`t`\ denote the simple periodic return on an investment. The continuously compounded
+periodic return, r\ :sub:`t`\, is defined as:
+
+.. math::
+
+   r_t = ln(1 + R_t) = ln(\frac{P_t}{P_{t-1}}) = ln(P_t) − ln(P_{t−1}) = p_t − p_{t−1},
+
+where p\ :sub:`t`\ = ln(P\ :sub:`t`\). Hence, the continuously compounded return,
+r\ :sub:`t`\, can be computed simply by taking the first difference of the natural logarithms
+of the prices.
+
+Using the price and return data from the Simple Return Example, the continuously compounded
+return of the stocks can be computed as:
+
+.. ipython:: python
+
+   stock1_rs.log()
+
+   stocks_rdf.log()
 
 References
 ~~~~~~~~~~~~~~~~~~~~
