@@ -21,6 +21,7 @@ Computations / descriptive stats
 
    ReturnSeries.mean
    ReturnSeries.gmean
+   ReturnSeries.annualized
    ReturnSeries.cumulated
 
 Serialization / IO / conversion

@@ -177,9 +177,13 @@ compounding period assumption. For monthly returns, we can calculate the annuali
 
 We can also compute annualized rate for different periods, like daily, weekly and yearly.
 
-.. _return_calculations.references:
+.. _return_calculations.continuous_returns:
+
+Continuously compounded returns
+-------------------------------
+
 
 References
-----------
+~~~~~~~~~~~~~~~~~~~~
 
 1. Zivot, E. (2016). Introduction to Computational Finance and Financial Econometrics with R. Springer.
